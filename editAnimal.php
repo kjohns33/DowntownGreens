@@ -4,7 +4,7 @@ $ages = [
     "8", "9", "10", "11", "12", "13", "14", "15", 
     "16", "17", "18", "19", "20"
 ];
-
+    //test:
     // Make session information accessible, allowing us to associate
     // data with the logged-in user.
     session_cache_expire(30);
