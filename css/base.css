@@ -43,26 +43,30 @@ table, td, tr, th, form, fieldset, em, button, a {
 
 :root {
     /* CSS variables that will be used across the page */
-    --page-background-color: #ffffff;
-    --page-font-color: #333333;
-    --inactive-font-color: #d0d0d0;
+    /*gold*/
+    --page-background-color: #5fa44f;
+    --page-font-color: #11461a;
+    --inactive-font-color: #5fa44f;
     --inactive-background-color: #f0f0f0;
-    --standout-background: #fafafa;
+    --standout-background: #11461a;
 
-    --happy-toast-background-color: #1a7024;
-    --happy-toast-font-color: white;
+    --happy-toast-background-color: #11461a;
+    --happy-toast-font-color: green;
 
-    --info-toast-background-color: #2f2f2f;
+    --info-toast-background-color: #11461a;
     --info-toast-font-color: white;
 
-    --error-toast-background-color: #701a1a;
+    --error-toast-background-color: #11461a;
     --error-toast-font-color: white;
 
     --shadow-and-border-color: #e8e8e8;
 
-    --main-color: #FF289A;
-    --accent-color: #BFF079;
-    --secondary-accent-color: #f6a4b5;
+   /*dark green*/
+    --main-color: #11461a;
+    /*light green*/
+    --accent-color: #5fa44f;
+    /*gold*/
+    --secondary-accent-color: #d6b543;
 
     --calendar-event-color: #808080;
     --calendar-event-color-hover: var(--main-color);
