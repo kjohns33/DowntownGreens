@@ -70,7 +70,7 @@
                     <img src="images/view-calendar.svg">
                     <span>View Calendar</span>
                 </div>
-                <div class="dashboard-item" data-link="report.php">
+                <div class="dashboard-item" data-link="viewGrant.php">
                         <img src="images/create-report.svg">
                         <span>View Grant</span>
                 </div>
