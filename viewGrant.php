@@ -22,13 +22,13 @@
         <?php require_once('universal.inc') ?>
         <link rel="stylesheet" href="css/messages.css"></link>
         <script src="js/messages.js"></script>
-        <title>ODHS Medicine Tracker | Inbox</title>
+        <title>ODHS Medicine Tracker | View Grants</title>
     </head>
     <body>
         <?php require_once('header.php') ?>
-        <h1>Inbox</h1>
+        <h1>Grants</h1>
         <main class="general">
-            <h2>Your Notifications</h2>
+            <h2>Your Grants</h2>
             <?php 
                 require_once('database/dbMessages.php');
                 $messages = get_user_messages($userID);
@@ -37,9 +37,10 @@
                     <table class="general">
                         <thead>
                             <tr>
-                                <th style="width:1px">From</th>
-                                <th>Title</th>
-                                <th style="width:1px">Received</th>
+                                <th style="width:1px">Name</th>
+                                <th>Grant</th>
+                                <th style="width:1px">Start Date</th>
+                                <th style="width:1px">Start Date</th>
                             </tr>
                         </thead>
                         <tbody class="standout">
@@ -89,7 +90,7 @@
                     </table>
                 </div>
             <?php else: ?>
-                <p class="no-messages standout">You currently have no unread messages.</p>
+                <p class="no-messages standout">You currently have no grants.</p>
             <?php endif ?>
             <!-- <button>Compose New Message</button> -->
             <a class="button cancel" href="index.php">Return to Dashboard</a>
