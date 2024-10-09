@@ -219,7 +219,7 @@ function create_event($event) {
     $animal = $event["animal"];
     $completed = "no";
     $query = "
-        insert into dbEvents (name, abbrevName, date, startTime, endTime, description, locationID, capacity, animalID, completed)
+        insert into dbEvents (name, abbrevName, date, description, completed)
         values ('$name', '$abbrevName', '$date', '$startTime', '$endTime', '$description', '$location', '0', '$animal', '$completed')
     ";
     $result = mysqli_query($connection, $query);

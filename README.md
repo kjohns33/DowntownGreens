@@ -159,3 +159,4 @@ Thank you to Dr. Polack for the chance to work on this exciting project. A lot o
 
 ## Contributors
 - Colin Ryan
+- Connor Hairfield
