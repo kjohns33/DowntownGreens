@@ -25,7 +25,7 @@
 <html>
     <head>
         <?php require_once('universal.inc') ?>
-        <title>ODHS Medicine Tracker | User Search</title>
+        <title>ODHS Medicine Tracker | Grant Search</title>
     </head>
     <body>
         <?php require_once('header.php') ?>
