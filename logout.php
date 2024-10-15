@@ -32,7 +32,7 @@ session_start();
             <span id="nav-top">
                 <span class="logo">
                     <img src="images/gwynethsgift.png">
-                        <span id="vms-logo"> MedTracker </span>
+                        <span id="vms-logo"> Downtown Greens </span>
                         </span>
                     <img id="menu-toggle" src="images/menu.png">
                 </span>

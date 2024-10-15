@@ -1,5 +1,4 @@
 <?php
-//kaeleen testing pt 2//
     session_cache_expire(30);
     session_start();
 
@@ -26,7 +25,7 @@
 <html>
     <head>
         <?php require('universal.inc'); ?>
-        <title>ODHS Medicine Tracker | Dashboard</title>
+        <title>Downtown Greens | Dashboard</title>
     </head>
     <body>
         <?php require('header.php'); ?>
