@@ -26,9 +26,9 @@
     </head>
     <body>
         <?php require_once('header.php') ?>
-        <h1>Inbox</h1>
+        <h1>Grants</h1>
         <main class="general">
-            <h2>Your Notifications</h2>
+            <h2>Your Grants</h2>
             <?php 
                 require_once('database/dbEvents.php');
                 $grants = fetch_events_as_array();
@@ -37,7 +37,7 @@
                     <table class="general">
                         <thead>
                             <tr>
-                                <th style="width:1px">ID</th>
+                                <th style="width:1px">From</th>
                                 <th>Title</th>
                                 <th style="width:1px">Received</th>
                             </tr>
@@ -76,7 +76,7 @@
                     </table>
                 </div>
             <?php else: ?>
-                <p class="no-messages standout">You currently have no unread messages.</p>
+                <p class="no-messages standout">You currently have no grants.</p>
             <?php endif ?>
             <!-- <button>Compose New Message</button> -->
             <a class="button cancel" href="index.php">Return to Dashboard</a>
