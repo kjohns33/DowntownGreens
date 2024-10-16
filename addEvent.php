@@ -27,28 +27,22 @@
         require_once('database/dbEvents.php');
         $args = sanitize($_POST, null);
         $required = array(
-            "name", "abbrev-name", "date", "start-time", "description", "location", "service", "animal"
+            "name", "open_date", "due_date", "description", "completed"
         );
         if (!wereRequiredFieldsSubmitted($args, $required)) {
             echo 'bad form data';
             die();
         } else {
-            $validated = validate12hTimeRangeAndConvertTo24h($args["start-time"], "11:59 PM");
-            if (!$validated) {
-                echo 'bad time range';
-                die();
-            }
-            $startTime = $args['start-time'] = $validated[0];
-            $date = $args['date'] = validateDate($args["date"]);
+            $opendate = $args['open_date'] = validateDate($args["open_date"]);
+            $duedate = $args['due_date'] = validateDate($args["due_date"]);
             //$capacity = intval($args["capacity"]);
-            $abbrevLength = strlen($args['abbrev-name']);
-            if (!$startTime || !$date || $abbrevLength > 11){
+            if (!$opendate || !$duedate > 11){
                 echo 'bad args';
                 die();
             }
             $id = create_event($args);
             if(!$id){
-                echo "Oopsy!";
+                echo "Oopsie!";
                 die();
             }
             require_once('include/output.php');
@@ -79,84 +73,37 @@
     $con=connect();  
     // Get all the animals from animal table
     $sql = "SELECT * FROM `dbAnimals`";
-    $all_animals = mysqli_query($con,$sql);
+    //$all_animals = mysqli_query($con,$sql);
     $sql = "SELECT * FROM `dbLocations`";
-    $all_locations = mysqli_query($con,$sql);
+    //$all_locations = mysqli_query($con,$sql);
     $sql = "SELECT * FROM `dbServices`";
-    $all_services = mysqli_query($con,$sql);
+    //$all_services = mysqli_query($con,$sql);
 
 ?>
 <!DOCTYPE html>
 <html>
     <head>
         <?php require_once('universal.inc') ?>
-        <title>ODHS Medicine Tracker | Create Event</title>
+        <title>Downtown Greens | Add Grant</title>
     </head>
     <body>
         <?php require_once('header.php') ?>
-        <h1>Create Appointment</h1>
+        <h1>Add Grant</h1>
         <main class="date">
-            <h2>New Appointment Form</h2>
+            <h2>Add Grant Form</h2>
             <form id="new-event-form" method="post">
-                <label for="name">* Appointment Name </label>
+                <label for="name">* Grant Name </label>
                 <input type="text" id="name" name="name" required placeholder="Enter name"> 
-                <label for="name">* Abbreviated Name</label>
-                <input type="text" id="abbrev-name" name="abbrev-name" maxlength="11" required placeholder="Enter name that will appear on calendar">
-                <label for="name">* Date </label>
-                <input type="date" id="date" name="date" <?php if ($date) echo 'value="' . $date . '"'; ?> min="<?php echo date('Y-m-d'); ?>" required>
+                <label for="name">* Open Date </label>
+                <input type="date" id="open_date" name="open_date" <?php if ($date) echo 'value="' . $date . '"'; ?> min="<?php echo date('Y-m-d'); ?>" required>
+                <label for="name">* Due Date </label>
+                <input type="date" id="due_date" name="due_date" <?php if ($date) echo 'value="' . $date . '"'; ?> min="<?php echo date('Y-m-d'); ?>" required>
                 <label for="name">* Start Time </label>
-                <input type="text" id="start-time" name="start-time" pattern="([1-9]|10|11|12):[0-5][0-9] ?([aApP][mM])" required placeholder="Enter start time. Ex. 12:00 PM">
-                <label for="name">* Description </label>
                 <input type="text" id="description" name="description" required placeholder="Enter description">
-                <fieldset>
-                    <label for="name">* Service </label>
-                    <?php 
-                        // fetch data from the $all_services variable
-                        // and individually display as an option
-                        echo '<ul>';
-                        while ($service = mysqli_fetch_array(
-                                $all_services, MYSQLI_ASSOC)):; 
-                            echo '<li><input class="checkboxes" type="checkbox" name="service[]" value="' . $service['id'] . '" required/> ' . $service['name'] . '</li>';
-                        endwhile;
-                        echo '</ul>';
-                    ?>
-                </fieldset> 
-                <label for="name">* Location </label>
-                <select for="name" id="location" name="location" required>
-                    <option value="">--</option>
-                    <?php 
-                        // fetch data from the $all_locations variable
-                        // and individually display as an option
-                        while ($location = mysqli_fetch_array(
-                                $all_locations, MYSQLI_ASSOC)):; 
-                    ?>
-                    <option value="<?php echo $location['id'];?>">
-                        <?php echo $location['name'];?>
-                    </option>
-                    <?php 
-                        endwhile; 
-                        // terminate while loop
-                    ?>
-                </select><p></p>
-  
-                <label for="name">* Animal</label>
-                <select for="name" id="animal" name="animal" required>
-                    <?php 
-                        // fetch data from the $all_animals variable
-                        // and individually display as an option
-                        while ($animal = mysqli_fetch_array(
-                                $all_animals, MYSQLI_ASSOC)):; 
-                    ?>
-                    <option value="<?php echo $animal['id'];?>">
-                        <?php echo $animal['name'];?>
-                    </option>
-                    <?php 
-                        endwhile; 
-                        // terminate while loop
-                    ?>
-                </select><br/>
+                <label for="name">* Status </label>
+                <input type="text" id="completed" name="completed" required placeholder="Enter status">
                 <p></p>
-                <input type="submit" value="Create Event">
+                <input type="submit" value="Add Grant">
             </form>
                 <?php if ($date): ?>
                     <a class="button cancel" href="calendar.php?month=<?php echo substr($date, 0, 7) ?>" style="margin-top: -.5rem">Return to Calendar</a>

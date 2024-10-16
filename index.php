@@ -70,13 +70,13 @@
                     <span>View Calendar</span>
                 </div>
                 <div class="dashboard-item" data-link="viewGrant.php">
-                        <img src="images/create-report.svg">
+                        <img src="images/search.svg">
                         <span>View Grant</span>
                 </div>
                 <?php if ($_SESSION['access_level'] >= 2): ?>
                     <div class="dashboard-item" data-link="addEvent.php">
-                        <img src="images/new-event.svg">
-                        <span>Add Appointment</span>
+                        <img src="images/create-report.svg">
+                        <span>Add Grant</span>
                     </div>
                 <?php endif ?>
 				<div class="dashboard-item" data-link="addAnimal.php">
