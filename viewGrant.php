@@ -21,8 +21,8 @@
     <head>
         <?php require_once('universal.inc') ?>
         <link rel="stylesheet" href="css/messages.css"></link>
-        <script src="js/messages.js"></script>
-        <title>ODHS Medicine Tracker | View Grants</title>
+        <script src="js/grant.js"></script>
+        <title>ODHS Medicine Tracker | Inbox</title>
     </head>
     <body>
         <?php require_once('header.php') ?>
@@ -30,59 +30,45 @@
         <main class="general">
             <h2>Your Grants</h2>
             <?php 
-                require_once('database/dbMessages.php');
-                $messages = get_user_messages($userID);
-                if (count($messages) > 0): ?>
+                require_once('database/dbEvents.php');
+                $grants = fetch_events_as_array();
+                if (count($grants) > 0): ?>
                 <div class="table-wrapper">
                     <table class="general">
                         <thead>
                             <tr>
-                                <th style="width:1px">Name</th>
-                                <th>Grant</th>
-                                <th style="width:1px">Start Date</th>
-                                <th style="width:1px">Start Date</th>
+                                <th style="width:1px">From</th>
+                                <th>Title</th>
+                                <th style="width:1px">Received</th>
                             </tr>
                         </thead>
                         <tbody class="standout">
                             <?php 
                                 require_once('database/dbPersons.php');
                                 require_once('include/output.php');
-                                $id_to_name_hash = [];
-                                foreach ($messages as $message) {
-                                    $sender = $message['senderID'];
-                                    if (isset($id_to_name_hash[$sender])) {
-                                        $sender = $id_to_name_hash[$sender];
-                                    } else {
-                                        $lookup = get_name_from_id($sender);
-                                        $id_to_name_hash[$sender] = $lookup;
-                                        $sender = $lookup;
-                                    }
-                                    $messageID = $message['id'];
-                                    $title = $message['title'];
-                                    $timePacked = $message['time'];
+                            
+                                foreach ($grants as $grant) {
+                                    $grantID = $grant['id'];
+                                    $title = $grant['name'];
+                                    $timePacked = $grant['date'];
                                     $pieces = explode('-', $timePacked);
                                     $year = $pieces[0];
                                     $month = $pieces[1];
                                     $day = $pieces[2];
-                                    $time = time24hto12h($pieces[3]);
+                                    
+
+                                    //possible spot to check if archived 
                                     $class = 'message';
+                                    /*
                                     if (!$message['wasRead']) {
                                         $class .= ' unread';
                                     }
-                                    if ($message['prioritylevel'] == 1) {
-                                        $class .= ' prio1';
-                                    }
-                                    if ($message['prioritylevel'] == 2) {
-                                        $class .= ' prio2';
-                                    }
-                                    if ($message['prioritylevel'] == 3) {
-                                        $class .= ' prio3';
-                                    }
+                                    */
                                     echo "
-                                        <tr class='$class' data-message-id='$messageID'>
-                                            <td>$sender</td>
+                                        <tr class='$class' data-message-id='$grantID'>
+                                            <td>$grantID</td>
                                             <td>$title</td>
-                                            <td>$month/$day/$year $time</td>
+                                            <td>$month/$day/$year</td>
                                         </tr>";
                                 }
                             ?>
