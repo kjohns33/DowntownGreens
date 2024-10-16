@@ -227,38 +227,24 @@
         <?php    
             require_once('include/output.php');
             $event_name = $event_info['name'];
-            $event_date = date('l, F j, Y', strtotime($event_info['date']));
-            $event_startTime = time24hto12h($event_info['startTime']);
-            $event_location = $event_info['locationID'];
+            $event_open_date = date('l, F j, Y', strtotime($event_info['open_date']));
+            $event_due_date= date('l, F j, Y', strtotime($event_info['due_date']));
             $event_description = $event_info['description'];
-            $event_in_past = strcmp(date('Y-m-d'), $event_info['date']) > 0;
-            $event_animal_id = $event_info['animalID'];
-            require_once('include/time.php');
+            $event_in_past = strcmp(date('Y-m-d'), $event_info['due_date']) > 0;
             echo '<h2 class="centered">'.$event_name.'</h2>';
         ?>
         <div id="table-wrapper">
             <table class="centered">
                 <tbody>
-                <tr>	
-                        <td class="label">Animal </td>
-                        <td>
-                            <?php 
-                                $animals = get_animal($event_animal_id);
-                                foreach($animals as $animal) {
-                                    echo "<a href='animal.php?id=" . $animal['id'] . "'>" . $animal['name'] . "</a>";
-                                }
-                            ?>
-                        </td>
+                    <tr>	
+                        <td class="label"> Open Date </td>
+                        <td><?php echo $event_open_date ?></td>     		
                     </tr>
                     <tr>	
-                        <td class="label">Date </td>
-                        <td><?php echo $event_date ?></td>     		
+                        <td class="label"> Due Date </td>
+                        <td><?php echo $event_due_date ?></td>     		
                     </tr>
-                    <tr>	
-                        <td class="label">Time </td>
-                        <td><?php echo $event_startTime?></td>
-                    </tr>
-                    <tr>	
+                    <!-- <tr>	
                         <td class="label">Service(s) </td>
                         <td>
                             <?php 
@@ -272,7 +258,7 @@
                                 }
                             ?>
                         </td>     		
-                    </tr>
+                    </tr> -->
                     <tr>	
                         <td class="label">Location </td>
                         <td>

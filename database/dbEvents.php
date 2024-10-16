@@ -208,19 +208,13 @@ function fetch_event_by_id($id) {
 function create_event($event) {
     $connection = connect();
     $name = $event["name"];
-    $abbrevName = $event["abbrev-name"];
-    $date = $event["date"];
-    $startTime = $event["start-time"];
-    $endTime = "23:59";
+    $opendate = $event["open_date"];
+    $duedate = $event["due_date"];
     $description = $event["description"];
-    $location = $event["location"];
-    $services = $event["service"];
-
-    $animal = $event["animal"];
-    $completed = "no";
+    $completed = $event["completed"];
     $query = "
-        insert into dbEvents (name, abbrevName, date, description, completed)
-        values ('$name', '$abbrevName', '$date', '$startTime', '$endTime', '$description', '$location', '0', '$animal', '$completed')
+        insert into dbEvents (name, open_date, due_date, description, completed)
+        values ('$name', '$opendate', '$duedate', '$description', '$completed')
     ";
     $result = mysqli_query($connection, $query);
     if (!$result) {
