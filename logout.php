@@ -31,7 +31,7 @@ session_start();
         <nav>
             <span id="nav-top">
                 <span class="logo">
-                    <img src="images/gwynethsgift.png">
+                    <img src="images/dtgMainLogo.png">
                         <span id="vms-logo"> Downtown Greens </span>
                         </span>
                     <img id="menu-toggle" src="images/menu.png">
