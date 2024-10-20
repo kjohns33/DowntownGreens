@@ -149,8 +149,7 @@ function fetch_events_in_date_range($start_date, $end_date) {
     $start_date = mysqli_real_escape_string($connection, $start_date);
     $end_date = mysqli_real_escape_string($connection, $end_date);
     $query = "select * from dbEvents
-              where date >= '$start_date' and date <= '$end_date'
-              order by startTime asc";
+              where due_date >= '$start_date' and due_date <= '$end_date'";
     $result = mysqli_query($connection, $query);
     if (!$result) {
         mysqli_close($connection);
