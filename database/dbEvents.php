@@ -347,7 +347,7 @@ function fetch_events_in_date_range_as_array($start_date, $end_date) {
 function fetch_events_as_array() {
     $connection = connect();
     $query = "select * from dbEvents
-              order by date, startTime asc";
+              order by due_date";
     $result = mysqli_query($connection, $query);
     if (!$result) {
         mysqli_close($connection);
