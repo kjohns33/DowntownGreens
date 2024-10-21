@@ -50,7 +50,7 @@
                                 foreach ($grants as $grant) {
                                     $grantID = $grant['id'];
                                     $title = $grant['name'];
-                                    $timePacked = $grant['date'];
+                                    $timePacked = $grant['due_date'];
                                     $pieces = explode('-', $timePacked);
                                     $year = $pieces[0];
                                     $month = $pieces[1];
