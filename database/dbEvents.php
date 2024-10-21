@@ -158,7 +158,13 @@ function fetch_events_in_date_range($start_date, $end_date) {
     require_once('include/output.php');
     $events = array();
     while ($result_row = mysqli_fetch_assoc($result)) {
-        $key = $result_row['date'];
+        $key = $result_row['open_date'];
+        if (isset($events[$key])) {
+            $events[$key] []= hsc($result_row);
+        } else {
+            $events[$key] = array(hsc($result_row));
+        }
+        $key = $result_row['due_date'];
         if (isset($events[$key])) {
             $events[$key] []= hsc($result_row);
         } else {
