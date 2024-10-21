@@ -144,10 +144,10 @@
                                         $due = " Due";
                                         $opendate = $info['open_date'];
                                         $duedate = $info['due_date'];
-                                        if($info["completed"] == "no" && $e < $duedate){
+                                        if($e < $duedate){
                                             $eventsStr .= '<a class="calendar-event" style="background-color:#1a7024" href="event.php?id=' . $info['id'] . '">' . $info['name'] . $open . '</a>';
                                             $count = 1;
-                                        } else if($info["completed"] && $e > $opendate){
+                                        } else if($e > $opendate){
                                             $eventsStr .= '<a class="calendar-event" style="background-color:#1a7024" href="event.php?id=' . $info['id'] . '">' . $info['name'] . $due . '</a>';
                                         } else {
                                             $eventsStr .= '<a class="calendar-event" href="event.php?id=' . $info['id'] . '">' . $info['name'] . '</a>';
