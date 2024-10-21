@@ -37,10 +37,10 @@
                     <table class="general">
                         <thead>
                             <tr>
-                                <th style="width:1px">ID</th>
                                 <th>Grant Name</th>
                                 <th style="width:1px">Open Date</th>
                                 <th style="width:1px">Due Date</th>
+                                <th style="width:1px">Status</th>
                             </tr>
                         </thead>
                         <tbody class="standout">
@@ -51,6 +51,7 @@
                                 foreach ($grants as $grant) {
                                     $grantID = $grant['id'];
                                     $title = $grant['name'];
+                                    $status = $grant['completed'];
                                     $openDate = $grant['open_date'];
                                     $timePacked = $grant['due_date'];
                                     $pieces2 = explode('-', $openDate);
@@ -73,10 +74,10 @@
                                     */
                                     echo "
                                         <tr class='$class' data-message-id='$grantID'>
-                                            <td>$grantID</td>
                                             <td>$title</td>
                                             <td>$month2/$day2/$year2</td>
                                             <td>$month/$day/$year</td>
+                                            <td>$status</td>
                                         </tr>";
                                 }
                             ?>

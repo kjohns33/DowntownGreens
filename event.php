@@ -230,12 +230,21 @@
             $event_open_date = date('l, F j, Y', strtotime($event_info['open_date']));
             $event_due_date= date('l, F j, Y', strtotime($event_info['due_date']));
             $event_description = $event_info['description'];
+            $event_completed = $event_info['completed'];
             $event_in_past = strcmp(date('Y-m-d'), $event_info['due_date']) > 0;
             echo '<h2 class="centered">'.$event_name.'</h2>';
         ?>
         <div id="table-wrapper">
             <table class="centered">
                 <tbody>
+                <tr>	
+                        <td class="label"> Grant </td>
+                        <td><?php echo $event_name ?></td>     		
+                    </tr>
+                    <tr>	
+                        <td class="label"> Status </td>
+                        <td><?php echo $event_completed ?></td>     		
+                    </tr>
                     <tr>	
                         <td class="label"> Open Date </td>
                         <td><?php echo $event_open_date ?></td>     		
