@@ -92,7 +92,7 @@
         <main class="calendar-view">
             <h1 class='calendar-header'>
                 <img id="previous-month-button" src="images/arrow-back.png" data-month="<?php echo date("Y-m", $previousMonth); ?>">
-                <span id="calendar-heading-month">Appointments - <?php echo date('F Y', $month); ?></span>
+                <span id="calendar-heading-month">Grant Calendar - <?php echo date('F Y', $month); ?></span>
                 <img id="next-month-button" src="images/arrow-forward.png" data-month="<?php echo date("Y-m", $nextMonth); ?>">
             </h1>
             <!-- <input type="date" id="month-jumper" value="<?php echo date('Y-m-d', $month); ?>" min="2023-01-01"> -->
