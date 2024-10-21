@@ -216,7 +216,7 @@ function create_event($event) {
     $opendate = $event["open_date"];
     $duedate = $event["due_date"];
     $description = $event["description"];
-    $completed = $event["completed"];
+    $completed = "no";
     $query = "
         insert into dbEvents (name, open_date, due_date, description, completed)
         values ('$name', '$opendate', '$duedate', '$description', '$completed')
@@ -226,7 +226,6 @@ function create_event($event) {
         return null;
     }
     $id = mysqli_insert_id($connection);
-    add_services_to_event($id, $services);
     mysqli_commit($connection);
     mysqli_close($connection);
     return $id;
@@ -249,14 +248,14 @@ function add_services_to_event($eventID, $serviceIDs) {
 function update_event($eventID, $eventDetails) {
     $connection = connect();
     $name = $eventDetails["name"];
-    $abbrevName = $eventDetails["abbrev-name"];
+    //$abbrevName = $eventDetails["abbrev-name"];
     $date = $eventDetails["date"];
-    $startTime = $eventDetails["start-time"];
+    //$startTime = $eventDetails["start-time"];
     $description = $eventDetails["description"];
-    $location = $eventDetails["location"];
-    $services = $eventDetails["service"];
+    //$location = $eventDetails["location"];
+    //$services = $eventDetails["service"];
     
-    $completed = $eventDetails["completed"];
+    $completed = "no";
     $query = "
         update dbEvents set name='$name', abbrevName='$abbrevName', date='$date', startTime='$startTime', description='$description', locationID='$location', completed='$completed'
         where id='$eventID'
