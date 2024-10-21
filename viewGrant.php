@@ -37,9 +37,10 @@
                     <table class="general">
                         <thead>
                             <tr>
-                                <th style="width:1px">From</th>
-                                <th>Title</th>
-                                <th style="width:1px">Received</th>
+                                <th style="width:1px">ID</th>
+                                <th>Grant Name</th>
+                                <th style="width:1px">Open Date</th>
+                                <th style="width:1px">Due Date</th>
                             </tr>
                         </thead>
                         <tbody class="standout">
@@ -50,11 +51,17 @@
                                 foreach ($grants as $grant) {
                                     $grantID = $grant['id'];
                                     $title = $grant['name'];
+                                    $openDate = $grant['open_date'];
                                     $timePacked = $grant['due_date'];
+                                    $pieces2 = explode('-', $openDate);
                                     $pieces = explode('-', $timePacked);
                                     $year = $pieces[0];
                                     $month = $pieces[1];
                                     $day = $pieces[2];
+                                    $year2 = $pieces2[0];
+                                    $month2 = $pieces2[1];
+                                    $day2 = $pieces2[2];
+
                                     
 
                                     //possible spot to check if archived 
@@ -68,6 +75,7 @@
                                         <tr class='$class' data-message-id='$grantID'>
                                             <td>$grantID</td>
                                             <td>$title</td>
+                                            <td>$month2/$day2/$year2</td>
                                             <td>$month/$day/$year</td>
                                         </tr>";
                                 }
