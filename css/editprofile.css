@@ -44,7 +44,7 @@ table, td, tr, th, form, fieldset, em, button, a {
 :root {
     /* CSS variables that will be used across the page */
     --page-background-color: #ffffff;
-    --page-font-color: #333333;
+    --page-font-color: white;
     --inactive-font-color: #d0d0d0;
     --inactive-background-color: #f0f0f0;
     --standout-background: #fafafa;
@@ -60,11 +60,11 @@ table, td, tr, th, form, fieldset, em, button, a {
 
     --shadow-and-border-color: #e8e8e8;
 
-    --main-color: #2f4159;
+    --main-color: white;
     --accent-color: #f5c16e;
     --secondary-accent-color: #f6a4b5;
 
-    --calendar-event-color: #808080;
+    --calendar-event-color: white;
     --calendar-event-color-hover: var(--main-color);
     --calendar-today-border: 2px solid var(--secondary-accent-color);
 
