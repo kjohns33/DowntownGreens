@@ -101,7 +101,12 @@
                 <label for="name">* Description </label>
                 <input type="text" id="description" name="description" required placeholder="Enter description">
                 <label for="name">* Status </label>
-                <input type="text" id="completed" name="completed" required placeholder="Enter status">
+                <select id="completed" name="completed">
+                    <option value="incomplete">Incomplete</option>
+                    <option value="complete">Complete!</option>
+                    <option value="funded">Funding Awarded</option>
+                    <option value="not_funded">Funding Failed</option>
+                </select>
                 <p></p>
                 <input type="submit" value="Add Grant">
             </form>
@@ -110,20 +115,6 @@
                 <?php else: ?>
                     <a class="button cancel" href="index.php" style="margin-top: -.5rem">Return to Dashboard</a>
                 <?php endif ?>
-
-                <!-- Require at least one checkbox be checked -->
-                <script type="text/javascript">
-                    $(document).ready(function(){
-                        var checkboxes = $('.checkboxes');
-                        checkboxes.change(function(){
-                            if($('.checkboxes:checked').length>0) {
-                                checkboxes.removeAttr('required');
-                            } else {
-                                checkboxes.attr('required', 'required');
-                            }
-                        });
-                    });
-                </script>
         </main>
     </body>
 </html>

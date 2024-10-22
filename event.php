@@ -317,7 +317,7 @@
                 <input type="submit" value="Delete Event">
                 <input type="hidden" name="id" value="<?= $id ?>">
             </form> -->
-            <?php if ($event_info["completed"] == "no") : ?>
+            <?php if ($event_info["completed"] == "incomplete") : ?>
                 <button onclick="showCompleteConfirmation()">Complete Appointment</button>
             <?php endif ?>
             <button onclick="showDeleteConfirmation()">Delete Appointment</button>

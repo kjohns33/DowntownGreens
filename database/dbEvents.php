@@ -216,7 +216,7 @@ function create_event($event) {
     $opendate = $event["open_date"];
     $duedate = $event["due_date"];
     $description = $event["description"];
-    $completed = "no";
+    $completed = $event["completed"];
     $query = "
         insert into dbEvents (name, open_date, due_date, description, completed)
         values ('$name', '$opendate', '$duedate', '$description', '$completed')
