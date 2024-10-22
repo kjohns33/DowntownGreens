@@ -54,7 +54,7 @@
     <head>
         <?php require_once('universal.inc') ?>
         <!-- <link rel="stylesheet" href="css/editprofile.css" type="text/css" /> -->
-        <title>ODHS Medicine Tracker | View User</title>
+        <title>Downtown Greens | View User</title>
     </head>
     <body>
         <?php 

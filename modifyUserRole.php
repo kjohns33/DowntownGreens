@@ -85,7 +85,7 @@
 <html>
     <head>
         <?php require_once('universal.inc') ?>
-        <title>ODHS Medicine Tracker | Modify User Access</title>
+        <title>Downtown Greens | Modify User Access</title>
         <style>
             .modUser{
                 display: flex;

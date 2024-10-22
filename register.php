@@ -40,7 +40,7 @@
 <html>
 <head>
     <?php require_once('universal.inc'); ?>
-    <title>ODHS Medicine Tracker | Register <?php if ($loggedIn) echo ' New Volunteer' ?></title>
+    <title>Downtown Greens | Register <?php if ($loggedIn) echo ' New Volunteer' ?></title>
 </head>
 <body>
     <?php

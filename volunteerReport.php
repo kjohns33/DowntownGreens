@@ -39,7 +39,7 @@
 <html>
     <head>
         <?php require_once('universal.inc') ?>
-        <title>ODHS Medicine Tracker | Volunteer History</title>
+        <title>Downtown Greens | Volunteer History</title>
         <link rel="stylesheet" href="css/hours-report.css">
     </head>
     <body>
