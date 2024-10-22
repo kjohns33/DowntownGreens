@@ -22,7 +22,7 @@
         <?php require_once('universal.inc') ?>
         <link rel="stylesheet" href="css/messages.css"></link>
         <script src="js/grant.js"></script>
-        <title>Downtown Greens | View Grants</title>
+        <title>ODHS Medicine Tracker | Inbox</title>
     </head>
     <body>
         <?php require_once('header.php') ?>
@@ -73,7 +73,7 @@
                                     }
                                     */
                                     echo "
-                                        <tr class='$class' data-message-id='$grantID'>
+                                        <tr class='$class' style='color:white;' data-message-id='$grantID'>
                                             <td>$title</td>
                                             <td>$month2/$day2/$year2</td>
                                             <td>$month/$day/$year</td>

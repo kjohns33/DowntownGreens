@@ -173,7 +173,7 @@
     <?php
         require_once('universal.inc');
     ?>
-    <title>Downtown Greens | View Appointment: <?php echo $event_info['name'] ?></title>
+    <title>Downtown Greens | View Grant: <?php echo $event_info['name'] ?></title>
     <link rel="stylesheet" href="css/event.css" type="text/css" />
     <?php if ($access_level >= 2) : ?>
         <script src="js/event.js"></script>
@@ -210,10 +210,10 @@
     <?php endif ?>
 
     <?php require_once('header.php') ?>
-    <h1>View Appointment</h1>
+    <h1>View Grant</h1>
     <main class="event-info">
         <?php if (isset($_GET['createSuccess'])): ?>
-            <div class="happy-toast">Appointment created successfully!</div>
+            <div class="happy-toast">Grant created successfully!</div>
         <?php endif ?>
         <?php if (isset($_GET['attachSuccess'])): ?>
             <div class="happy-toast">Media attached successfully!</div>
@@ -222,7 +222,7 @@
             <div class="happy-toast">Media removed successfully!</div>
         <?php endif ?>
         <?php if (isset($_GET['editSuccess'])): ?>
-            <div class="happy-toast">Appointment details updated successfully!</div>
+            <div class="happy-toast">Grant details updated successfully!</div>
         <?php endif ?>
         <?php    
             require_once('include/output.php');
@@ -235,28 +235,33 @@
             echo '<h2 class="centered">'.$event_name.'</h2>';
         ?>
         <div id="table-wrapper">
-            <table class="centered">
+            <table class="general">
                 <tbody>
-                <tr>	
+        <!-- band aid fix for white font need to do inline css to override-->
+                    <tr style="color:white;">	
                         <td class="label"> Grant </td>
                         <td><?php echo $event_name ?></td>     		
                     </tr>
-                    <tr>	
+                    <tr style="color:white;">	
                         <td class="label"> Status </td>
                         <td><?php echo $event_completed ?></td>     		
                     </tr>
-                    <tr>	
+                    <tr style="color:white;">	
                         <td class="label"> Open Date </td>
                         <td><?php echo $event_open_date ?></td>     		
                     </tr>
-                    <tr>	
+                    <tr style="color:white;">	
                         <td class="label"> Due Date </td>
                         <td><?php echo $event_due_date ?></td>     		
+                    </tr>
+                    <tr style="color:white;">	
+                        <td class="label"> Description </td>
+                        <td><?php echo $event_description ?></td>     		
                     </tr>
                     <!-- <tr>	
                         <td class="label">Service(s) </td>
                         <td>
-                            <?php 
+                            <?php /*
                                 $services = get_services($id);
                                 $length = count($services);
                                 for ($i = 0; $i < $length; $i++) { 
@@ -268,7 +273,7 @@
                             ?>
                         </td>     		
                     </tr> -->
-                    <tr>	
+                    <!--<tr>	
                         <td class="label">Location </td>
                         <td>
                             <?php 
@@ -293,10 +298,9 @@
                         <td class="label">Description </td><td></td>
                     </tr>
                     <tr>
-                        <td id="description-cell" colspan="2"><?php echo $event_description ?></td>     		
-                    </tr>
+                        <td id="description-cell" colspan="2"><?php echo $event_description */?></td>     		
+                    </tr> -->
                     
-                    <tr>
                         
         <!-- TODO: will figure out another way to center
                  later -->
@@ -305,14 +309,30 @@
                 	echo '
                         <tr>
                         	<td colspan="2">
-                                	<a href="editEvent.php?id=' . $id . '" class="button">Edit Appointment Details</a>
+                                	<a href="editEvent.php?id=' . $id . '" class="button">Edit Grant Details</a>
+                                </td>
+                        </tr>
+                        ';
+
+                        echo '
+                        <tr>
+                        	<td colspan="2">
+                                	<button onclick="showDeleteConfirmation()">Delete Grant</button>
+                                </td>
+                        </tr>
+                        ';
+
+                        echo '
+                        <tr>
+                        	<td colspan="2">
+                                	<a class="button cancel" href="viewGrant.php">Return to Grants</a>
                                 </td>
                         </tr>
                         ';
                  }
 	?> 
 
-        <?php if ($access_level >= 2) : ?>
+        <?php /* if ($access_level >= 2) : ?>
             <!-- <form method="post" action="deleteEvent.php">
                 <input type="submit" value="Delete Event">
                 <input type="hidden" name="id" value="<?= $id ?>">
@@ -320,10 +340,10 @@
             <?php if ($event_info["completed"] == "incomplete") : ?>
                 <button onclick="showCompleteConfirmation()">Complete Appointment</button>
             <?php endif ?>
-            <button onclick="showDeleteConfirmation()">Delete Appointment</button>
-        <?php endif ?>
-
-        <a href="calendar.php?month=<?php echo substr($event_info['date'], 0, 7) ?>" class="button cancel" style="margin-top: -.5rem">Return to Calendar</a>
+            <!--<button onclick="showDeleteConfirmation()">Delete Grant</button>-->
+        <?php endif */?>
+        
+        <!--<a href="calendar.php?month=<?/*php echo substr($event_info['date'], 0, 7) */?>" class="button cancel" style="margin-top: -.5rem">Return to Calendar</a>-->
     </main>
 </body>
 
