@@ -56,7 +56,7 @@
 <html>
     <head>
         <?php require_once('universal.inc') ?>
-        <title>ODHS Medicine Tracker | Reset Password</title>
+        <title>Downtown Greens | Reset Password</title>
     </head>
     <body>
         <?php require_once('header.php') ?>

@@ -22,7 +22,7 @@
         <?php require_once('universal.inc') ?>
         <link rel="stylesheet" href="css/messages.css"></link>
         <script src="js/grant.js"></script>
-        <title>ODHS Medicine Tracker | Inbox</title>
+        <title>Downtown Greens | View Grants</title>
     </head>
     <body>
         <?php require_once('header.php') ?>
