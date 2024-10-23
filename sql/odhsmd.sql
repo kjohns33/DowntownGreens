@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 23, 2024 at 04:34 PM
+-- Generation Time: Oct 23, 2024 at 06:58 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `odhsmd`
 --
-CREATE DATABASE IF NOT EXISTS `odhsmd` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `odhsmd`;
 
 -- --------------------------------------------------------
 
@@ -29,26 +27,15 @@ USE `odhsmd`;
 -- Table structure for table `dbevents`
 --
 
-DROP TABLE IF EXISTS `dbevents`;
-CREATE TABLE IF NOT EXISTS `dbevents` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `dbevents` (
+  `id` int(11) NOT NULL,
   `name` text NOT NULL,
   `open_date` date NOT NULL,
   `description` text NOT NULL,
   `completed` text NOT NULL,
-  `due_date` date DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `due_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- RELATIONSHIPS FOR TABLE `dbevents`:
---
-
---
--- Truncate table before insert `dbevents`
---
-
-TRUNCATE TABLE `dbevents`;
 --
 -- Dumping data for table `dbevents`
 --
@@ -66,80 +53,32 @@ INSERT INTO `dbevents` (`id`, `name`, `open_date`, `description`, `completed`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dbgrantlinks`
---
-
-DROP TABLE IF EXISTS `dbgrantlinks`;
-CREATE TABLE IF NOT EXISTS `dbgrantlinks` (
-  `grant_id` int(11) NOT NULL,
-  `link_id` int(10) NOT NULL,
-  KEY `fk_grant_id` (`grant_id`),
-  KEY `fk_link_id` (`link_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- RELATIONSHIPS FOR TABLE `dbgrantlinks`:
---   `grant_id`
---       `dbevents` -> `id`
---   `link_id`
---       `dblinks` -> `id`
---
-
---
--- Truncate table before insert `dbgrantlinks`
---
-
-TRUNCATE TABLE `dbgrantlinks`;
--- --------------------------------------------------------
-
---
 -- Table structure for table `dblinks`
 --
 
-DROP TABLE IF EXISTS `dblinks`;
-CREATE TABLE IF NOT EXISTS `dblinks` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `link` varchar(500) NOT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE `dblinks` (
+  `id` int(10) NOT NULL,
+  `grant_id` int(11) NOT NULL,
+  `link` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- RELATIONSHIPS FOR TABLE `dblinks`:
---
-
---
--- Truncate table before insert `dblinks`
---
-
-TRUNCATE TABLE `dblinks`;
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `dbmessages`
 --
 
-DROP TABLE IF EXISTS `dbmessages`;
-CREATE TABLE IF NOT EXISTS `dbmessages` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `dbmessages` (
+  `id` int(11) NOT NULL,
   `senderID` varchar(256) NOT NULL,
   `recipientID` varchar(256) NOT NULL,
   `title` varchar(256) NOT NULL,
   `body` text NOT NULL,
   `time` varchar(16) NOT NULL,
   `wasRead` tinyint(1) NOT NULL DEFAULT 0,
-  `prioritylevel` tinyint(5) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3202 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `prioritylevel` tinyint(5) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- RELATIONSHIPS FOR TABLE `dbmessages`:
---
-
---
--- Truncate table before insert `dbmessages`
---
-
-TRUNCATE TABLE `dbmessages`;
 --
 -- Dumping data for table `dbmessages`
 --
@@ -3362,8 +3301,7 @@ INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `tim
 -- Table structure for table `dbpersons`
 --
 
-DROP TABLE IF EXISTS `dbpersons`;
-CREATE TABLE IF NOT EXISTS `dbpersons` (
+CREATE TABLE `dbpersons` (
   `id` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `start_date` text DEFAULT NULL,
   `venue` text DEFAULT NULL,
@@ -3407,19 +3345,9 @@ CREATE TABLE IF NOT EXISTS `dbpersons` (
   `saturdays_end` char(5) DEFAULT NULL,
   `profile_pic` text NOT NULL,
   `force_password_change` tinyint(1) NOT NULL,
-  `gender` varchar(6) NOT NULL,
-  PRIMARY KEY (`id`)
+  `gender` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
---
--- RELATIONSHIPS FOR TABLE `dbpersons`:
---
-
---
--- Truncate table before insert `dbpersons`
---
-
-TRUNCATE TABLE `dbpersons`;
 --
 -- Dumping data for table `dbpersons`
 --
@@ -3435,15 +3363,65 @@ INSERT INTO `dbpersons` (`id`, `start_date`, `venue`, `first_name`, `last_name`,
 ('vmsroot', 'N/A', 'portland', 'vmsroot', '', 'N/A', 'N/A', 'VA', 'N/A', '', 'N/A', 'N/A', 'N/A', 'N/A', 'vmsroot', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '$2y$10$.3p8xvmUqmxNztEzMJQRBesLDwdiRU3xnt/HOcJtsglwsbUk88VTO', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '');
 
 --
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `dbevents`
+--
+ALTER TABLE `dbevents`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dblinks`
+--
+ALTER TABLE `dblinks`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_grant_id` (`grant_id`);
+
+--
+-- Indexes for table `dbmessages`
+--
+ALTER TABLE `dbmessages`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dbpersons`
+--
+ALTER TABLE `dbpersons`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `dbevents`
+--
+ALTER TABLE `dbevents`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `dblinks`
+--
+ALTER TABLE `dblinks`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `dbmessages`
+--
+ALTER TABLE `dbmessages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3202;
+
+--
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `dbgrantlinks`
+-- Constraints for table `dblinks`
 --
-ALTER TABLE `dbgrantlinks`
-  ADD CONSTRAINT `fk_grant_id` FOREIGN KEY (`grant_id`) REFERENCES `dbevents` (`id`),
-  ADD CONSTRAINT `fk_link_id` FOREIGN KEY (`link_id`) REFERENCES `dblinks` (`id`);
+ALTER TABLE `dblinks`
+  ADD CONSTRAINT `fk_grant_id` FOREIGN KEY (`grant_id`) REFERENCES `dbevents` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
