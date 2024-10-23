@@ -73,7 +73,7 @@
                                     }
                                     */
                                     echo "
-                                        <tr class='$class' data-message-id='$grantID'>
+                                        <tr class='$class' style='color:white;' data-message-id='$grantID'>
                                             <td>$title</td>
                                             <td>$month2/$day2/$year2</td>
                                             <td>$month/$day/$year</td>
