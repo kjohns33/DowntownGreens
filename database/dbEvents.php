@@ -247,21 +247,18 @@ function add_services_to_event($eventID, $serviceIDs) {
 
 function update_event($eventID, $eventDetails) {
     $connection = connect();
+    var_dump($eventDetails);
     $name = $eventDetails["name"];
-    //$abbrevName = $eventDetails["abbrev-name"];
-    $date = $eventDetails["date"];
-    //$startTime = $eventDetails["start-time"];
+    $open_date = $eventDetails["open_date"];
+    $due_date = $eventDetails["due_date"];
+    $completed = $eventDetails["completed"];
     $description = $eventDetails["description"];
-    //$location = $eventDetails["location"];
-    //$services = $eventDetails["service"];
     
-    $completed = "no";
     $query = "
-        update dbEvents set name='$name', abbrevName='$abbrevName', date='$date', startTime='$startTime', description='$description', locationID='$location', completed='$completed'
-        where id='$eventID'
-    ";
+        update dbEvents set name='$name', completed='$completed', open_date='$open_date', due_date='$due_date', 
+        description='$description' where id='$eventID'";
     $result = mysqli_query($connection, $query);
-    update_services_for_event($eventID, $services);
+    //update_services_for_event($eventID, $services);
     mysqli_commit($connection);
     mysqli_close($connection);
     return $result;

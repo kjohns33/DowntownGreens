@@ -28,29 +28,35 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $args = sanitize($_POST, null);
         $required = array(
-            "id", "name", "abbrev-name", "date", "start-time", "description", "location");
-
+            "id", "name", "completed", "open_date", "due_date", "description");
+        
         if (!wereRequiredFieldsSubmitted($args, $required)) {
+            var_dump($args);
             echo 'bad form data';
             die();
         } else {
             require_once('database/dbPersons.php');
             $id = $args['id'];
-            $validated = validate12hTimeRangeAndConvertTo24h($args["start-time"], "11:59 PM");
+            /*$validated = validate12hTimeRangeAndConvertTo24h($args["start-time"], "11:59 PM");
             if (!$validated) {
                 $errors .= '<p>The provided time range was invalid.</p>';
             }
             $startTime = $args['start-time'] = $validated[0];
             $endTime = $validated[1];
-            $date = $args['date'] = validateDate($args["date"]);
+            $date = $args['date'] = validateDate($args["date"]);*/
+            $name = $args['name'];
+            $completed = $args['completed'];
+            $open_date = $args['open_date'];
+            $due_date = $args['due_date'];
+            $description = $args['description'];
            // $capacity = intval($args["capacity"]);
            // $assignedVolunteerCount = count(getvolunteers_byevent($id));
            // $difference = $assignedVolunteerCount - $capacity;
            // if ($capacity < $assignedVolunteerCount) {
             //    $errors .= "<p>There are currently $assignedVolunteerCount volunteers assigned to this event. The new capacity must not exceed this number. You must remove $difference volunteer(s) from the event to reduce the capacity to $capacity.</p>";
            // }
-            $abbrevLength = strlen($args['abbrev-name']);
-            if (!$startTime || !$date || $abbrevLength > 11){
+            //$abbrevLength = strlen($args['abbrev-name']);
+            if (!$name || !$completed || !$open_date || !$due_date || !$description){
                 $errors .= '<p>Your request was missing arguments.</p>';
             }
             if (!$errors) {
@@ -80,13 +86,13 @@
     // Connect to database
     include_once('database/dbinfo.php'); 
     $con=connect();  
-    $sql = "SELECT * FROM `dbLocations`";
+    $sql = "SELECT * FROM `dbEvents`";
     $all_locations = mysqli_query($con,$sql);
-    $sql = "SELECT * FROM `dbServices`";
+    $sql = "SELECT * FROM `dbPersons`";
     $all_services = mysqli_query($con,$sql);
 
     // get current selected services for event
-    $current_services = get_services($id);
+    //$current_services = get_services($id);
 ?>
 <!DOCTYPE html>
 <html>
@@ -96,25 +102,44 @@
     </head>
     <body>
         <?php require_once('header.php') ?>
-        <h1>Modify Appointment</h1>
+        <h1>Modify Grant</h1>
         <main class="date">
         <?php if ($errors): ?>
             <div class="error-toast"><?php echo $errors ?></div>
         <?php endif ?>
-            <h2>Appointment Details</h2>
+            <h2>Grant Details</h2>
             <form id="new-event-form" method="post">
-                <label for="name">Appointment Name </label>
+                <label for="name">Grant Name </label>
                 <input type="hidden" name="id" value="<?php echo $id ?>"/> 
-                <input type="text" id="name" name="name" value="<?php echo $event['name'] ?>" required placeholder="Enter name"> 
-                <label for="name">Abbreviated Name</label>
-                <input type="text" id="abbrev-name" name="abbrev-name" value="<?php echo $event['abbrevName'] ?>" maxlength="11"  required placeholder="Enter name that will appear on calendar">
-                <label for="name">Date </label>
-                <input type="date" id="date" name="date" value="<?php echo $event['date'] ?>" min="<?php echo date('Y-m-d'); ?>" required>
-                <label for="name">Start Time </label>
-                <input type="text" id="start-time" name="start-time" value="<?php echo time24hto12h($event['startTime']) ?>" pattern="([1-9]|10|11|12):[0-5][0-9] ?([aApP][mM])" required placeholder="Enter start time. Ex. 12:00 PM">
+                <input type="text" id="name" name="name" value="<?php echo $event['name'] ?>" required placeholder="Enter name">
+                <?php //Get $completed variable (the current status) to set the "selected" option in the drop down select form
+                    if (!isset($_GET['id'])) {
+                        // uhoh
+                        die();
+                    }
+                    $args = sanitize($_GET);
+                    $id = $args['id'];
+                    $event = fetch_event_by_id($id);
+                    if (!$event) {
+                        echo "Event does not exist";
+                        die();
+                    }
+                    $completed = $event['completed'];
+                ?>
+                <label for="name">Status </label>
+                <select id="completed" name="completed">
+                    <option value="incomplete" <?php echo $completed === 'incomplete' ? 'selected' : ''; ?>>Incomplete</option>
+                    <option value="complete" <?php echo $completed === 'complete' ? 'selected' : ''; ?>>Complete</option>
+                    <option value="funded" <?php echo $completed === 'funded' ? 'selected' : ''; ?>>Funding Awarded</option>
+                    <option value="not_funded" <?php echo $completed === 'not_funded' ? 'selected' : ''; ?>>Funding Failed</option>
+                </select>
+                <label for="name">Open Date </label>
+                <input type="date" id="open_date" name="open_date" value="<?php echo $event['open_date'] ?>" min="<?php echo date('Y-m-d'); ?>" required>
+                <label for="name">Due Date </label>
+                <input type="date" id="due_date" name="due_date" value="<?php echo $event['due_date'] ?>" min="<?php echo date('Y-m-d'); ?>" required>
                 <label for="name">Description </label>
                 <input type="text" id="description" name="description" value="<?php echo $event['description'] ?>" required placeholder="Enter description">
-                <fieldset>
+                <!--<fieldset>
                     <label for="name">* Service </label>
                     <?php 
                         // fetch data from the $all_services variable
@@ -136,8 +161,6 @@
                         endwhile;
                     ?>
                 </fieldset> 
-                <label for="name">Location </label>
-                <select for="name" id="location" name="location" required>
                     <?php 
                         // fetch data from the $all_locations variable
                         // and individually display as an option
@@ -154,9 +177,9 @@
                         
                         endwhile; 
                         // terminate while loop
-                    ?>
+                    ?>-->
                 </select><p></p>
-                <input type="submit" value="Update Appointment">
+                <input type="submit" value="Update Grant">
                 <a class="button cancel" href="event.php?id=<?php echo htmlspecialchars($_GET['id']) ?>" style="margin-top: .5rem">Cancel</a>
             </form>
 
