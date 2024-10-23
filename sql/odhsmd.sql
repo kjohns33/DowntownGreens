@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Oct 15, 2024 at 08:46 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost
+-- Generation Time: Oct 23, 2024 at 04:34 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,21 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `odhsmd`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `dbeventmedia`
---
-
-CREATE TABLE `dbeventmedia` (
-  `id` int(11) NOT NULL,
-  `eventID` int(11) NOT NULL,
-  `url` text NOT NULL,
-  `type` text NOT NULL,
-  `format` text NOT NULL,
-  `description` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE DATABASE IF NOT EXISTS `odhsmd` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `odhsmd`;
 
 -- --------------------------------------------------------
 
@@ -42,48 +29,122 @@ CREATE TABLE `dbeventmedia` (
 -- Table structure for table `dbevents`
 --
 
-CREATE TABLE `dbevents` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `dbevents`;
+CREATE TABLE IF NOT EXISTS `dbevents` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` text NOT NULL,
   `open_date` date NOT NULL,
   `description` text NOT NULL,
   `completed` text NOT NULL,
-  `due_date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `due_date` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- RELATIONSHIPS FOR TABLE `dbevents`:
+--
+
+--
+-- Truncate table before insert `dbevents`
+--
+
+TRUNCATE TABLE `dbevents`;
+--
+-- Dumping data for table `dbevents`
+--
+
+INSERT DELAYED IGNORE INTO `dbevents` (`id`, `name`, `open_date`, `description`, `completed`, `due_date`) VALUES
+(9, 'test', '2025-01-01', 'test', 'incomplete', '2025-01-02'),
+(11, 'Test 2', '2024-10-22', 'c', 'incomplete', '2024-10-25'),
+(12, 'Test 3', '2024-10-26', 'testing', 'incomplete', '2024-10-31'),
+(13, 'Test 4', '2024-10-29', 'Test 4', 'incomplete', '2024-12-31'),
+(14, 'Test 5', '2025-01-01', 'Test 5', 'incomplete', '2025-01-31'),
+(15, 'Test 6', '2024-11-05', 'Test 6', 'incomplete', '2024-11-30'),
+(16, 'Test 7', '2024-10-22', 'Test 7', 'incomplete', '2024-10-25'),
+(17, 'Test 8', '2024-10-24', 'Test 8', 'complete', '2024-10-31');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dbeventvolunteers`
+-- Table structure for table `dbgrantlinks`
 --
 
-CREATE TABLE `dbeventvolunteers` (
-  `eventID` int(11) NOT NULL,
-  `userID` varchar(256) NOT NULL
+DROP TABLE IF EXISTS `dbgrantlinks`;
+CREATE TABLE IF NOT EXISTS `dbgrantlinks` (
+  `grant_id` int(11) NOT NULL,
+  `link_id` int(10) NOT NULL,
+  KEY `fk_grant_id` (`grant_id`),
+  KEY `fk_link_id` (`link_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- RELATIONSHIPS FOR TABLE `dbgrantlinks`:
+--   `grant_id`
+--       `dbevents` -> `id`
+--   `link_id`
+--       `dblinks` -> `id`
+--
+
+--
+-- Truncate table before insert `dbgrantlinks`
+--
+
+TRUNCATE TABLE `dbgrantlinks`;
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dblinks`
+--
+
+DROP TABLE IF EXISTS `dblinks`;
+CREATE TABLE IF NOT EXISTS `dblinks` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `link` varchar(500) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- RELATIONSHIPS FOR TABLE `dblinks`:
+--
+
+--
+-- Truncate table before insert `dblinks`
+--
+
+TRUNCATE TABLE `dblinks`;
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `dbmessages`
 --
 
-CREATE TABLE `dbmessages` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `dbmessages`;
+CREATE TABLE IF NOT EXISTS `dbmessages` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `senderID` varchar(256) NOT NULL,
   `recipientID` varchar(256) NOT NULL,
   `title` varchar(256) NOT NULL,
   `body` text NOT NULL,
   `time` varchar(16) NOT NULL,
   `wasRead` tinyint(1) NOT NULL DEFAULT 0,
-  `prioritylevel` tinyint(5) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `prioritylevel` tinyint(5) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3202 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- RELATIONSHIPS FOR TABLE `dbmessages`:
+--
+
+--
+-- Truncate table before insert `dbmessages`
+--
+
+TRUNCATE TABLE `dbmessages`;
 --
 -- Dumping data for table `dbmessages`
 --
 
-INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
+INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
 (1, 'vmsroot', 'polack@umw.edu', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Jennifer](event: 4) event at 3:00 PM on Tuesday, January 23, 2024 was added!\r\nSign up today!', '2024-01-19-21:22', 0, 0),
 (2, 'vmsroot', 'polack@umw.edu', 'Noodle Rabies shot is LATE', 'Noodle Rabies shot was due on 0000-00-00', '2024-01-19-21:26', 0, 3),
 (3, 'vmsroot', 'polack@umw.edu', 'Noodle Heartworm shot is LATE', 'Noodle Heartworm shot was due on 0000-00-00', '2024-01-19-21:26', 0, 3),
@@ -127,7 +188,7 @@ INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `tim
 (41, 'vmsroot', 'polack@umw.edu', 'George Distemper 3 shot is coming up in two weeks', 'George Distemper 3 shot is due on 2024-01-25', '2024-01-19-21:26', 0, 1),
 (42, 'vmsroot', 'polack@umw.edu', 'George Heartworm shot is coming up in 5 days', 'George Heartworm shot is due on 2024-01-22', '2024-01-19-21:26', 0, 2),
 (43, 'vmsroot', 'polack@umw.edu', 'George Distemper 2 shot is coming up in 5 days', 'George Distemper 2 shot is due on 2024-01-29', '2024-01-19-21:26', 0, 2),
-(44, 'vmsroot', 'vmsroot', 'A new event was created!', 'Exciting news!\r\n\r\nThe [James Farmer](event: 5) event at 3:30 PM on Saturday, February 3, 2024 was added!\r\nSign up today!', '2024-01-19-21:32', 0, 0),
+(44, 'vmsroot', 'vmsroot', 'A new event was created!', 'Exciting news!\r\n\r\nThe [James Farmer](event: 5) event at 3:30 PM on Saturday, February 3, 2024 was added!\r\nSign up today!', '2024-01-19-21:32', 1, 0),
 (45, 'vmsroot', 'japwahl@gmail.com', 'Noodle Rabies shot is LATE', 'Noodle Rabies shot was due on 0000-00-00', '2024-01-19-21:44', 0, 3),
 (46, 'vmsroot', 'polack@umw.edu', 'Noodle Rabies shot is LATE', 'Noodle Rabies shot was due on 0000-00-00', '2024-01-19-21:44', 0, 3),
 (47, 'vmsroot', 'japwahl@gmail.com', 'Noodle Heartworm shot is LATE', 'Noodle Heartworm shot was due on 0000-00-00', '2024-01-19-21:44', 0, 3),
@@ -425,7 +486,7 @@ INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `tim
 (339, 'vmsroot', 'polack@umw.edu', 'Cin Distemper 2 shot is LATE', 'Cin Distemper 2 shot was due on 2030-01-24', '2024-01-22-10:23', 0, 3),
 (340, 'vmsroot', 'ppolack@gmail.com', 'Cin Distemper 2 shot is LATE', 'Cin Distemper 2 shot was due on 2030-01-24', '2024-01-22-10:23', 0, 3),
 (341, 'vmsroot', 'japwahl@gmail.com', 'Cin Distemper 3 shot is LATE', 'Cin Distemper 3 shot was due on 2030-01-24', '2024-01-22-10:23', 0, 3);
-INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
+INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
 (342, 'vmsroot', 'laegan@gmail.com', 'Cin Distemper 3 shot is LATE', 'Cin Distemper 3 shot was due on 2030-01-24', '2024-01-22-10:23', 0, 3),
 (343, 'vmsroot', 'polack@gmail.com', 'Cin Distemper 3 shot is LATE', 'Cin Distemper 3 shot was due on 2030-01-24', '2024-01-22-10:23', 0, 3),
 (344, 'vmsroot', 'polack@umw.edu', 'Cin Distemper 3 shot is LATE', 'Cin Distemper 3 shot was due on 2030-01-24', '2024-01-22-10:23', 0, 3),
@@ -769,7 +830,7 @@ INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `tim
 (682, 'vmsroot', 'mom@gmail.com', 'Noodle Distemper 2 shot is LATE', 'Noodle Distemper 2 shot was due on 0000-00-00', '2024-01-23-11:05', 0, 3),
 (683, 'vmsroot', 'oliver@gmail.com', 'Noodle Distemper 2 shot is LATE', 'Noodle Distemper 2 shot was due on 0000-00-00', '2024-01-23-11:05', 0, 3),
 (684, 'vmsroot', 'peter@gmail.com', 'Noodle Distemper 2 shot is LATE', 'Noodle Distemper 2 shot was due on 0000-00-00', '2024-01-23-11:05', 0, 3);
-INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
+INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
 (685, 'vmsroot', 'polack@um.edu', 'Noodle Distemper 2 shot is LATE', 'Noodle Distemper 2 shot was due on 0000-00-00', '2024-01-23-11:05', 0, 3),
 (686, 'vmsroot', 'tom@gmail.com', 'Noodle Distemper 2 shot is LATE', 'Noodle Distemper 2 shot was due on 0000-00-00', '2024-01-23-11:05', 0, 3),
 (687, 'vmsroot', 'brianna@gmail.com', 'Noodle Distemper 3 shot is LATE', 'Noodle Distemper 3 shot was due on 0000-00-00', '2024-01-23-11:05', 0, 3),
@@ -1114,7 +1175,7 @@ INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `tim
 (1026, 'vmsroot', 'peter@gmail.com', 'Noodle Rabies shot is LATE', 'Noodle Rabies shot was due on 0000-00-00', '2024-01-23-11:06', 0, 3),
 (1027, 'vmsroot', 'polack@um.edu', 'Noodle Rabies shot is LATE', 'Noodle Rabies shot was due on 0000-00-00', '2024-01-23-11:06', 0, 3),
 (1028, 'vmsroot', 'tom@gmail.com', 'Noodle Rabies shot is LATE', 'Noodle Rabies shot was due on 0000-00-00', '2024-01-23-11:06', 0, 3);
-INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
+INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
 (1029, 'vmsroot', 'brianna@gmail.com', 'Noodle Heartworm shot is LATE', 'Noodle Heartworm shot was due on 0000-00-00', '2024-01-23-11:06', 0, 3),
 (1030, 'vmsroot', 'mom@gmail.com', 'Noodle Heartworm shot is LATE', 'Noodle Heartworm shot was due on 0000-00-00', '2024-01-23-11:06', 0, 3),
 (1031, 'vmsroot', 'oliver@gmail.com', 'Noodle Heartworm shot is LATE', 'Noodle Heartworm shot was due on 0000-00-00', '2024-01-23-11:06', 0, 3),
@@ -1457,7 +1518,7 @@ INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `tim
 (1368, 'vmsroot', 'peter@gmail.com', 'George Distemper 2 shot is coming up in 5 days', 'George Distemper 2 shot is due on 2024-01-29', '2024-01-23-11:07', 0, 2),
 (1369, 'vmsroot', 'polack@um.edu', 'George Distemper 2 shot is coming up in 5 days', 'George Distemper 2 shot is due on 2024-01-29', '2024-01-23-11:07', 0, 2),
 (1370, 'vmsroot', 'tom@gmail.com', 'George Distemper 2 shot is coming up in 5 days', 'George Distemper 2 shot is due on 2024-01-29', '2024-01-23-11:07', 0, 2);
-INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
+INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
 (1371, 'vmsroot', 'brianna@gmail.com', 'George Distemper 3 shot is coming up in 5 days', 'George Distemper 3 shot is due on 2024-01-29', '2024-01-23-11:07', 0, 2),
 (1372, 'vmsroot', 'mom@gmail.com', 'George Distemper 3 shot is coming up in 5 days', 'George Distemper 3 shot is due on 2024-01-29', '2024-01-23-11:07', 0, 2),
 (1373, 'vmsroot', 'oliver@gmail.com', 'George Distemper 3 shot is coming up in 5 days', 'George Distemper 3 shot is due on 2024-01-29', '2024-01-23-11:07', 0, 2),
@@ -1802,7 +1863,7 @@ INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `tim
 (1712, 'vmsroot', 'tom@gmail.com', 'Rosie Heartworm shot is LATE', 'Rosie Heartworm shot was due on 0000-00-00', '2024-01-24-07:37', 0, 3),
 (1713, 'vmsroot', 'brianna@gmail.com', 'Rosie Distemper 1 shot is LATE', 'Rosie Distemper 1 shot was due on 0000-00-00', '2024-01-24-07:37', 0, 3),
 (1714, 'vmsroot', 'mom@gmail.com', 'Rosie Distemper 1 shot is LATE', 'Rosie Distemper 1 shot was due on 0000-00-00', '2024-01-24-07:37', 0, 3);
-INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
+INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
 (1715, 'vmsroot', 'oliver@gmail.com', 'Rosie Distemper 1 shot is LATE', 'Rosie Distemper 1 shot was due on 0000-00-00', '2024-01-24-07:37', 0, 3),
 (1716, 'vmsroot', 'peter@gmail.com', 'Rosie Distemper 1 shot is LATE', 'Rosie Distemper 1 shot was due on 0000-00-00', '2024-01-24-07:37', 0, 3),
 (1717, 'vmsroot', 'polack@um.edu', 'Rosie Distemper 1 shot is LATE', 'Rosie Distemper 1 shot was due on 0000-00-00', '2024-01-24-07:37', 0, 3),
@@ -2141,7 +2202,7 @@ INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `tim
 (2050, 'vmsroot', 'mom@gmail.com', 'Noodle Heartworm shot is LATE', 'Noodle Heartworm shot was due on 0000-00-00', '2024-01-24-07:47', 0, 3),
 (2051, 'vmsroot', 'oliver@gmail.com', 'Noodle Heartworm shot is LATE', 'Noodle Heartworm shot was due on 0000-00-00', '2024-01-24-07:47', 0, 3),
 (2052, 'vmsroot', 'peter@gmail.com', 'Noodle Heartworm shot is LATE', 'Noodle Heartworm shot was due on 0000-00-00', '2024-01-24-07:47', 0, 3);
-INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
+INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
 (2053, 'vmsroot', 'polack@um.edu', 'Noodle Heartworm shot is LATE', 'Noodle Heartworm shot was due on 0000-00-00', '2024-01-24-07:47', 0, 3),
 (2054, 'vmsroot', 'tom@gmail.com', 'Noodle Heartworm shot is LATE', 'Noodle Heartworm shot was due on 0000-00-00', '2024-01-24-07:47', 0, 3),
 (2055, 'vmsroot', 'brianna@gmail.com', 'Noodle Distemper 1 shot is LATE', 'Noodle Distemper 1 shot was due on 0000-00-00', '2024-01-24-07:47', 0, 3),
@@ -2485,7 +2546,7 @@ INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `tim
 (2393, 'vmsroot', 'oliver@gmail.com', 'George Distemper 1 shot is coming up in two weeks', 'George Distemper 1 shot is due on 2024-01-29', '2024-01-24-07:54', 0, 1),
 (2394, 'vmsroot', 'peter@gmail.com', 'George Distemper 1 shot is coming up in two weeks', 'George Distemper 1 shot is due on 2024-01-29', '2024-01-24-07:54', 0, 1),
 (2395, 'vmsroot', 'polack@um.edu', 'George Distemper 1 shot is coming up in two weeks', 'George Distemper 1 shot is due on 2024-01-29', '2024-01-24-07:54', 0, 1);
-INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
+INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
 (2396, 'vmsroot', 'tom@gmail.com', 'George Distemper 1 shot is coming up in two weeks', 'George Distemper 1 shot is due on 2024-01-29', '2024-01-24-07:54', 0, 1),
 (2397, 'vmsroot', 'brianna@gmail.com', 'George Distemper 2 shot is coming up in two weeks', 'George Distemper 2 shot is due on 2024-01-24', '2024-01-24-07:54', 0, 1),
 (2398, 'vmsroot', 'mom@gmail.com', 'George Distemper 2 shot is coming up in two weeks', 'George Distemper 2 shot is due on 2024-01-24', '2024-01-24-07:54', 0, 1),
@@ -2824,7 +2885,7 @@ INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `tim
 (2731, 'vmsroot', 'polack@um.edu', 'George Distemper 3 shot is coming up in 5 days', 'George Distemper 3 shot is due on 2024-01-29', '2024-01-24-09:59', 0, 2),
 (2732, 'vmsroot', 'tom@gmail.com', 'George Distemper 3 shot is coming up in 5 days', 'George Distemper 3 shot is due on 2024-01-29', '2024-01-24-09:59', 0, 2),
 (2733, 'vmsroot', 'brianna@gmail.com', 'George Heartworm shot is LATE', 'George Heartworm shot was due on 2024-01-22', '2024-01-24-09:59', 0, 3);
-INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
+INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
 (2734, 'vmsroot', 'bum@gmail.com', 'George Heartworm shot is LATE', 'George Heartworm shot was due on 2024-01-22', '2024-01-24-09:59', 0, 3),
 (2735, 'vmsroot', 'mom@gmail.com', 'George Heartworm shot is LATE', 'George Heartworm shot was due on 2024-01-22', '2024-01-24-09:59', 0, 3),
 (2736, 'vmsroot', 'oliver@gmail.com', 'George Heartworm shot is LATE', 'George Heartworm shot was due on 2024-01-22', '2024-01-24-09:59', 0, 3),
@@ -3179,7 +3240,7 @@ INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `tim
 (3085, 'vmsroot', 'mom@gmail.com', 'Rosie Distemper 2 shot is LATE', 'Rosie Distemper 2 shot was due on 0000-00-00', '2024-10-09-09:33', 0, 3),
 (3086, 'vmsroot', 'oliver@gmail.com', 'Rosie Distemper 2 shot is LATE', 'Rosie Distemper 2 shot was due on 0000-00-00', '2024-10-09-09:33', 0, 3),
 (3087, 'vmsroot', 'peter@gmail.com', 'Rosie Distemper 2 shot is LATE', 'Rosie Distemper 2 shot was due on 0000-00-00', '2024-10-09-09:33', 0, 3);
-INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
+INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
 (3088, 'vmsroot', 'polack@um.edu', 'Rosie Distemper 2 shot is LATE', 'Rosie Distemper 2 shot was due on 0000-00-00', '2024-10-09-09:33', 0, 3),
 (3089, 'vmsroot', 'tom@gmail.com', 'Rosie Distemper 2 shot is LATE', 'Rosie Distemper 2 shot was due on 0000-00-00', '2024-10-09-09:33', 0, 3),
 (3090, 'vmsroot', 'brianna@gmail.com', 'Rosie Distemper 3 shot is LATE', 'Rosie Distemper 3 shot was due on 0000-00-00', '2024-10-09-09:33', 0, 3),
@@ -3223,7 +3284,77 @@ INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `tim
 (3128, 'vmsroot', 'oliver@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: 8) event at 12:00 PM on Thursday, October 10, 2024 was added!\r\nSign up today!', '2024-10-09-09:57', 0, 0),
 (3129, 'vmsroot', 'peter@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: 8) event at 12:00 PM on Thursday, October 10, 2024 was added!\r\nSign up today!', '2024-10-09-09:57', 0, 0),
 (3130, 'vmsroot', 'polack@um.edu', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: 8) event at 12:00 PM on Thursday, October 10, 2024 was added!\r\nSign up today!', '2024-10-09-09:57', 0, 0),
-(3131, 'vmsroot', 'tom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: 8) event at 12:00 PM on Thursday, October 10, 2024 was added!\r\nSign up today!', '2024-10-09-09:57', 0, 0);
+(3131, 'vmsroot', 'tom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: 8) event at 12:00 PM on Thursday, October 10, 2024 was added!\r\nSign up today!', '2024-10-09-09:57', 0, 0),
+(3132, 'vmsroot', 'brianna@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: ) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-16-10:36', 0, 0),
+(3133, 'vmsroot', 'bum@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: ) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-16-10:36', 0, 0),
+(3134, 'vmsroot', 'mom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: ) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-16-10:36', 0, 0),
+(3135, 'vmsroot', 'oliver@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: ) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-16-10:36', 0, 0),
+(3136, 'vmsroot', 'peter@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: ) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-16-10:36', 0, 0),
+(3137, 'vmsroot', 'polack@um.edu', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: ) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-16-10:36', 0, 0),
+(3138, 'vmsroot', 'tom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: ) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-16-10:36', 0, 0),
+(3139, 'vmsroot', 'brianna@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: 9) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-16-10:41', 0, 0),
+(3140, 'vmsroot', 'bum@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: 9) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-16-10:41', 0, 0),
+(3141, 'vmsroot', 'mom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: 9) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-16-10:41', 0, 0),
+(3142, 'vmsroot', 'oliver@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: 9) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-16-10:41', 0, 0),
+(3143, 'vmsroot', 'peter@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: 9) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-16-10:41', 0, 0),
+(3144, 'vmsroot', 'polack@um.edu', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: 9) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-16-10:41', 0, 0),
+(3145, 'vmsroot', 'tom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: 9) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-16-10:41', 0, 0),
+(3146, 'vmsroot', 'brianna@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: 10) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-16-10:44', 0, 0),
+(3147, 'vmsroot', 'bum@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: 10) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-16-10:44', 0, 0),
+(3148, 'vmsroot', 'mom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: 10) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-16-10:44', 0, 0),
+(3149, 'vmsroot', 'oliver@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: 10) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-16-10:44', 0, 0),
+(3150, 'vmsroot', 'peter@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: 10) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-16-10:44', 0, 0),
+(3151, 'vmsroot', 'polack@um.edu', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: 10) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-16-10:44', 0, 0),
+(3152, 'vmsroot', 'tom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [test](event: 10) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-16-10:44', 0, 0),
+(3153, 'vmsroot', 'brianna@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 2](event: 11) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-10:12', 0, 0),
+(3154, 'vmsroot', 'bum@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 2](event: 11) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-10:12', 0, 0),
+(3155, 'vmsroot', 'mom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 2](event: 11) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-10:12', 0, 0),
+(3156, 'vmsroot', 'oliver@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 2](event: 11) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-10:12', 0, 0),
+(3157, 'vmsroot', 'peter@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 2](event: 11) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-10:12', 0, 0),
+(3158, 'vmsroot', 'polack@um.edu', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 2](event: 11) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-10:12', 0, 0),
+(3159, 'vmsroot', 'tom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 2](event: 11) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-10:12', 0, 0),
+(3160, 'vmsroot', 'brianna@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 3](event: 12) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-10:24', 0, 0),
+(3161, 'vmsroot', 'bum@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 3](event: 12) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-10:24', 0, 0),
+(3162, 'vmsroot', 'mom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 3](event: 12) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-10:24', 0, 0),
+(3163, 'vmsroot', 'oliver@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 3](event: 12) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-10:24', 0, 0),
+(3164, 'vmsroot', 'peter@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 3](event: 12) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-10:24', 0, 0),
+(3165, 'vmsroot', 'polack@um.edu', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 3](event: 12) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-10:24', 0, 0),
+(3166, 'vmsroot', 'tom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 3](event: 12) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-10:24', 0, 0),
+(3167, 'vmsroot', 'brianna@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 4](event: 13) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:38', 0, 0),
+(3168, 'vmsroot', 'bum@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 4](event: 13) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:38', 0, 0),
+(3169, 'vmsroot', 'mom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 4](event: 13) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:38', 0, 0),
+(3170, 'vmsroot', 'oliver@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 4](event: 13) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:38', 0, 0),
+(3171, 'vmsroot', 'peter@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 4](event: 13) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:38', 0, 0),
+(3172, 'vmsroot', 'polack@um.edu', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 4](event: 13) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:38', 0, 0),
+(3173, 'vmsroot', 'tom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 4](event: 13) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:38', 0, 0),
+(3174, 'vmsroot', 'brianna@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 5](event: 14) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:47', 0, 0),
+(3175, 'vmsroot', 'bum@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 5](event: 14) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:47', 0, 0),
+(3176, 'vmsroot', 'mom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 5](event: 14) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:47', 0, 0),
+(3177, 'vmsroot', 'oliver@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 5](event: 14) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:47', 0, 0),
+(3178, 'vmsroot', 'peter@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 5](event: 14) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:47', 0, 0),
+(3179, 'vmsroot', 'polack@um.edu', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 5](event: 14) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:47', 0, 0),
+(3180, 'vmsroot', 'tom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 5](event: 14) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:47', 0, 0),
+(3181, 'vmsroot', 'brianna@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 6](event: 15) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:49', 0, 0),
+(3182, 'vmsroot', 'bum@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 6](event: 15) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:49', 0, 0),
+(3183, 'vmsroot', 'mom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 6](event: 15) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:49', 0, 0),
+(3184, 'vmsroot', 'oliver@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 6](event: 15) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:49', 0, 0),
+(3185, 'vmsroot', 'peter@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 6](event: 15) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:49', 0, 0),
+(3186, 'vmsroot', 'polack@um.edu', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 6](event: 15) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:49', 0, 0),
+(3187, 'vmsroot', 'tom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 6](event: 15) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:49', 0, 0),
+(3188, 'vmsroot', 'brianna@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 7](event: 16) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:50', 0, 0),
+(3189, 'vmsroot', 'bum@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 7](event: 16) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:50', 0, 0),
+(3190, 'vmsroot', 'mom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 7](event: 16) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:50', 0, 0),
+(3191, 'vmsroot', 'oliver@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 7](event: 16) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:50', 0, 0),
+(3192, 'vmsroot', 'peter@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 7](event: 16) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:50', 0, 0),
+(3193, 'vmsroot', 'polack@um.edu', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 7](event: 16) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:50', 0, 0),
+(3194, 'vmsroot', 'tom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 7](event: 16) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:50', 0, 0),
+(3195, 'vmsroot', 'brianna@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 8](event: 17) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:51', 0, 0),
+(3196, 'vmsroot', 'bum@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 8](event: 17) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:51', 0, 0),
+(3197, 'vmsroot', 'mom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 8](event: 17) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:51', 0, 0),
+(3198, 'vmsroot', 'oliver@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 8](event: 17) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:51', 0, 0),
+(3199, 'vmsroot', 'peter@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 8](event: 17) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:51', 0, 0),
+(3200, 'vmsroot', 'polack@um.edu', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 8](event: 17) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:51', 0, 0),
+(3201, 'vmsroot', 'tom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 8](event: 17) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:51', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -3231,7 +3362,8 @@ INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `tim
 -- Table structure for table `dbpersons`
 --
 
-CREATE TABLE `dbpersons` (
+DROP TABLE IF EXISTS `dbpersons`;
+CREATE TABLE IF NOT EXISTS `dbpersons` (
   `id` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `start_date` text DEFAULT NULL,
   `venue` text DEFAULT NULL,
@@ -3275,14 +3407,24 @@ CREATE TABLE `dbpersons` (
   `saturdays_end` char(5) DEFAULT NULL,
   `profile_pic` text NOT NULL,
   `force_password_change` tinyint(1) NOT NULL,
-  `gender` varchar(6) NOT NULL
+  `gender` varchar(6) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- RELATIONSHIPS FOR TABLE `dbpersons`:
+--
+
+--
+-- Truncate table before insert `dbpersons`
+--
+
+TRUNCATE TABLE `dbpersons`;
 --
 -- Dumping data for table `dbpersons`
 --
 
-INSERT INTO `dbpersons` (`id`, `start_date`, `venue`, `first_name`, `last_name`, `address`, `city`, `state`, `zip`, `phone1`, `phone1type`, `phone2`, `phone2type`, `birthday`, `email`, `contact_name`, `contact_num`, `relation`, `contact_time`, `cMethod`, `type`, `status`, `availability`, `schedule`, `hours`, `notes`, `password`, `sundays_start`, `sundays_end`, `mondays_start`, `mondays_end`, `tuesdays_start`, `tuesdays_end`, `wednesdays_start`, `wednesdays_end`, `thursdays_start`, `thursdays_end`, `fridays_start`, `fridays_end`, `saturdays_start`, `saturdays_end`, `profile_pic`, `force_password_change`, `gender`) VALUES
+INSERT DELAYED IGNORE INTO `dbpersons` (`id`, `start_date`, `venue`, `first_name`, `last_name`, `address`, `city`, `state`, `zip`, `phone1`, `phone1type`, `phone2`, `phone2type`, `birthday`, `email`, `contact_name`, `contact_num`, `relation`, `contact_time`, `cMethod`, `type`, `status`, `availability`, `schedule`, `hours`, `notes`, `password`, `sundays_start`, `sundays_end`, `mondays_start`, `mondays_end`, `tuesdays_start`, `tuesdays_end`, `wednesdays_start`, `wednesdays_end`, `thursdays_start`, `thursdays_end`, `fridays_start`, `fridays_end`, `saturdays_start`, `saturdays_end`, `profile_pic`, `force_password_change`, `gender`) VALUES
 ('brianna@gmail.com', '2024-01-22', 'portland', 'Brianna', 'Wahl', '212 Latham Road', 'Mineola', 'VA', '11501', '1234567890', 'cellphone', '', '', '2004-04-04', 'brianna@gmail.com', 'Mom', '1234567890', 'Mother', 'Days', 'text', 'admin', 'Active', '', '', '', '', '$2y$10$jNbMmZwq.1r/5/oy61IRkOSX4PY6sxpYEdWfu9tLRZA6m1NgsxD6m', '00:00', '10:00', '', '', '', '', '02:00', '16:00', '', '', '', '', '', '', '', 0, 'Female'),
 ('bum@gmail.com', '2024-01-24', 'portland', 'bum', 'bum', '1345 Strattford St.', 'Mineola', 'VA', '22401', '1234567890', 'home', '', '', '1111-11-11', 'bum@gmail.com', 'Mom', '1234567890', 'Mom', 'Mornings', 'text', 'admin', 'Active', '', '', '', '', '$2y$10$Ps8FnZXT7d4uiU/R5YFnRecIRbRakyVtbXP9TVqp7vVpuB3yTXFIO', '', '', '15:00', '18:00', '', '', '', '', '', '', '', '', '', '', '', 0, 'Male'),
 ('mom@gmail.com', '2024-01-22', 'portland', 'Lorraine', 'Egan', '212 Latham Road', 'Mineola', 'NY', '11501', '5167423832', 'home', '', '', '1910-10-10', 'mom@gmail.com', 'Mom', '5167423832', 'Dead', 'Never', 'phone', 'admin', 'Active', '', '', '', '', '$2y$10$of1CkoNXZwyhAMS5GQ.aYuAW1SHptF6z31ONahnF2qK4Y/W9Ty2h2', '00:00', '10:00', '18:00', '19:00', '06:00', '14:00', '02:00', '12:00', '02:00', '16:00', '12:00', '18:00', '08:00', '17:00', '', 0, 'Male'),
@@ -3293,79 +3435,15 @@ INSERT INTO `dbpersons` (`id`, `start_date`, `venue`, `first_name`, `last_name`,
 ('vmsroot', 'N/A', 'portland', 'vmsroot', '', 'N/A', 'N/A', 'VA', 'N/A', '', 'N/A', 'N/A', 'N/A', 'N/A', 'vmsroot', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '$2y$10$.3p8xvmUqmxNztEzMJQRBesLDwdiRU3xnt/HOcJtsglwsbUk88VTO', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '');
 
 --
--- Indexes for dumped tables
---
-
---
--- Indexes for table `dbeventmedia`
---
-ALTER TABLE `dbeventmedia`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `FKeventID2` (`eventID`);
-
---
--- Indexes for table `dbevents`
---
-ALTER TABLE `dbevents`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `dbeventvolunteers`
---
-ALTER TABLE `dbeventvolunteers`
-  ADD KEY `FKeventID` (`eventID`),
-  ADD KEY `FKpersonID` (`userID`);
-
---
--- Indexes for table `dbmessages`
---
-ALTER TABLE `dbmessages`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `dbpersons`
---
-ALTER TABLE `dbpersons`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `dbeventmedia`
---
-ALTER TABLE `dbeventmedia`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `dbevents`
---
-ALTER TABLE `dbevents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `dbmessages`
---
-ALTER TABLE `dbmessages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3132;
-
---
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `dbeventmedia`
+-- Constraints for table `dbgrantlinks`
 --
-ALTER TABLE `dbeventmedia`
-  ADD CONSTRAINT `FKeventID2` FOREIGN KEY (`eventID`) REFERENCES `dbevents` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `dbeventvolunteers`
---
-ALTER TABLE `dbeventvolunteers`
-  ADD CONSTRAINT `FKeventID` FOREIGN KEY (`eventID`) REFERENCES `dbevents` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FKpersonID` FOREIGN KEY (`userID`) REFERENCES `dbpersons` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `dbgrantlinks`
+  ADD CONSTRAINT `fk_grant_id` FOREIGN KEY (`grant_id`) REFERENCES `dbevents` (`id`),
+  ADD CONSTRAINT `fk_link_id` FOREIGN KEY (`link_id`) REFERENCES `dblinks` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
