@@ -53,7 +53,7 @@ TRUNCATE TABLE `dbevents`;
 -- Dumping data for table `dbevents`
 --
 
-INSERT DELAYED IGNORE INTO `dbevents` (`id`, `name`, `open_date`, `description`, `completed`, `due_date`) VALUES
+INSERT INTO `dbevents` (`id`, `name`, `open_date`, `description`, `completed`, `due_date`) VALUES
 (9, 'test', '2025-01-01', 'test', 'incomplete', '2025-01-02'),
 (11, 'Test 2', '2024-10-22', 'c', 'incomplete', '2024-10-25'),
 (12, 'Test 3', '2024-10-26', 'testing', 'incomplete', '2024-10-31'),
@@ -144,7 +144,7 @@ TRUNCATE TABLE `dbmessages`;
 -- Dumping data for table `dbmessages`
 --
 
-INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
+INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
 (1, 'vmsroot', 'polack@umw.edu', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Jennifer](event: 4) event at 3:00 PM on Tuesday, January 23, 2024 was added!\r\nSign up today!', '2024-01-19-21:22', 0, 0),
 (2, 'vmsroot', 'polack@umw.edu', 'Noodle Rabies shot is LATE', 'Noodle Rabies shot was due on 0000-00-00', '2024-01-19-21:26', 0, 3),
 (3, 'vmsroot', 'polack@umw.edu', 'Noodle Heartworm shot is LATE', 'Noodle Heartworm shot was due on 0000-00-00', '2024-01-19-21:26', 0, 3),
@@ -486,7 +486,7 @@ INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title
 (339, 'vmsroot', 'polack@umw.edu', 'Cin Distemper 2 shot is LATE', 'Cin Distemper 2 shot was due on 2030-01-24', '2024-01-22-10:23', 0, 3),
 (340, 'vmsroot', 'ppolack@gmail.com', 'Cin Distemper 2 shot is LATE', 'Cin Distemper 2 shot was due on 2030-01-24', '2024-01-22-10:23', 0, 3),
 (341, 'vmsroot', 'japwahl@gmail.com', 'Cin Distemper 3 shot is LATE', 'Cin Distemper 3 shot was due on 2030-01-24', '2024-01-22-10:23', 0, 3);
-INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
+INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
 (342, 'vmsroot', 'laegan@gmail.com', 'Cin Distemper 3 shot is LATE', 'Cin Distemper 3 shot was due on 2030-01-24', '2024-01-22-10:23', 0, 3),
 (343, 'vmsroot', 'polack@gmail.com', 'Cin Distemper 3 shot is LATE', 'Cin Distemper 3 shot was due on 2030-01-24', '2024-01-22-10:23', 0, 3),
 (344, 'vmsroot', 'polack@umw.edu', 'Cin Distemper 3 shot is LATE', 'Cin Distemper 3 shot was due on 2030-01-24', '2024-01-22-10:23', 0, 3),
@@ -830,7 +830,7 @@ INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title
 (682, 'vmsroot', 'mom@gmail.com', 'Noodle Distemper 2 shot is LATE', 'Noodle Distemper 2 shot was due on 0000-00-00', '2024-01-23-11:05', 0, 3),
 (683, 'vmsroot', 'oliver@gmail.com', 'Noodle Distemper 2 shot is LATE', 'Noodle Distemper 2 shot was due on 0000-00-00', '2024-01-23-11:05', 0, 3),
 (684, 'vmsroot', 'peter@gmail.com', 'Noodle Distemper 2 shot is LATE', 'Noodle Distemper 2 shot was due on 0000-00-00', '2024-01-23-11:05', 0, 3);
-INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
+INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
 (685, 'vmsroot', 'polack@um.edu', 'Noodle Distemper 2 shot is LATE', 'Noodle Distemper 2 shot was due on 0000-00-00', '2024-01-23-11:05', 0, 3),
 (686, 'vmsroot', 'tom@gmail.com', 'Noodle Distemper 2 shot is LATE', 'Noodle Distemper 2 shot was due on 0000-00-00', '2024-01-23-11:05', 0, 3),
 (687, 'vmsroot', 'brianna@gmail.com', 'Noodle Distemper 3 shot is LATE', 'Noodle Distemper 3 shot was due on 0000-00-00', '2024-01-23-11:05', 0, 3),
@@ -1175,7 +1175,7 @@ INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title
 (1026, 'vmsroot', 'peter@gmail.com', 'Noodle Rabies shot is LATE', 'Noodle Rabies shot was due on 0000-00-00', '2024-01-23-11:06', 0, 3),
 (1027, 'vmsroot', 'polack@um.edu', 'Noodle Rabies shot is LATE', 'Noodle Rabies shot was due on 0000-00-00', '2024-01-23-11:06', 0, 3),
 (1028, 'vmsroot', 'tom@gmail.com', 'Noodle Rabies shot is LATE', 'Noodle Rabies shot was due on 0000-00-00', '2024-01-23-11:06', 0, 3);
-INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
+INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
 (1029, 'vmsroot', 'brianna@gmail.com', 'Noodle Heartworm shot is LATE', 'Noodle Heartworm shot was due on 0000-00-00', '2024-01-23-11:06', 0, 3),
 (1030, 'vmsroot', 'mom@gmail.com', 'Noodle Heartworm shot is LATE', 'Noodle Heartworm shot was due on 0000-00-00', '2024-01-23-11:06', 0, 3),
 (1031, 'vmsroot', 'oliver@gmail.com', 'Noodle Heartworm shot is LATE', 'Noodle Heartworm shot was due on 0000-00-00', '2024-01-23-11:06', 0, 3),
@@ -1518,7 +1518,7 @@ INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title
 (1368, 'vmsroot', 'peter@gmail.com', 'George Distemper 2 shot is coming up in 5 days', 'George Distemper 2 shot is due on 2024-01-29', '2024-01-23-11:07', 0, 2),
 (1369, 'vmsroot', 'polack@um.edu', 'George Distemper 2 shot is coming up in 5 days', 'George Distemper 2 shot is due on 2024-01-29', '2024-01-23-11:07', 0, 2),
 (1370, 'vmsroot', 'tom@gmail.com', 'George Distemper 2 shot is coming up in 5 days', 'George Distemper 2 shot is due on 2024-01-29', '2024-01-23-11:07', 0, 2);
-INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
+INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
 (1371, 'vmsroot', 'brianna@gmail.com', 'George Distemper 3 shot is coming up in 5 days', 'George Distemper 3 shot is due on 2024-01-29', '2024-01-23-11:07', 0, 2),
 (1372, 'vmsroot', 'mom@gmail.com', 'George Distemper 3 shot is coming up in 5 days', 'George Distemper 3 shot is due on 2024-01-29', '2024-01-23-11:07', 0, 2),
 (1373, 'vmsroot', 'oliver@gmail.com', 'George Distemper 3 shot is coming up in 5 days', 'George Distemper 3 shot is due on 2024-01-29', '2024-01-23-11:07', 0, 2),
@@ -1863,7 +1863,7 @@ INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title
 (1712, 'vmsroot', 'tom@gmail.com', 'Rosie Heartworm shot is LATE', 'Rosie Heartworm shot was due on 0000-00-00', '2024-01-24-07:37', 0, 3),
 (1713, 'vmsroot', 'brianna@gmail.com', 'Rosie Distemper 1 shot is LATE', 'Rosie Distemper 1 shot was due on 0000-00-00', '2024-01-24-07:37', 0, 3),
 (1714, 'vmsroot', 'mom@gmail.com', 'Rosie Distemper 1 shot is LATE', 'Rosie Distemper 1 shot was due on 0000-00-00', '2024-01-24-07:37', 0, 3);
-INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
+INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
 (1715, 'vmsroot', 'oliver@gmail.com', 'Rosie Distemper 1 shot is LATE', 'Rosie Distemper 1 shot was due on 0000-00-00', '2024-01-24-07:37', 0, 3),
 (1716, 'vmsroot', 'peter@gmail.com', 'Rosie Distemper 1 shot is LATE', 'Rosie Distemper 1 shot was due on 0000-00-00', '2024-01-24-07:37', 0, 3),
 (1717, 'vmsroot', 'polack@um.edu', 'Rosie Distemper 1 shot is LATE', 'Rosie Distemper 1 shot was due on 0000-00-00', '2024-01-24-07:37', 0, 3),
@@ -2202,7 +2202,7 @@ INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title
 (2050, 'vmsroot', 'mom@gmail.com', 'Noodle Heartworm shot is LATE', 'Noodle Heartworm shot was due on 0000-00-00', '2024-01-24-07:47', 0, 3),
 (2051, 'vmsroot', 'oliver@gmail.com', 'Noodle Heartworm shot is LATE', 'Noodle Heartworm shot was due on 0000-00-00', '2024-01-24-07:47', 0, 3),
 (2052, 'vmsroot', 'peter@gmail.com', 'Noodle Heartworm shot is LATE', 'Noodle Heartworm shot was due on 0000-00-00', '2024-01-24-07:47', 0, 3);
-INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
+INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
 (2053, 'vmsroot', 'polack@um.edu', 'Noodle Heartworm shot is LATE', 'Noodle Heartworm shot was due on 0000-00-00', '2024-01-24-07:47', 0, 3),
 (2054, 'vmsroot', 'tom@gmail.com', 'Noodle Heartworm shot is LATE', 'Noodle Heartworm shot was due on 0000-00-00', '2024-01-24-07:47', 0, 3),
 (2055, 'vmsroot', 'brianna@gmail.com', 'Noodle Distemper 1 shot is LATE', 'Noodle Distemper 1 shot was due on 0000-00-00', '2024-01-24-07:47', 0, 3),
@@ -2546,7 +2546,7 @@ INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title
 (2393, 'vmsroot', 'oliver@gmail.com', 'George Distemper 1 shot is coming up in two weeks', 'George Distemper 1 shot is due on 2024-01-29', '2024-01-24-07:54', 0, 1),
 (2394, 'vmsroot', 'peter@gmail.com', 'George Distemper 1 shot is coming up in two weeks', 'George Distemper 1 shot is due on 2024-01-29', '2024-01-24-07:54', 0, 1),
 (2395, 'vmsroot', 'polack@um.edu', 'George Distemper 1 shot is coming up in two weeks', 'George Distemper 1 shot is due on 2024-01-29', '2024-01-24-07:54', 0, 1);
-INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
+INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
 (2396, 'vmsroot', 'tom@gmail.com', 'George Distemper 1 shot is coming up in two weeks', 'George Distemper 1 shot is due on 2024-01-29', '2024-01-24-07:54', 0, 1),
 (2397, 'vmsroot', 'brianna@gmail.com', 'George Distemper 2 shot is coming up in two weeks', 'George Distemper 2 shot is due on 2024-01-24', '2024-01-24-07:54', 0, 1),
 (2398, 'vmsroot', 'mom@gmail.com', 'George Distemper 2 shot is coming up in two weeks', 'George Distemper 2 shot is due on 2024-01-24', '2024-01-24-07:54', 0, 1),
@@ -2885,7 +2885,7 @@ INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title
 (2731, 'vmsroot', 'polack@um.edu', 'George Distemper 3 shot is coming up in 5 days', 'George Distemper 3 shot is due on 2024-01-29', '2024-01-24-09:59', 0, 2),
 (2732, 'vmsroot', 'tom@gmail.com', 'George Distemper 3 shot is coming up in 5 days', 'George Distemper 3 shot is due on 2024-01-29', '2024-01-24-09:59', 0, 2),
 (2733, 'vmsroot', 'brianna@gmail.com', 'George Heartworm shot is LATE', 'George Heartworm shot was due on 2024-01-22', '2024-01-24-09:59', 0, 3);
-INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
+INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
 (2734, 'vmsroot', 'bum@gmail.com', 'George Heartworm shot is LATE', 'George Heartworm shot was due on 2024-01-22', '2024-01-24-09:59', 0, 3),
 (2735, 'vmsroot', 'mom@gmail.com', 'George Heartworm shot is LATE', 'George Heartworm shot was due on 2024-01-22', '2024-01-24-09:59', 0, 3),
 (2736, 'vmsroot', 'oliver@gmail.com', 'George Heartworm shot is LATE', 'George Heartworm shot was due on 2024-01-22', '2024-01-24-09:59', 0, 3),
@@ -3240,7 +3240,7 @@ INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title
 (3085, 'vmsroot', 'mom@gmail.com', 'Rosie Distemper 2 shot is LATE', 'Rosie Distemper 2 shot was due on 0000-00-00', '2024-10-09-09:33', 0, 3),
 (3086, 'vmsroot', 'oliver@gmail.com', 'Rosie Distemper 2 shot is LATE', 'Rosie Distemper 2 shot was due on 0000-00-00', '2024-10-09-09:33', 0, 3),
 (3087, 'vmsroot', 'peter@gmail.com', 'Rosie Distemper 2 shot is LATE', 'Rosie Distemper 2 shot was due on 0000-00-00', '2024-10-09-09:33', 0, 3);
-INSERT DELAYED IGNORE INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
+INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `time`, `wasRead`, `prioritylevel`) VALUES
 (3088, 'vmsroot', 'polack@um.edu', 'Rosie Distemper 2 shot is LATE', 'Rosie Distemper 2 shot was due on 0000-00-00', '2024-10-09-09:33', 0, 3),
 (3089, 'vmsroot', 'tom@gmail.com', 'Rosie Distemper 2 shot is LATE', 'Rosie Distemper 2 shot was due on 0000-00-00', '2024-10-09-09:33', 0, 3),
 (3090, 'vmsroot', 'brianna@gmail.com', 'Rosie Distemper 3 shot is LATE', 'Rosie Distemper 3 shot was due on 0000-00-00', '2024-10-09-09:33', 0, 3),
@@ -3424,7 +3424,7 @@ TRUNCATE TABLE `dbpersons`;
 -- Dumping data for table `dbpersons`
 --
 
-INSERT DELAYED IGNORE INTO `dbpersons` (`id`, `start_date`, `venue`, `first_name`, `last_name`, `address`, `city`, `state`, `zip`, `phone1`, `phone1type`, `phone2`, `phone2type`, `birthday`, `email`, `contact_name`, `contact_num`, `relation`, `contact_time`, `cMethod`, `type`, `status`, `availability`, `schedule`, `hours`, `notes`, `password`, `sundays_start`, `sundays_end`, `mondays_start`, `mondays_end`, `tuesdays_start`, `tuesdays_end`, `wednesdays_start`, `wednesdays_end`, `thursdays_start`, `thursdays_end`, `fridays_start`, `fridays_end`, `saturdays_start`, `saturdays_end`, `profile_pic`, `force_password_change`, `gender`) VALUES
+INSERT INTO `dbpersons` (`id`, `start_date`, `venue`, `first_name`, `last_name`, `address`, `city`, `state`, `zip`, `phone1`, `phone1type`, `phone2`, `phone2type`, `birthday`, `email`, `contact_name`, `contact_num`, `relation`, `contact_time`, `cMethod`, `type`, `status`, `availability`, `schedule`, `hours`, `notes`, `password`, `sundays_start`, `sundays_end`, `mondays_start`, `mondays_end`, `tuesdays_start`, `tuesdays_end`, `wednesdays_start`, `wednesdays_end`, `thursdays_start`, `thursdays_end`, `fridays_start`, `fridays_end`, `saturdays_start`, `saturdays_end`, `profile_pic`, `force_password_change`, `gender`) VALUES
 ('brianna@gmail.com', '2024-01-22', 'portland', 'Brianna', 'Wahl', '212 Latham Road', 'Mineola', 'VA', '11501', '1234567890', 'cellphone', '', '', '2004-04-04', 'brianna@gmail.com', 'Mom', '1234567890', 'Mother', 'Days', 'text', 'admin', 'Active', '', '', '', '', '$2y$10$jNbMmZwq.1r/5/oy61IRkOSX4PY6sxpYEdWfu9tLRZA6m1NgsxD6m', '00:00', '10:00', '', '', '', '', '02:00', '16:00', '', '', '', '', '', '', '', 0, 'Female'),
 ('bum@gmail.com', '2024-01-24', 'portland', 'bum', 'bum', '1345 Strattford St.', 'Mineola', 'VA', '22401', '1234567890', 'home', '', '', '1111-11-11', 'bum@gmail.com', 'Mom', '1234567890', 'Mom', 'Mornings', 'text', 'admin', 'Active', '', '', '', '', '$2y$10$Ps8FnZXT7d4uiU/R5YFnRecIRbRakyVtbXP9TVqp7vVpuB3yTXFIO', '', '', '15:00', '18:00', '', '', '', '', '', '', '', '', '', '', '', 0, 'Male'),
 ('mom@gmail.com', '2024-01-22', 'portland', 'Lorraine', 'Egan', '212 Latham Road', 'Mineola', 'NY', '11501', '5167423832', 'home', '', '', '1910-10-10', 'mom@gmail.com', 'Mom', '5167423832', 'Dead', 'Never', 'phone', 'admin', 'Active', '', '', '', '', '$2y$10$of1CkoNXZwyhAMS5GQ.aYuAW1SHptF6z31ONahnF2qK4Y/W9Ty2h2', '00:00', '10:00', '18:00', '19:00', '06:00', '14:00', '02:00', '12:00', '02:00', '16:00', '12:00', '18:00', '08:00', '17:00', '', 0, 'Male'),
