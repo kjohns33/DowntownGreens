@@ -190,13 +190,14 @@ function delete_message($id) {
 }
 
 function dateChecker(){
-    $query = "select * from dbAnimals";
+    //var_dump(debug_backtrace());
+    $query = "select * from dbPersons";
     $connection = connect();
     $result = mysqli_query($connection, $query);
     $twoWeeksAhead = date('Y-m-d', strtotime('+2 weeks'));
     $fivedaysAhead = date('Y-m-d', strtotime('+5 days'));
     $currentDate = date('Y-m-d');
-    if($result){
+    /*if($result){
         while($row = mysqli_fetch_assoc($result)){
             $rabies_due = $row['rabies_due_date'];
             $name = $row['name'];
@@ -283,7 +284,7 @@ function dateChecker(){
                 message_all_users_prio('vmsroot', $title, $body ,'3');   
             }
         }
-    }
+    }*/
     mysqli_close($connection);    
     return true;
 }
