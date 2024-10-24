@@ -78,7 +78,7 @@
                                         $class .= ' prio3';
                                     }
                                     echo "
-                                        <tr class='$class' data-message-id='$messageID'>
+                                        <tr class='$class' style='color:white; 'data-message-id='$messageID'>
                                             <td>$sender</td>
                                             <td>$title</td>
                                             <td>$month/$day/$year $time</td>

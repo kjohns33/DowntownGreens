@@ -78,7 +78,7 @@
         <h1>Change Password</h1>
         <main class="login">
             <?php if (isset($error1)): ?>
-                <p class="error-toast">Your entry for Current Password was incorrect.</p>
+                <p class="error-toast" >Your entry for Current Password was incorrect.</p>
             <?php elseif (isset($error2)): ?>
                 <p class="error-toast">New password must be different from current password.</p>
             <?php endif ?>
