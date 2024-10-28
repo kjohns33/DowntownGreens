@@ -217,9 +217,12 @@ function create_event($event) {
     $duedate = $event["due_date"];
     $description = $event["description"];
     $completed = $event["completed"];
+    $type = $event["type"];
+    $partners = $event["partners"];
+    $amount = $event["amount"];
     $query = "
-        insert into dbEvents (name, open_date, due_date, description, completed)
-        values ('$name', '$opendate', '$duedate', '$description', '$completed')
+        insert into dbEvents (name, open_date, due_date, description, completed, type, partners, amount)
+        values ('$name', '$opendate', '$duedate', '$description', '$completed', '$type', '$partners', $amount)
     ";
     $result = mysqli_query($connection, $query);
     if (!$result) {

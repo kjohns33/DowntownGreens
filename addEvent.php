@@ -27,7 +27,7 @@
         require_once('database/dbEvents.php');
         $args = sanitize($_POST, null);
         $required = array(
-            "name", "open_date", "due_date", "description", "completed"
+            "name", "open_date", "due_date", "description", "completed",
         );
         if (!wereRequiredFieldsSubmitted($args, $required)) {
             echo 'bad form data';
@@ -107,6 +107,12 @@
                     <option value="funded">Funding Awarded</option>
                     <option value="not_funded">Funding Failed</option>
                 </select>
+                <label for="name"> Grant Type </label>
+                <input type="text" id="type" name="type" placeholder="Enter grant type">
+                <label for="name"> Partners </label>
+                <input type="text" id="partners" name="partners" placeholder="Enter partners">
+                <label for="name"> Grant Amount </label>
+                <input type="text" id="amount" name="amount" placeholder="Enter amount">
                 <p></p>
                 <input type="submit" value="Add Grant">
             </form>

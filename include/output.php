@@ -4,7 +4,11 @@
         if (is_array($input)) {
             $arr = [];
             foreach ($input as $key => $value) {
+                if($value == null){
+                    $arr[$key] = '';
+                }else{
                 $arr[$key] = htmlspecialchars($value);
+                }
             }
             return $arr;
         }
