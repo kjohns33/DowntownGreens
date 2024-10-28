@@ -58,7 +58,7 @@
                     }
                 ?>
                 <div class="dashboard-item" data-link="inbox.php">
-                    <img src="images/<?php echo $inboxIcon ?>">
+                    <img src="images/notification.svg">
                     <span>Notifications<?php 
                         if ($unreadMessageCount > 0) {
                             echo ' (' . $unreadMessageCount . ')';
@@ -70,7 +70,7 @@
                     <span>View Calendar</span>
                 </div>
                 <div class="dashboard-item" data-link="viewGrant.php">
-                        <img src="images/search.svg">
+                        <img src="images/view-grant.svg">
                         <span>View Grant</span>
                 </div>
                 <?php if ($_SESSION['access_level'] >= 2): ?>
@@ -92,7 +92,7 @@
                     <span>Add Location-- DELETE BUTTON</span>
                 </div>
                 <div class="dashboard-item" data-link="findAnimal.php">
-                        <img src="images/person-search.svg">
+                        <img src="images/search.svg">
                         <span>Find Grant</span>
                 </div>
                 <!-- Commenting out because volunteers won't be searching events
@@ -111,11 +111,11 @@
                         <span>Register Volunteer-- DELETE BUTTON</span>
                     </div>
                     <div class="dashboard-item" data-link="viewArchived.php">
-                        <img src="images/person-search.svg">
+                        <img src="images/archive.svg">
                         <span>Archived Grants</span>
                     </div>
                     <div class="dashboard-item" data-link="report.php">
-                        <img src="images/create-report.svg">
+                        <img src="images/report.svg">
                         <span>Create Report</span>
                     </div>
                 <?php endif ?>
