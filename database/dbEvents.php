@@ -256,10 +256,13 @@ function update_event($eventID, $eventDetails) {
     $due_date = $eventDetails["due_date"];
     $completed = $eventDetails["completed"];
     $description = $eventDetails["description"];
+    $type = $eventDetails["type"];
+    $partners = $eventDetails["partners"];
+    $amount = $eventDetails["amount"];
     
     $query = "
         update dbEvents set name='$name', completed='$completed', open_date='$open_date', due_date='$due_date', 
-        description='$description' where id='$eventID'";
+        description='$description', type='$type', partners='$partners', amount='$amount' where id='$eventID'";
     $result = mysqli_query($connection, $query);
     //update_services_for_event($eventID, $services);
     mysqli_commit($connection);

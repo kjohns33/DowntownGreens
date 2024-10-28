@@ -231,6 +231,25 @@
             $event_due_date= date('l, F j, Y', strtotime($event_info['due_date']));
             $event_description = $event_info['description'];
             $event_completed = $event_info['completed'];
+            if($event_info['type'] == null){
+                $event_type = "N/A";
+            }else{
+                $event_type = $event_info['type'];
+            }
+
+            if($event_info['partners'] == null){
+                $event_partners = "N/A";
+            }else{
+                $event_partners = $event_info['partners'];
+            }
+
+            if($event_info['amount'] == null){
+                $event_amount = "N/A";
+            }else{
+                $event_amount = $event_info['amount'];
+            }
+            
+
             $event_in_past = strcmp(date('Y-m-d'), $event_info['due_date']) > 0;
             echo '<h2 class="centered">'.$event_name.'</h2>';
         ?>
@@ -257,6 +276,18 @@
                     <tr style="color:white;">	
                         <td class="label"> Description </td>
                         <td><?php echo $event_description ?></td>     		
+                    </tr>
+                    <tr style="color:white;">	
+                        <td class="label"> Grant Type </td>
+                        <td><?php echo $event_type ?></td>     		
+                    </tr>
+                    <tr style="color:white;">	
+                        <td class="label"> Partners </td>
+                        <td><?php echo $event_partners ?></td>     		
+                    </tr>
+                    <tr style="color:white;">	
+                        <td class="label"> Grant Amount </td>
+                        <td><?php echo $event_amount ?></td>     		
                     </tr>
                     <!-- <tr>	
                         <td class="label">Service(s) </td>
