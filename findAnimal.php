@@ -101,11 +101,11 @@ function displaySearchRow($animal, $other){
 <html>
     <head>
         <?php require_once('universal.inc') ?>
-        <title>Downtown Greens | Animal Search</title>
+        <title>Downtown Greens | Grant Search</title>
     </head>
     <body>
         <?php require_once('header.php') ?>
-        <h1>Animal Search</h1>
+        <h1>Grant Search</h1>
         <form id="animal-search" class="general" method="get">
             <?php 
                 if (isset($_GET['name'])) {
