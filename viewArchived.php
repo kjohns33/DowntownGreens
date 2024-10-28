@@ -38,11 +38,11 @@ function displaySearchRow($animal){
 <html>
     <head>
         <?php require_once('universal.inc') ?>
-        <title>Downtown Greens | Archived Animals</title>
+        <title>Downtown Greens | Archived Grants</title>
     </head>
     <body>
         <?php require_once('header.php') ?>
-        <h1>Archived Animals</h1>
+        <h1>Archived Grants</h1>
         <form id="animal-search" class="general" method="get">
             <?php 
                 require_once('include/input-validation.php');
