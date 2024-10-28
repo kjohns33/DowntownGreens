@@ -125,6 +125,27 @@
                         die();
                     }
                     $completed = $event['completed'];
+
+                    if($event['type'] == null){
+                        $event_type = "";
+                    }else{
+                        $event_type = $event['type'];
+                    }
+        
+                    if($event['partners'] == null){
+                        $event_partners = "";
+                    }else{
+                        $event_partners = $event['partners'];
+                    }
+        
+                    if($event['amount'] == null){
+                        $event_amount = "";
+                    }else{
+                        $event_amount = $event['amount'];
+                    }
+
+
+
                 ?>
                 <label for="name">Status </label>
                 <select id="completed" name="completed">
@@ -139,6 +160,12 @@
                 <input type="date" id="due_date" name="due_date" value="<?php echo $event['due_date'] ?>" min="<?php echo date('Y-m-d'); ?>" required>
                 <label for="name">Description </label>
                 <input type="text" id="description" name="description" value="<?php echo $event['description'] ?>" required placeholder="Enter description">
+                <label for="name"> Grant Type </label>
+                <input type="text" id="type" name="type" value="<?php echo $event_type ?>" placeholder="Enter grant type">
+                <label for="name"> Partners </label>
+                <input type="text" id="partners" name="partners" value="<?php echo $event_partners ?>" placeholder="Enter partners">
+                <label for="name"> Grant Amount </label>
+                <input type="text" id="amount" name="amount" value="<?php echo $event_amount ?>" placeholder="Enter amount">
                 <!--<fieldset>
                     <label for="name">* Service </label>
                     <?php 
