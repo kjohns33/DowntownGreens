@@ -37,6 +37,9 @@ CREATE TABLE IF NOT EXISTS `dbevents` (
   `description` text NOT NULL,
   `completed` text NOT NULL,
   `due_date` date DEFAULT NULL,
+  `type` text,
+  `partners` text,
+  `amount` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
