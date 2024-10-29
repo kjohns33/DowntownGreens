@@ -78,6 +78,10 @@
     <head>
         <?php require_once('universal.inc') ?>
         <title>Downtown Greens | Log In</title>
+        <style> input::placeholder{
+        	color: white;
+        }
+        </style>
     </head>
     <body>
         <?php require_once('header.php') ?>
@@ -98,7 +102,7 @@
                 ?>
                 <label for="username">Username</label>
         		<input type="text" name="username" placeholder="Enter your e-mail address" required>
-        		<label for="password">Password</label>
+        		<label for="password" >Password</label>
                 <input type="password" name="password" placeholder="Enter your password" required>
                 <input type="submit" name="login" value="Log in">
 

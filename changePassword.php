@@ -72,6 +72,10 @@
     <head>
         <?php require_once('universal.inc') ?>
         <title>Downtown Greens | Change Password</title>
+        <style> input::placeholder{
+        	color: white;
+        }
+        </style>
     </head>
     <body>
         <?php require_once('header.php') ?>

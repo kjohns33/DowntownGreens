@@ -90,6 +90,7 @@ table, td, tr, th, form, fieldset, em, button, a {
     font-weight: 300;
 }
 
+
 /* Page Sections */
 
 header {
@@ -99,10 +100,12 @@ header {
     z-index: 10;
 }
 
+
 body {
     background-color: var(--page-background-color);
     color: var(--page-font-color);
     font-family: Montserrat;
+    
 }
 
 header > img {
