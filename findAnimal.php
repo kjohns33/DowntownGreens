@@ -102,6 +102,10 @@ function displaySearchRow($animal, $other){
     <head>
         <?php require_once('universal.inc') ?>
         <title>Downtown Greens | Grant Search</title>
+        <style> input::placeholder{
+        	color: white;
+        }
+        </style>
     </head>
     <body>
         <?php require_once('header.php') ?>
