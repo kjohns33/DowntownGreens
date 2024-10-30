@@ -117,6 +117,9 @@
                 <input type="text" id="partners" name="partners" placeholder="Enter partners">
                 <label for="name"> Grant Amount </label>
                 <input type="text" id="amount" name="amount" placeholder="Enter amount">
+                <script src="js/link.js"></script>
+                <div id="dynamic_field"></div>
+                <button type="button" name="add" id="add">Add Link</button>
                 <p></p>
                 <input type="submit" value="Add Grant">
             </form>

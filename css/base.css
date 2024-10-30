@@ -269,8 +269,39 @@ input[type=submit], button, .button {
     text-align: center;
 }
 
-input[type=submit]:hover, button:hover, .button:hover {
+input[type=submit]:hover, button:hover, .button:hover, link-tag:hover {
     background-color: var(--accent-color);
+}
+
+link-label {
+    margin: 0;
+    display: inline-block;
+}
+
+/*the input field for links*/
+input-link {
+    border: var(--text-field-border);
+    border-radius: 0;
+    padding: 0.5rem;
+    width: 100%;
+    background-color: var(--page-background-color);
+    margin-bottom: 0.5rem;
+    scroll-margin: 7.5rem;
+}
+
+/*the remove button for links*/
+link-tag {
+    color: var(--button-font-color);
+    background-color: var(--secondary-accent-color);
+    padding: var(--button-padding);
+    border: none;
+    border-radius: var(--button-border-radius);
+    font-weight: 500;
+    /*width: 100%;*/
+
+    transition: background-color .3s;
+    cursor: pointer;
+    text-align: center;
 }
 
 /* input.visited:invalid {
