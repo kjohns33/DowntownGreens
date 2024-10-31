@@ -119,7 +119,7 @@
                 <input type="text" id="amount" name="amount" placeholder="Enter amount">
                 <div id="link-container"></div>
                 <script src= "js/link.js"></script>
-                <add-link type="button" onclick="addLink()">Add Link</add-link>
+                <add-link type="button" style="background-color:#aaa" onclick="addLink()">Add Link</add-link>
                 
                 <p></p>
                 <input type="submit" value="Add Grant">
