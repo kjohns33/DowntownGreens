@@ -67,6 +67,7 @@ table, td, tr, th, form, fieldset, em, button, a {
     --accent-color: #5fa44f;
     /*gold*/
     --secondary-accent-color: #d6b543;
+    --special-case-color: #fa7f9a;
 
     --calendar-event-color: #808080;
     --calendar-event-color-hover: var(--main-color);
@@ -297,7 +298,25 @@ link-tag {
     border: none;
     border-radius: var(--button-border-radius);
     font-weight: 500;
+    margin-bottom: 5px;
+    display:inline-block;
+
     /*width: 100%;*/
+
+    transition: background-color .3s;
+    cursor: pointer;
+    text-align: center;
+}
+
+/*button to add link*/
+add-link {
+    color: var(--button-font-color);
+    background-color: var(--special-case-color);
+    padding: var(--button-padding);
+    border: none;
+    border-radius: var(--button-border-radius);
+    font-weight: 500;
+    width: 20%;
 
     transition: background-color .3s;
     cursor: pointer;
