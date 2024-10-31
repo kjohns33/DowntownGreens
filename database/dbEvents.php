@@ -220,15 +220,21 @@ function create_event($event) {
     $type = $event["type"];
     $partners = $event["partners"];
     $amount = $event["amount"];
-    $query = "
-        insert into dbEvents (name, open_date, due_date, description, completed, type, partners, amount)
-        values ('$name', '$opendate', '$duedate', '$description', '$completed', '$type', '$partners', $amount)
-    ";
+    $query = "insert into dbevents (name, open_date, due_date, description, completed, type, partners, amount)
+    values ('$name', '$opendate', '$duedate', '$description', '$completed', '$type', '$partners', '$amount')";
     $result = mysqli_query($connection, $query);
     if (!$result) {
         return null;
     }
     $id = mysqli_insert_id($connection);
+
+    $link = $event["link"];
+    $query2 = "insert into dblinks (link) values ('$link')";
+    $result = mysqli_query($connection, $query2);
+    if (!$result) {
+        return null;
+    }
+    mysqli_insert_id($connection);
     mysqli_commit($connection);
     mysqli_close($connection);
     return $id;
