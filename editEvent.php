@@ -159,9 +159,9 @@
                     <option value="not_funded" <?php echo $completed === 'not_funded' ? 'selected' : ''; ?>>Funding Failed</option>
                 </select>
                 <label for="name">Open Date </label>
-                <input type="date" id="open_date" name="open_date" value="<?php echo $event['open_date'] ?>" min="<?php echo date('Y-m-d'); ?>" required>
+                <input type="date" id="open_date" name="open_date" value="<?php echo $event['open_date'] ?>" required>
                 <label for="name">Due Date </label>
-                <input type="date" id="due_date" name="due_date" value="<?php echo $event['due_date'] ?>" min="<?php echo date('Y-m-d'); ?>" required>
+                <input type="date" id="due_date" name="due_date" value="<?php echo $event['due_date'] ?>" required>
                 <label for="name">Description </label>
                 <input type="text" id="description" name="description" value="<?php echo $event['description'] ?>" required placeholder="Enter description">
                 <label for="name"> Grant Type </label>
