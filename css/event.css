@@ -117,6 +117,28 @@ td.label {
     background-color: rgba(0, 0, 0, .3);
 }
 
+#archive-confirmation-wrapper {
+    z-index: 99;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, .3);
+}
+
+#unarchive-confirmation-wrapper {
+    z-index: 99;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, .3);
+}
+
 #complete-confirmation-wrapper {
     z-index: 99;
     position: fixed;
@@ -141,7 +163,41 @@ td.label {
     margin: 0.5rem;
 }
 
+#archive-confirmation {
+    z-index: 99;
+    background-color: var(--page-background-color);
+    /* border: 1px solid var(--secondary-accent-color); */
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-radius: .5rem;
+    box-shadow: 0px 1rem 1rem rgba(0, 0, 0, 0.5);
+    margin: 0.5rem;
+}
+
+#unarchive-confirmation {
+    z-index: 99;
+    background-color: var(--page-background-color);
+    /* border: 1px solid var(--secondary-accent-color); */
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-radius: .5rem;
+    box-shadow: 0px 1rem 1rem rgba(0, 0, 0, 0.5);
+    margin: 0.5rem;
+}
+
 #delete-confirmation p {
+    padding: 0.25rem;
+}
+
+#archive-confirmation p {
+    padding: 0.25rem;
+}
+
+#unarchive-confirmation p {
     padding: 0.25rem;
 }
 
@@ -167,6 +223,22 @@ td.label {
 }
 
 #delete-cancel:hover {
+    background-color: var(--accent-color);
+}
+
+#archive-cancel {
+    background-color: var(--cancel-button-background-color);
+}
+
+#archive-cancel:hover {
+    background-color: var(--accent-color);
+}
+
+#unarchive-cancel {
+    background-color: var(--cancel-button-background-color);
+}
+
+#unarchive-cancel:hover {
     background-color: var(--accent-color);
 }
 

@@ -472,6 +472,44 @@ function delete_event($id) {
     return $result;
 }
 
+function archive_grant($id) {
+    $query = "UPDATE dbEvents set archived='yes' where id='$id'";
+    $connection = connect();
+    $result = mysqli_query($connection, $query);
+    $result = boolval($result);
+    mysqli_close($connection);
+    return $result;
+}
+
+function unarchive_grant($id) {
+    $query = "UPDATE dbEvents set archived='no' where id='$id'";
+    $connection = connect();
+    $result = mysqli_query($connection, $query);
+    $result = boolval($result);
+    mysqli_close($connection);
+    return $result;
+}
+
+function find_archived() {
+    $query = "select * from dbEvents where archived='yes' order by name";
+
+    $connection = connect();
+
+    $result = mysqli_query($connection, $query);
+    if (!$result) {
+        mysqli_close($connection);
+        return [];
+    }
+    $raw = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $events = [];
+    foreach ($raw as $row) {
+        $events []= make_a_event($row);
+    }
+    mysqli_close($connection);
+    return $events;
+
+}
+
 function complete_event($id) {
     $event = retrieve_event2($id);
     $animal = get_animal($event["animalID"])[0];

@@ -31,6 +31,8 @@
         die();
     }
 
+    $event_archived = $event_info['archived'];
+
     include_once('database/dbPersons.php');
     $access_level = $_SESSION['access_level'];
     $user = retrieve_person($_SESSION['_id']);
@@ -208,7 +210,30 @@
             </div>
         </div>
     <?php endif ?>
-
+    <?php if ($access_level >= 2) :?>
+        <div id="archive-confirmation-wrapper" class="hidden">
+            <div id="archive-confirmation">
+                <p>Are you sure you want to archive this grant?</p>
+                <form method="post" action="archiveGrant.php">
+                    <input type="submit" value="Archive Grant">
+                    <input type="hidden" name="id" value="<?= $id ?>">
+                </form>
+                <button id="archive-cancel">Cancel</button>
+            </div>
+        </div>
+    <?php endif ?>
+    <?php if ($access_level >= 2) :?>
+        <div id="unarchive-confirmation-wrapper" class="hidden">
+            <div id="unarchive-confirmation">
+                <p>Are you sure you want to unarchive this grant?</p>
+                <form method="post" action="unarchiveGrant.php">
+                    <input type="submit" value="Unarchive Grant">
+                    <input type="hidden" name="id" value="<?= $id ?>">
+                </form>
+                <button id="unarchive-cancel">Cancel</button>
+            </div>
+        </div>
+    <?php endif ?>
     <?php require_once('header.php') ?>
     <h1>View Grant</h1>
     <main class="event-info">
@@ -344,6 +369,24 @@
                                 </td>
                         </tr>
                         ';
+
+                        if ($event_archived != 'yes') {
+                            echo '
+                            <tr>
+                                <td colspan="2">
+                                        <button onclick="showArchiveConfirmation()">Archive Grant</button>
+                                    </td>
+                            </tr>
+                            ';
+                        } else {
+                            echo '
+                            <tr>
+                                <td colspan="2">
+                                        <button onclick="showUnarchiveConfirmation()">Unarchive Grant</button>
+                                    </td>
+                            </tr>
+                            ';
+                        }
 
                         echo '
                         <tr>

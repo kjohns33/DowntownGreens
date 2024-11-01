@@ -28,6 +28,9 @@
         <?php require_once('header.php') ?>
         <h1>Grants</h1>
         <main class="general">
+            <?php if (isset($_GET['archiveSuccess'])): ?>
+                    <div class="happy-toast">Grant archived successfully!</div>
+                <?php endif; ?>
             <h2>Your Grants</h2>
             <?php 
                 require_once('database/dbEvents.php');
@@ -66,6 +69,7 @@
                                     
 
                                     //possible spot to check if archived 
+                                    if ($grant['archived'] == 'yes') : continue; endif;
                                     $class = 'message';
                                     /*
                                     if (!$message['wasRead']) {
