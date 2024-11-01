@@ -21,7 +21,7 @@ function addLink() {
     newInput.placeholder = 'Enter link URL';
     newInput.name = `link_url_${linkContainer.childElementCount + 1}`;
   
-    const removeButton = document.createElement('button');
+    const removeButton = document.createElement('link-tag');
     removeButton.textContent = 'X';
     removeButton.classList.add('remove-button');
     removeButton.addEventListener('click', () => linkContainer.removeChild(newLinkDiv));

@@ -43,7 +43,7 @@ session_start();
                 session_unset();
                 session_write_close();
                 ?>
-                <p class="happy-toast centered">You have been logged out.</p>
+                <p class="happy-toast centered" style="color:white;">You have been logged out.</p>
         </main>
     </body>
 </html>
