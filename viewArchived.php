@@ -35,7 +35,7 @@
             <?php 
                 require_once('database/dbEvents.php');
                 $grants = fetch_events_as_array();
-                if (count($grants) > 0): ?>
+                if (check_archived_grants($grants)): ?>
                 <div class="table-wrapper">
                     <table class="general">
                         <thead>

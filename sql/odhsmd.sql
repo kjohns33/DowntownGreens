@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS `dbevents` (
   `type` text,
   `partners` text,
   `amount` text,
+  `archived` varchar(3) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

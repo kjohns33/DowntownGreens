@@ -371,6 +371,14 @@ function fetch_events_as_array() {
     return $events;
 }
 
+//returs false if there are no archived grants
+function check_archived_grants($grants) {
+    foreach ($grants as $grant) {
+        if ($grant['archived'] == 'yes') : return true; endif;
+    }
+    return false;
+}
+
 function get_animal($id) {
     $connection = connect();
     $query = "select * from dbAnimals
