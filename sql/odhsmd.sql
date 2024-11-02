@@ -119,6 +119,57 @@ TRUNCATE TABLE `dblinks`;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `dbfields`
+--
+
+DROP TABLE IF EXISTS `dbfields`;
+CREATE TABLE IF NOT EXISTS `dbfields` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` text NOT NULL,
+  `data` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- RELATIONSHIPS FOR TABLE `dblinks`:
+--
+
+--
+-- Truncate table before insert `dblinks`
+--
+
+TRUNCATE TABLE `dbfields`;
+-- --------------------------------------------------------
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dbgrantlinks`
+--
+
+DROP TABLE IF EXISTS `dbgrantfields`;
+CREATE TABLE IF NOT EXISTS `dbgrantfields` (
+  `grant_id` int(11) NOT NULL,
+  `field_id` int(10) NOT NULL,
+  KEY `fk_grant_id` (`grant_id`),
+  KEY `fk_field_id` (`field_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- RELATIONSHIPS FOR TABLE `dbgrantlinks`:
+--   `grant_id`
+--       `dbevents` -> `id`
+--   `link_id`
+--       `dblinks` -> `id`
+--
+
+--
+-- Truncate table before insert `dbgrantlinks`
+--
+
+TRUNCATE TABLE `dbgrantlinks`;
+
+--
 -- Table structure for table `dbmessages`
 --
 
