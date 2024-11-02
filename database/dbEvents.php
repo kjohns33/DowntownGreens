@@ -371,6 +371,14 @@ function fetch_events_as_array() {
     return $events;
 }
 
+//returs false if there are no archived grants
+function check_archived_grants($grants) {
+    foreach ($grants as $grant) {
+        if ($grant['archived'] == 'yes') : return true; endif;
+    }
+    return false;
+}
+
 function get_animal($id) {
     $connection = connect();
     $query = "select * from dbAnimals
@@ -470,6 +478,44 @@ function delete_event($id) {
     $result = boolval($result);
     mysqli_close($connection);
     return $result;
+}
+
+function archive_grant($id) {
+    $query = "UPDATE dbEvents set archived='yes' where id='$id'";
+    $connection = connect();
+    $result = mysqli_query($connection, $query);
+    $result = boolval($result);
+    mysqli_close($connection);
+    return $result;
+}
+
+function unarchive_grant($id) {
+    $query = "UPDATE dbEvents set archived='no' where id='$id'";
+    $connection = connect();
+    $result = mysqli_query($connection, $query);
+    $result = boolval($result);
+    mysqli_close($connection);
+    return $result;
+}
+
+function find_archived() {
+    $query = "select * from dbEvents where archived='yes' order by name";
+
+    $connection = connect();
+
+    $result = mysqli_query($connection, $query);
+    if (!$result) {
+        mysqli_close($connection);
+        return [];
+    }
+    $raw = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $events = [];
+    foreach ($raw as $row) {
+        $events []= make_a_event($row);
+    }
+    mysqli_close($connection);
+    return $events;
+
 }
 
 function complete_event($id) {
