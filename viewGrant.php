@@ -89,7 +89,7 @@
                     </table>
                 </div>
             <?php else: ?>
-                <p class="no-messages standout">You currently have no grants.</p>
+                <p class="no-messages standout" style="color:white;">You currently have no grants.</p>
             <?php endif ?>
             <!-- <button>Compose New Message</button> -->
             <a class="button cancel" href="index.php">Return to Dashboard</a>
