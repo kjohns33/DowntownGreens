@@ -56,6 +56,10 @@
     <head>
         <?php require_once('universal.inc') ?>
         <title>Downtown Greens | Find Grant</title>
+        <style> input::placeholder{
+        	color: white;
+        	}
+        </style>
     </head>
     <body>
         <?php require_once('header.php') ?>
@@ -101,12 +105,12 @@
             </form>
             <form method="post">
                 <label for="open-date">Open Date</label>
-                <input type="date" name="open-date" id="open-date" required>
-                <input type="submit" name="submitOpenDate" id="submitOpenDate" value="Search by Open Date">
+                <input type="date" name="open-date" style="color:white;" id="open-date" required>
+                <input type="submit" name="submitOpenDate" style="color:white;" id="submitOpenDate" value="Search by Open Date">
             </form>
             <form method="post">
                 <label for="due-date">Due Date</label>
-                <input type="date" name="due-date" id="due-date" required>
+                <input type="date" name="due-date" style="color:white;" id="due-date" required>
                 <input type="submit" name="submitDueDate" id="submitDueDate" value="Search by Due Date">
             </form>
             <a class="button cancel" href="index.php" style="margin-top: -.5rem">Return to Dashboard</a>
