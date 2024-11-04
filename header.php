@@ -127,7 +127,7 @@
             echo('<a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Grants</a>');
             echo('<div class="dropdown-menu" aria-labelledby="navbarDropdown">');
             echo('<a class="dropdown-item" href="' . $path . 'addEvent.php">Add</a>');
-            echo('<a class="dropdown-item" href="' . $path . 'findAnimal.php">Search</a>');
+            echo('<a class="dropdown-item" href="' . $path . 'eventSearch.php">Search</a>');
 	        echo('<a class="dropdown-item" href="' . $path . 'report.php">Reports</a>');
 	        echo('<a class="dropdown-item" href="' . $path . 'viewArchived.php">Archived Grants</a>');
             echo('</div>');

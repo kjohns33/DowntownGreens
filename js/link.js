@@ -7,7 +7,7 @@ function addLink() {
   
     // Label for link
     const newLabel = document.createElement('label');
-    newLabel.textContent = "Link:";
+    newLabel.textContent = " New Link:";
   
     // Title input
     const newTitleInput = document.createElement('input');

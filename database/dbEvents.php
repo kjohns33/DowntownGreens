@@ -340,13 +340,24 @@ function find_event($nameLike) {
     return $all;
 }
 
-function fetch_events_in_date_range_as_array($start_date, $end_date) {
+function fetch_event_open($open_date) {
     $connection = connect();
-    $start_date = mysqli_real_escape_string($connection, $start_date);
-    $end_date = mysqli_real_escape_string($connection, $end_date);
-    $query = "select * from dbEvents
-              where date >= '$start_date' and date <= '$end_date'
-              order by date, startTime asc";
+    $date = mysqli_real_escape_string($connection, $open_date);
+    $query = "SELECT * from dbEvents WHERE open_date = '$date'";
+    $result = mysqli_query($connection, $query);
+    if (!$result) {
+        mysqli_close($connection);
+        return null;
+    }
+    $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    mysqli_close($connection);
+    return $events;
+}
+
+function fetch_event_due($due_date) {
+    $connection = connect();
+    $date = mysqli_real_escape_string($connection, $due_date);
+    $query = $query = "SELECT * from dbEvents WHERE due_date = '$date'";
     $result = mysqli_query($connection, $query);
     if (!$result) {
         mysqli_close($connection);
