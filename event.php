@@ -186,11 +186,11 @@
     <?php if ($access_level >= 2) : ?>
         <div id="delete-confirmation-wrapper" class="hidden">
             <div id="delete-confirmation">
-                <p>Are you sure you want to delete this appointment?</p>
+                <p>Are you sure you want to delete this grant?</p>
                 <p>This action cannot be undone.</p>
 
                 <form method="post" action="deleteEvent.php">
-                    <input type="submit" value="Delete Appointment">
+                    <input type="submit" value="Delete Grant">
                     <input type="hidden" name="id" value="<?= $id ?>">
                 </form>
                 <button id="delete-cancel">Cancel</button>
@@ -200,10 +200,10 @@
     <?php if ($access_level >= 2) : ?>
         <div id="complete-confirmation-wrapper" class="hidden">
             <div id="complete-confirmation">
-                <p>Are you sure you want to complete this appointment?</p>
+                <p>Are you sure you want to complete this grant?</p>
                 <p>This action cannot be undone.</p>
                 <form method="post" action="completeEvent.php">
-                    <input type="submit" value="Complete Appointment">
+                    <input type="submit" value="Complete Grant">
                     <input type="hidden" name="id" value="<?= $id ?>">
                 </form>
                 <button id="complete-cancel">Cancel</button>
