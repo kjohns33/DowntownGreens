@@ -117,7 +117,10 @@
                 <input type="text" id="partners" name="partners" placeholder="Enter partners">
                 <label for="name"> Grant Amount </label>
                 <input type="text" id="amount" name="amount" placeholder="Enter amount">
-                <div id="link-container"></div>
+                <div id="dynField-container"  style="margin-top:.5rem;"></div>
+                <script src= "js/dynField.js"></script>
+                <add-link type="button" style="background-color:#aaa" onclick="addField()">Add Field</add-link>
+                <div id="link-container" style="margin-top:.5rem;"></div>
                 <script src= "js/link.js"></script>
                 <add-link type="button" style="background-color:#aaa" onclick="addLink()">Add Link</add-link>
                 
