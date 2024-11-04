@@ -79,7 +79,7 @@
                         <span>Add Grant</span>
                     </div>
                 <?php endif ?>
-                <div class="dashboard-item" data-link="findAnimal.php">
+                <div class="dashboard-item" data-link="eventSearch.php">
                         <img src="images/search.svg">
                         <span>Find Grant</span>
                 </div>
