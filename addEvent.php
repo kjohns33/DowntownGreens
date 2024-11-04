@@ -99,14 +99,14 @@
                 <label for="name">* Grant Name </label>
                 <input type="text" id="name" name="name" required placeholder="Enter name"> 
                 <label for="name">* Open Date </label>
-                <input type="date" id="open_date" name="open_date" <?php if ($date) echo 'value="' . $date . '"'; ?> min="<?php echo date('Y-m-d'); ?>" required>
+                <input type="date" id="open_date" name="open_date" style="color:white;" <?php if ($date) echo 'value="' . $date . '"'; ?> min="<?php echo date('Y-m-d'); ?>" required>
                 <label for="name">* Due Date </label>
-                <input type="date" id="due_date" name="due_date" <?php if ($date) echo 'value="' . $date . '"'; ?> min="<?php echo date('Y-m-d'); ?>" required>
+                <input type="date" id="due_date" name="due_date" style="color:white;"<?php if ($date) echo 'value="' . $date . '"'; ?> min="<?php echo date('Y-m-d'); ?>" required>
                 <label for="name">* Description </label>
                 <input type="text" id="description" name="description" required placeholder="Enter description">
-                <label for="name">* Status </label>
-                <select id="completed" name="completed">
-                    <option value="incomplete">Incomplete</option>
+                <label for="name" >* Status </label>
+                <select id="completed" name="completed" style="color:white;">
+                    <option value="incomplete" >Incomplete</option>
                     <option value="complete">Complete!</option>
                     <option value="funded">Funding Awarded</option>
                     <option value="not_funded">Funding Failed</option>

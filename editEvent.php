@@ -115,7 +115,7 @@
             <form id="new-event-form" method="post">
                 <label for="name">Grant Name </label>
                 <input type="hidden" name="id" value="<?php echo $id ?>"/> 
-                <input type="text" id="name" name="name" value="<?php echo $event['name'] ?>" required placeholder="Enter name">
+                <input type="text" style="color:white;" id="name" name="name" value="<?php echo $event['name'] ?>" required placeholder="Enter name">
                 <?php //Get $completed variable (the current status) to set the "selected" option in the drop down select form
                     if (!isset($_GET['id'])) {
                         // uhoh
@@ -151,19 +151,19 @@
 
 
                 ?>
-                <label for="name">Status </label>
-                <select id="completed" name="completed">
-                    <option value="incomplete" <?php echo $completed === 'incomplete' ? 'selected' : ''; ?>>Incomplete</option>
+                <label for="name" >Status </label>
+                <select style="color:white;" id="completed" name="completed">
+                    <option value="incomplete"  <?php echo $completed === 'incomplete' ? 'selected' : ''; ?>>Incomplete</option>
                     <option value="complete" <?php echo $completed === 'complete' ? 'selected' : ''; ?>>Complete</option>
                     <option value="funded" <?php echo $completed === 'funded' ? 'selected' : ''; ?>>Funding Awarded</option>
                     <option value="not_funded" <?php echo $completed === 'not_funded' ? 'selected' : ''; ?>>Funding Failed</option>
                 </select>
                 <label for="name">Open Date </label>
-                <input type="date" id="open_date" name="open_date" value="<?php echo $event['open_date'] ?>" required>
+                <input type="date" style="color:white;" id="open_date" name="open_date" value="<?php echo $event['open_date'] ?>" required>
                 <label for="name">Due Date </label>
-                <input type="date" id="due_date" name="due_date" value="<?php echo $event['due_date'] ?>" required>
+                <input type="date" style="color:white;" id="due_date" name="due_date" value="<?php echo $event['due_date'] ?>" required>
                 <label for="name">Description </label>
-                <input type="text" id="description" name="description" value="<?php echo $event['description'] ?>" required placeholder="Enter description">
+                <input type="text" style="color:white;" id="description" name="description" value="<?php echo $event['description'] ?>" required placeholder="Enter description">
                 <label for="name"> Grant Type </label>
                 <input type="text" id="type" name="type" value="<?php echo $event_type ?>" placeholder="Enter grant type">
                 <label for="name"> Partners </label>
