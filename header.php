@@ -52,44 +52,29 @@
         $permission_array['apply.php'] = 0;
         $permission_array['logout.php'] = 0;
         $permission_array['register.php'] = 0;
-        $permission_array['findanimal.php'] = 0;
         //pages volunteers can view
         $permission_array['help.php'] = 1;
         $permission_array['dashboard.php'] = 1;
         $permission_array['calendar.php'] = 1;
         $permission_array['eventsearch.php'] = 1;
         $permission_array['changepassword.php'] = 1;
-        $permission_array['editprofile.php'] = 1;
         $permission_array['inbox.php'] = 1;
         $permission_array['date.php'] = 1;
         $permission_array['event.php'] = 1;
-        $permission_array['viewprofile.php'] = 1;
         $permission_array['viewnotification.php'] = 1;
-        $permission_array['volunteerreport.php'] = 1;
         //pages only managers can view
-        $permission_array['personsearch.php'] = 2;
         $permission_array['personedit.php'] = 0; // changed to 0 so that applicants can apply
         $permission_array['viewschedule.php'] = 2;
         $permission_array['addweek.php'] = 2;
         $permission_array['log.php'] = 2;
         $permission_array['reports.php'] = 2;
         $permission_array['eventedit.php'] = 2;
-        $permission_array['modifyuserrole.php'] = 2;
         $permission_array['addevent.php'] = 2;
         $permission_array['editevent.php'] = 2;
-        $permission_array['roster.php'] = 2;
         $permission_array['report.php'] = 2;
         $permission_array['reportspage.php'] = 2;
         $permission_array['resetpassword.php'] = 2;
-        $permission_array['addappointment.php'] = 2;
-        $permission_array['addanimal.php'] = 2;
-        $permission_array['addservice.php'] = 2;
-        $permission_array['addlocation.php'] = 2;
-        $permission_array['viewservice.php'] = 2;
-        $permission_array['viewlocation.php'] = 2;
         $permission_array['viewarchived.php'] = 2;
-        $permission_array['animal.php'] = 2;
-        $permission_array['editanimal.php'] = 2;
         $permission_array['viewgrant.php'] = 2;
 
         //Check if they're at a valid page for their access level.

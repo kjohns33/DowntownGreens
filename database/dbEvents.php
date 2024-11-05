@@ -111,39 +111,6 @@ function update_event_date($id, $new_event_date) {
 	return $result;
 }
 
-function make_an_event($result_row) {
-	/*
-	 ($en, $v, $sd, $description, $ev))
-	 */
-    $theEvent = new Event(
-                    $result_row['event_name'],
-                    $result_row['venue'],                   
-                    $result_row['event_date'],
-                    $result_row['description'],
-                    $result_row['event_id'],
-                    $result_row['location'],
-                    $result_row['service'],
-                    $result_row['animal']); 
-    return $theEvent;
-}
-
-// retrieve only those events that match the criteria given in the arguments
-function getonlythose_dbEvents($name, $day, $venue) {
-   $con=connect();
-   $query = "SELECT * FROM dbEvents WHERE event_name LIKE '%" . $event_name . "%'" .
-           " AND event_name LIKE '%" . $name . "%'" .
-           " AND venue = '" . $venue . "'" . 
-           " ORDER BY event_name";
-   $result = mysqli_query($con,$query);
-   $theEvents = array();
-   while ($result_row = mysqli_fetch_assoc($result)) {
-       $theEvent = make_an_event($result_row);
-       $theEvents[] = $theEvent;
-   }
-   mysqli_close($con);
-   return $theEvents;
-}
-
 function fetch_events_in_date_range($start_date, $end_date) {
     $connection = connect();
     $start_date = mysqli_real_escape_string($connection, $start_date);
@@ -299,32 +266,6 @@ function update_event2($eventID, $eventDetails) {
     return $result;
 }
 
-function update_services_for_event($eventID, $serviceIDs) {
-    $connection = connect();
-
-    $current_services = get_services($eventID);
-    foreach($current_services as $curr_serv) {
-        $curr_servIDs[] = $curr_serv['id'];
-    }
-
-    // add new services
-    foreach($serviceIDs as $serviceID) {
-        if (!in_array($serviceID, $curr_servIDs)) {
-            $query = "insert into dbEventsServices (eventID, serviceID) values ('$eventID', '$serviceID')";
-            $result = mysqli_query($connection, $query);
-        }
-    }
-    // remove old services
-    foreach($curr_servIDs as $curr_serv) {
-        if (!in_array($curr_serv, $serviceIDs)) {
-            $query = "delete from dbEventsServices where serviceID='$curr_serv'";
-            $result = mysqli_query($connection, $query);
-        }
-    }
-    mysqli_commit($connection);
-    return;
-}
-
 function find_event($nameLike) {
     $connection = connect();
     $query = "
@@ -414,19 +355,6 @@ function get_location($id) {
     $location = mysqli_fetch_all($result, MYSQLI_ASSOC);
     mysqli_close($connection);
     return $location;
-}
-
-function get_services($eventID) {
-    $connection = connect();
-    $query = "select * from dbServices AS serv JOIN dbEventsServices AS es ON es.serviceID = serv.id
-              where es.eventID='$eventID'";
-    $result = mysqli_query($connection, $query);
-    if (!$result) {
-        return [];
-    }
-    $services = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    mysqli_close($connection);
-    return $services;
 }
 
 function get_media($id, $type) {
@@ -521,63 +449,12 @@ function find_archived() {
     }
     $raw = mysqli_fetch_all($result, MYSQLI_ASSOC);
     $events = [];
-    foreach ($raw as $row) {
-        $events []= make_a_event($row);
-    }
     mysqli_close($connection);
     return $events;
 
 }
 
-function complete_event($id) {
-    $event = retrieve_event2($id);
-    $animal = get_animal($event["animalID"])[0];
-    $date = $event["date"];
-    $event["completed"] = "yes";
-
-    $services = get_services($event["id"]);
-    $length = count($services);
-
-    for ($i = 0; $i < $length; $i++) { 
-        $check = $services[$i]['name'];
-        $dur = $services[$i]['duration_years'];
-        if(stripos($check, "spay") !== false || stripos($check, "neuter") !== false){
-            $animal["spay_neuter_done"] = "yes";
-            $animal["spay_neuter_date"] = $date;
-        }
-        else if(stripos($check, "rabie") !== false){
-            $animal["rabies_given_date"] = $date;
-            $animal["rabies_due_date"] = date('Y-m-d', strtotime($date."+".$dur." years"));
-        }
-        else if(stripos($check, "heartworm") !== false){
-            $animal["heartworm_given_date"] = $date;
-            $animal["heartworm_due_date"] = date('Y-m-d', strtotime($date."+".$dur." years"));
-        }
-        else if(stripos($check, "distemper 1") !== false){
-            $animal["distemper1_given_date"] = $date;
-            $animal["distemper1_due_date"] = date('Y-m-d', strtotime($date."+".$dur." years"));
-        }
-        else if(stripos($check, "distemper 2") !== false){
-            $animal["distemper2_given_date"] = $date;
-            $animal["distemper2_due_date"] = date('Y-m-d', strtotime($date."+".$dur." years"));
-        }
-        else if(stripos($check, "distemper 3") !== false){
-            $animal["distemper3_given_date"] = $date;
-            $animal["distemper3_due_date"] = date('Y-m-d', strtotime($date."+".$dur." years"));
-        }
-        else if(stripos($check, "microchip") !== false){
-            $animal["microchip_done"] = "yes";
-        }
-        else{
-            $animal["notes"] = $animal["notes"]." | ".$check.": ".$date;
-        }
-    
-    }
 //    var_dump($event);
-    $result = update_animal2($animal);
-    $result = update_event2($event["id"], $event);
-    return $result;
-}
 
 function update_animal2($animal) {
     $connection = connect();

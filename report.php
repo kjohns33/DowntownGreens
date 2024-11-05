@@ -24,8 +24,6 @@
     include_once('database/dbinfo.php'); 
     $con=connect();  
     // Get all the animals from animal table
-    $sql = "SELECT * FROM `dbAnimals`";
-    $all_animals = mysqli_query($con,$sql); 
 ?>
 <!DOCTYPE html>
 <html>

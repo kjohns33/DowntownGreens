@@ -202,10 +202,6 @@
             <div id="complete-confirmation">
                 <p>Are you sure you want to complete this appointment?</p>
                 <p>This action cannot be undone.</p>
-                <form method="post" action="completeEvent.php">
-                    <input type="submit" value="Complete Appointment">
-                    <input type="hidden" name="id" value="<?= $id ?>">
-                </form>
                 <button id="complete-cancel">Cancel</button>
             </div>
         </div>

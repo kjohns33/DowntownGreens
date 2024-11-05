@@ -2,7 +2,6 @@
 
 require_once('database/dbinfo.php');
 include_once(dirname(__FILE__).'/../domain/Event.php');
-include_once(dirname(__FILE__).'/../domain/Animal.php');
 date_default_timezone_set("America/New_York");
 
 function get_user_messages($userID) {
