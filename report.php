@@ -1,4 +1,4 @@
-<?php 
+<?php /*
   session_cache_expire(30);
   session_start();
   ini_set("display_errors",1);
@@ -26,6 +26,7 @@
     // Get all the animals from animal table
     $sql = "SELECT * FROM `dbAnimals`";
     $all_animals = mysqli_query($con,$sql); 
+    */ //COMMENT OUT TIL WE DO BACK END//
 ?>
 <!DOCTYPE html>
 <html>
