@@ -1,4 +1,4 @@
-<?php 
+<?php /*
   session_cache_expire(30);
   session_start();
   ini_set("display_errors",1);
@@ -21,9 +21,12 @@
   }
     // get animal data from database for form
     // Connect to database
-    include_once('database/dbinfo.php'); 
-    $con=connect();  
+    include_once('database/dbinfo.php');
+    $con=connect();
     // Get all the animals from animal table
+    $sql = "SELECT * FROM `dbAnimals`";
+    $all_animals = mysqli_query($con,$sql);
+    */ //COMMENT OUT TIL WE DO BACK END//
 ?>
 <!DOCTYPE html>
 <html>
@@ -77,7 +80,7 @@
 		$name = $args['name'];
         }
 	    ?>
-        
+
 	<h2>Generate Report</h2>
 	<br>
 
@@ -85,8 +88,8 @@
     <div>
         <label for="name">Select Animal For Report</label>
         <select for="name" id="animal" name="animal" required>
-            <?php 
-                while ($animal = mysqli_fetch_array($all_animals, MYSQLI_ASSOC)):; 
+            <?php
+                while ($animal = mysqli_fetch_array($all_animals, MYSQLI_ASSOC)):;
             ?>
             <option value="<?php echo $animal['name'];?>">
                 <?php echo $animal['name'];?>
