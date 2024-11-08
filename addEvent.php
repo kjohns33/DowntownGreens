@@ -41,7 +41,8 @@
                 die();
             }
             $id = create_event($args);
-            if(!$id){
+            $id2 = add_link($args);
+            if(!$id && !$id2){
                 echo "Oopsie!";
                 die();
             }
@@ -66,18 +67,6 @@
             die();
         }
     }
-
-    // get animal data from database for form
-    // Connect to database
-    include_once('database/dbinfo.php'); 
-    $con=connect();  
-    // Get all the animals from animal table
-    $sql = "SELECT * FROM `dbAnimals`";
-    //$all_animals = mysqli_query($con,$sql);
-    $sql = "SELECT * FROM `dbLocations`";
-    //$all_locations = mysqli_query($con,$sql);
-    $sql = "SELECT * FROM `dbServices`";
-    //$all_services = mysqli_query($con,$sql);
 
 ?>
 <!DOCTYPE html>
@@ -119,10 +108,68 @@
                 <input type="text" id="amount" name="amount" placeholder="Enter amount">
                 <div id="dynField-container"  style="margin-top:.5rem;"></div>
                 <script src= "js/dynField.js"></script>
-                <add-link type="button" style="background-color:#aaa" onclick="addField()">Add Field</add-link>
-                <div id="link-container" style="margin-top:.5rem;"></div>
-                <script src= "js/link.js"></script>
-                <add-link type="button" style="background-color:#aaa" onclick="addLink()">Add Link</add-link>
+                
+                <fieldset>
+                    <div id="children-container"></div>
+                    <button type="button" onclick="addChildForm()">Add Link</button>
+                </fieldset>
+
+                <script>
+                    let childCount = 0;
+                    const children = [];
+
+                    function addChildForm() {
+                        childCount++;
+                        const container = document.getElementById('children-container');
+                        
+                        const childDiv = document.createElement('div');
+                        childDiv.className = 'child-form';
+                        childDiv.id = `child-form-${childCount}`;
+                        
+                        childDiv.innerHTML = `
+                            <label>Link ${children.length + 1}</label>
+
+                            <label for="link_name">Name</label>
+                            <input type="text" id="link_name" name="link_name" required placeholder="Enter link name">
+
+                            <label for="link_data">Link</label>
+                            <input type="text" id="link_data" name="link_data" required placeholder="Enter link data">
+
+                            <button type="button" onclick="removeChildForm(${childCount})">Remove Link</button>
+
+                            <hr>
+                        `;
+                        
+                        container.appendChild(childDiv);
+                        children.push(childDiv);
+                        renumberChildren();
+                    }
+
+                    function removeChildForm(childId) {
+                        // Find the child div to remove
+                        const childDiv = document.getElementById(`child-form-${childId}`);
+                        if (childDiv) {
+                            childDiv.remove();  // Remove the specific child form
+
+                            // Remove the corresponding child element from the array
+                            const index = children.findIndex(child => child.id === `child-form-${childId}`);
+                            if (index > -1) {
+                                children.splice(index, 1);
+                            }
+                            
+                            // Renumber the children after removal
+                            renumberChildren();
+                        }
+                    }
+
+                    function renumberChildren() {
+                        // Iterate over each child form and update the displayed child number
+                        children.forEach((child, index) => {
+                            const childHeader = child.querySelector('h4');
+                            childHeader.textContent = `Child ${index + 1}`;
+                        });
+                    }
+                </script>
                 
                 <p></p>
                 <input type="submit" value="Add Grant">

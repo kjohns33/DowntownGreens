@@ -77,7 +77,6 @@
             <div class="error-toast">The root user profile cannot be modified</div></main></body>
             <?php die() ?>
         <?php elseif (isset($_GET['id']) && $_GET['id'] != $_SESSION['_id']): ?>
-            <!-- <a class="button" href="modifyUserRole.php?id=<?php echo htmlspecialchars($_GET['id']) ?>">Modify User Access</a> -->
         <?php endif ?>
     <?php endif ?>
     <form class="signup-form" method="post">
@@ -323,10 +322,6 @@
         </fieldset>
         <input type="hidden" name="id" value="<?php echo $id; ?>">
         <input type="submit" name="profile-edit-form" value="Update Profile">
-        <?php if ($editingSelf): ?>
-            <a class="button cancel" href="viewProfile.php" style="margin-top: -.5rem">Cancel</a>
-        <?php else: ?>
-            <a class="button cancel" href="viewProfile.php?id=<?php echo htmlspecialchars($_GET['id']) ?>" style="margin-top: -.5rem">Cancel</a>
         <?php endif ?>
     </form>
 </main>

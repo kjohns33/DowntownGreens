@@ -39,10 +39,6 @@
 		rel="popover" data-img="tutorial/screenshots/editpersonstep1.png"
 		border="1px" align="middle"> </a>
 </p>
-<p>
-	To see more information on searching, <a
-		href="?helpPage=rmhp-homebase/personSearch.php">click here</a>.
-</p>
 
 <p>
 	<strong>Step 2:</strong> After finding that person, <strong> click on </strong>
