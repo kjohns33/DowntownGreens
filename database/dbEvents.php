@@ -22,6 +22,8 @@
 
 include_once('dbinfo.php');
 include_once(dirname(__FILE__).'/../domain/Event.php');
+require_once(dirname(__FILE__).'/../domain/Grant.php');
+require_once(dirname(__FILE__).'/../domain/Link.php');
 
 /*
  * add an event to dbEvents table: if already there, return false
@@ -48,6 +50,16 @@ function add_event($event) {
     }
     mysqli_close($con);
     return false;
+}
+
+function make_a_link($result_row){
+    $link = new Link (
+        //$result_row['id'],
+        null,
+        $result_row['link_name'],
+        $result_row['link_data'],
+    );
+    return $link;
 }
 
 /*
@@ -176,17 +188,36 @@ function fetch_event_by_id($id) {
     mysqli_close($connection);
     return null;
 }
+function make_grant($result_row){
+    $event = new Grant(
+        null,
+        $result_row['name'],
+        $result_row['open_date'],
+        $result_row['due_date'],
+        $result_row['description'],
+        $result_row['completed'],
+        $result_row['type'],
+        $result_row['partners'],
+        $result_row['amount'],
+        null
+    );
 
-function create_event($event) {
+    return $event;
+}
+
+function create_event($grant) {
+    if(!$grant instanceOf Grant){
+        die("type mismatch -- add grant");
+    }
     $connection = connect();
-    $name = $event["name"];
-    $opendate = $event["open_date"];
-    $duedate = $event["due_date"];
-    $description = $event["description"];
-    $completed = $event["completed"];
-    $type = $event["type"];
-    $partners = $event["partners"];
-    $amount = $event["amount"];
+    $name = $grant->getName();
+    $opendate = $grant->getOpenDate();
+    $duedate = $grant->getDueDate();
+    $description = $grant->getDescription();
+    $completed = $grant->getCompleted();
+    $type = $grant->getType();
+    $partners = $grant->getPartners();
+    $amount = $grant->getAmount();
     $archived = "no";
     $query = "insert into dbevents (name, open_date, due_date, description, completed, type, partners, amount, archived)
     values ('$name', '$opendate', '$duedate', '$description', '$completed', '$type', '$partners', '$amount', '$archived')";
@@ -200,7 +231,7 @@ function create_event($event) {
 
 function get_grant_id($event){
     $connection = connect();
-    $name = $event["name"];
+    $name = $event->getName();
     $query = "select id from dbevents where name = '$name'";
     $result = $connection->query($query);
     $row = mysqli_fetch_array($result);
@@ -209,22 +240,28 @@ function get_grant_id($event){
     return $row[0];
 }
 
-function add_link($event) {
+function add_link($link, $grant_id, $count) {
     $connection = connect();
-    $grant_id = get_grant_id($event);
-    $name = $event["link_name"];
-    $data = $event["link_data"];
-    $query = "insert into dblinks (grant_id, name, link) values ('$grant_id', '$name', '$data')";
+    
+    // Get values and ensure they're safe for the query
+    $name = $link->getName();
+    $data = $link->getURL();
+
+    // Insert query
+    $query = "insert into dbLinks (name, link, grant_id) VALUES ('$name[$count]', '$data[$count]', '$grant_id')";
     $result = mysqli_query($connection, $query);
+    
     if (!$result) {
+        // Log or display detailed error
+        echo "Error: " . mysqli_error($connection);
+        mysqli_close($connection);
         return null;
     }
+    
     $id = mysqli_insert_id($connection);
-    mysqli_commit($connection);
     mysqli_close($connection);
+    
     return $id;
-
-
 }
 
 function add_services_to_event($eventID, $serviceIDs) {
