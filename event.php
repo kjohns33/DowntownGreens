@@ -202,10 +202,12 @@
             <div id="complete-confirmation">
                 <p>Are you sure you want to complete this grant?</p>
                 <p>This action cannot be undone.</p>
+
                 <form method="post" action="completeEvent.php">
                     <input type="submit" value="Complete Grant">
                     <input type="hidden" name="id" value="<?= $id ?>">
                 </form>
+
                 <button id="complete-cancel">Cancel</button>
             </div>
         </div>

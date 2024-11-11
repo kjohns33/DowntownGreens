@@ -20,36 +20,9 @@
  */
 
 
-include_once('dbinfo.php');
-include_once(dirname(__FILE__).'/../domain/Event.php');
-include_once(dirname(__FILE__).'/../domain/Animal.php');
-
 /*
  * add an event to dbEvents table: if already there, return false
  */
-
-function add_Animal($animal) {
-    if (!$animal instanceof Animal)
-        die("Error: add_event type mismatch");
-    $con=connect();
-    $query = "SELECT * FROM dbAnimals WHERE id = '" . $animal->get_id() . "'";
-    $result = mysqli_query($con,$query);
-    //if there's no entry for this id, add it
-    if ($result == null || mysqli_num_rows($result) == 0) {
-        mysqli_query($con,'INSERT INTO dbEvents VALUES("' .
-                $event->get_id() . '","' .
-                $event->get_event_date() . '","' .
-                $event->get_venue() . '","' .
-                $event->get_event_name() . '","' . 
-                $event->get_description() . '","' .
-                $event->get_event_id() .            
-                '");');							
-        mysqli_close($con);
-        return true;
-    }
-    mysqli_close($con);
-    return false;
-}
 
 /*
  * remove an event from dbEvents table.  If already there, return false
@@ -99,36 +72,8 @@ function update_event_date($id, $new_event_date) {
 	return $result;
 }
 
-function make_an_event($result_row) {
-	/*
-	 ($en, $v, $sd, $description, $ev))
-	 */
-    $theEvent = new Event(
-                    $result_row['event_name'],
-                    $result_row['venue'],                   
-                    $result_row['event_date'],
-                    $result_row['description'],
-                    $result_row['event_id']);  
-    return $theEvent;
-}
-
 
 // retrieve only those events that match the criteria given in the arguments
-function getonlythose_dbEvents($name, $day, $venue) {
-   $con=connect();
-   $query = "SELECT * FROM dbEvents WHERE event_name LIKE '%" . $event_name . "%'" .
-           " AND event_name LIKE '%" . $name . "%'" .
-           " AND venue = '" . $venue . "'" . 
-           " ORDER BY event_name";
-   $result = mysqli_query($con,$query);
-   $theEvents = array();
-   while ($result_row = mysqli_fetch_assoc($result)) {
-       $theEvent = make_an_event($result_row);
-       $theEvents[] = $theEvent;
-   }
-   mysqli_close($con);
-   return $theEvents;
-}
 
 function fetch_events_in_date_range($start_date, $end_date) {
     $connection = connect();

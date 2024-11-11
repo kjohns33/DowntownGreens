@@ -40,8 +40,6 @@
             <?php elseif (isset($_GET['animalRemoved'])): ?>
                 <div class="happy-toast">Animal successfully removed!</div>
             <?php elseif (isset($_GET['locationAdded'])): ?>
-                <div class="happy-toast">Location successfully added!</div>
-            <?php elseif (isset($_GET['deleteLocation'])): ?>
                 <div class="happy-toast">Location successfully removed!</div>
             <?php elseif (isset($_GET['registerSuccess'])): ?>
                 <div class="happy-toast">Volunteer registered successfully!</div>
@@ -97,22 +95,6 @@
                     <div class="dashboard-item" data-link="report.php">
                         <img src="images/report.svg">
                         <span>Create Report</span>
-                    </div>
-                <?php endif ?>
-                <?php if ($notRoot) : ?>
-                    <div class="dashboard-item" data-link="viewProfile.php">
-                        <img src="images/view-profile.svg">
-                        <span>View Profile</span>
-                    </div>
-                    <div class="dashboard-item" data-link="editProfile.php">
-                        <img src="images/manage-account.svg">
-                        <span>Edit Profile</span>
-                    </div>
-                <?php endif ?>
-                <?php if ($notRoot) : ?>
-                    <div class="dashboard-item" data-link="volunteerReport.php">
-                        <img src="images/volunteer-history.svg">
-                        <span>View My Hours</span>
                     </div>
                 <?php endif ?>
                 <div class="dashboard-item" data-link="changePassword.php">

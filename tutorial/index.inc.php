@@ -31,8 +31,6 @@ session_cache_expire(30);
 			Only)</li>
 		<br>
 		<ul>
-			<li><a href="?helpPage=rmhc-homebase/personSearch.php">Searching for People (and
-					Phone Numbers)</a></li>
 			<li><a href="?helpPage=rmhc-homebase/personEdit.php">Editing People</a></li>
 			<li><a href="?helpPage=rmhc-homebase/personAdd.php">Adding People </a></li>
 		</ul>

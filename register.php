@@ -244,8 +244,6 @@
                     echo '<script>document.location = "login.php?registerSuccess";</script>';
                 }
             }
-        } else {
-            require_once('registrationForm.php'); 
         }
     ?>
 </body>
