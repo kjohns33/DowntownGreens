@@ -79,6 +79,7 @@ table {
 td {
     padding: 0.25rem;
     white-space: nowrap;
+    
 }
 
 th {
@@ -94,6 +95,7 @@ td:first-of-type {
 
 td.label {
     font-weight: 500;
+    
 }
 
 .empty-slot, .inactive {
