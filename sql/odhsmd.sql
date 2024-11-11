@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Oct 23, 2024 at 04:34 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: 127.0.0.1
+-- Generation Time: Nov 11, 2024 at 03:55 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `odhsmd`
 --
-CREATE DATABASE IF NOT EXISTS `odhsmd` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `odhsmd`;
 
 -- --------------------------------------------------------
 
@@ -29,117 +27,56 @@ USE `odhsmd`;
 -- Table structure for table `dbevents`
 --
 
-DROP TABLE IF EXISTS `dbevents`;
-CREATE TABLE IF NOT EXISTS `dbevents` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `dbevents` (
+  `id` int(11) NOT NULL,
   `name` text NOT NULL,
   `open_date` date NOT NULL,
   `description` text NOT NULL,
   `completed` text NOT NULL,
   `due_date` date DEFAULT NULL,
-  `type` text,
-  `partners` text,
-  `amount` text,
-  `archived` varchar(3) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `type` text DEFAULT NULL,
+  `partners` text DEFAULT NULL,
+  `amount` text DEFAULT NULL,
+  `archived` varchar(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- RELATIONSHIPS FOR TABLE `dbevents`:
---
-
---
--- Truncate table before insert `dbevents`
---
-
-TRUNCATE TABLE `dbevents`;
 --
 -- Dumping data for table `dbevents`
 --
 
-INSERT INTO `dbevents` (`id`, `name`, `open_date`, `description`, `completed`, `due_date`) VALUES
-(9, 'test', '2025-01-01', 'test', 'incomplete', '2025-01-02'),
-(11, 'Test 2', '2024-10-22', 'c', 'incomplete', '2024-10-25'),
-(12, 'Test 3', '2024-10-26', 'testing', 'incomplete', '2024-10-31'),
-(13, 'Test 4', '2024-10-29', 'Test 4', 'incomplete', '2024-12-31'),
-(14, 'Test 5', '2025-01-01', 'Test 5', 'incomplete', '2025-01-31'),
-(15, 'Test 6', '2024-11-05', 'Test 6', 'incomplete', '2024-11-30'),
-(16, 'Test 7', '2024-10-22', 'Test 7', 'incomplete', '2024-10-25'),
-(17, 'Test 8', '2024-10-24', 'Test 8', 'complete', '2024-10-31');
+INSERT INTO `dbevents` (`id`, `name`, `open_date`, `description`, `completed`, `due_date`, `type`, `partners`, `amount`, `archived`) VALUES
+(9, 'test', '2025-01-01', 'test', 'incomplete', '2025-01-02', NULL, NULL, NULL, ''),
+(11, 'Test 2', '2024-10-22', 'c', 'incomplete', '2024-10-25', NULL, NULL, NULL, ''),
+(12, 'Test 3', '2024-10-26', 'testing', 'incomplete', '2024-10-31', NULL, NULL, NULL, ''),
+(13, 'Test 4', '2024-10-29', 'Test 4', 'incomplete', '2024-12-31', NULL, NULL, NULL, ''),
+(14, 'Test 5', '2025-01-01', 'Test 5', 'incomplete', '2025-01-31', NULL, NULL, NULL, ''),
+(15, 'Test 6', '2024-11-05', 'Test 6', 'incomplete', '2024-11-30', NULL, NULL, NULL, ''),
+(16, 'Test 7', '2024-10-22', 'Test 7', 'incomplete', '2024-10-25', NULL, NULL, NULL, ''),
+(17, 'Test 8', '2024-10-24', 'Test 8', 'complete', '2024-10-31', NULL, NULL, NULL, ''),
+(18, 'Grant test', '2024-11-21', 'A test grant for the demo', 'incomplete', '2024-11-22', 'test', '', '100', 'no');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `dbgrantlinks`
---
-
-DROP TABLE IF EXISTS `dbgrantlinks`;
-CREATE TABLE IF NOT EXISTS `dbgrantlinks` (
-  `grant_id` int(11) NOT NULL,
-  `link_id` int(10) NOT NULL,
-  KEY `fk_grant_id` (`grant_id`),
-  KEY `fk_link_id` (`link_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- RELATIONSHIPS FOR TABLE `dbgrantlinks`:
---   `grant_id`
---       `dbevents` -> `id`
---   `link_id`
---       `dblinks` -> `id`
---
-
---
--- Truncate table before insert `dbgrantlinks`
---
-
-TRUNCATE TABLE `dbgrantlinks`;
--- --------------------------------------------------------
-
---
--- Table structure for table `dblinks`
---
-
-DROP TABLE IF EXISTS `dblinks`;
-CREATE TABLE IF NOT EXISTS `dblinks` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `link` varchar(500) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- RELATIONSHIPS FOR TABLE `dblinks`:
---
-
---
--- Truncate table before insert `dblinks`
---
-
-TRUNCATE TABLE `dblinks`;
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `dbfields`
 --
 
-DROP TABLE IF EXISTS `dbfields`;
-CREATE TABLE IF NOT EXISTS `dbfields` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `dbfields` (
+  `id` int(10) NOT NULL,
   `name` text NOT NULL,
-  `data` text NOT NULL,
-  PRIMARY KEY (`id`)
+  `data` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- RELATIONSHIPS FOR TABLE `dblinks`:
---
-
---
--- Truncate table before insert `dblinks`
---
-
-TRUNCATE TABLE `dbfields`;
 -- --------------------------------------------------------
+
+--
+-- Table structure for table `dbgrantfields`
+--
+
+CREATE TABLE `dbgrantfields` (
+  `grant_id` int(11) NOT NULL,
+  `field_id` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -147,54 +84,48 @@ TRUNCATE TABLE `dbfields`;
 -- Table structure for table `dbgrantlinks`
 --
 
-DROP TABLE IF EXISTS `dbgrantfields`;
-CREATE TABLE IF NOT EXISTS `dbgrantfields` (
+CREATE TABLE `dbgrantlinks` (
   `grant_id` int(11) NOT NULL,
-  `field_id` int(10) NOT NULL,
-  KEY `fk_grant_id` (`grant_id`),
-  KEY `fk_field_id` (`field_id`)
+  `link_id` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dblinks`
+--
+
+CREATE TABLE `dblinks` (
+  `id` int(10) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `link` varchar(500) NOT NULL,
+  `grant_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- RELATIONSHIPS FOR TABLE `dbgrantlinks`:
---   `grant_id`
---       `dbevents` -> `id`
---   `link_id`
---       `dblinks` -> `id`
+-- Dumping data for table `dblinks`
 --
 
---
--- Truncate table before insert `dbgrantlinks`
---
+INSERT INTO `dblinks` (`id`, `name`, `link`, `grant_id`) VALUES
+(1, 'Test link', 'www.umw.edu', 18);
 
-TRUNCATE TABLE `dbgrantlinks`;
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `dbmessages`
 --
 
-DROP TABLE IF EXISTS `dbmessages`;
-CREATE TABLE IF NOT EXISTS `dbmessages` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `dbmessages` (
+  `id` int(11) NOT NULL,
   `senderID` varchar(256) NOT NULL,
   `recipientID` varchar(256) NOT NULL,
   `title` varchar(256) NOT NULL,
   `body` text NOT NULL,
   `time` varchar(16) NOT NULL,
   `wasRead` tinyint(1) NOT NULL DEFAULT 0,
-  `prioritylevel` tinyint(5) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3202 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `prioritylevel` tinyint(5) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- RELATIONSHIPS FOR TABLE `dbmessages`:
---
-
---
--- Truncate table before insert `dbmessages`
---
-
-TRUNCATE TABLE `dbmessages`;
 --
 -- Dumping data for table `dbmessages`
 --
@@ -3409,7 +3340,14 @@ INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `tim
 (3198, 'vmsroot', 'oliver@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 8](event: 17) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:51', 0, 0),
 (3199, 'vmsroot', 'peter@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 8](event: 17) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:51', 0, 0),
 (3200, 'vmsroot', 'polack@um.edu', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 8](event: 17) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:51', 0, 0),
-(3201, 'vmsroot', 'tom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 8](event: 17) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:51', 0, 0);
+(3201, 'vmsroot', 'tom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Test 8](event: 17) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-10-21-17:51', 0, 0),
+(3202, 'vmsroot', 'brianna@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Grant test](event: 18) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-11-11-09:34', 0, 0),
+(3203, 'vmsroot', 'bum@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Grant test](event: 18) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-11-11-09:34', 0, 0),
+(3204, 'vmsroot', 'mom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Grant test](event: 18) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-11-11-09:34', 0, 0),
+(3205, 'vmsroot', 'oliver@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Grant test](event: 18) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-11-11-09:34', 0, 0),
+(3206, 'vmsroot', 'peter@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Grant test](event: 18) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-11-11-09:34', 0, 0),
+(3207, 'vmsroot', 'polack@um.edu', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Grant test](event: 18) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-11-11-09:34', 0, 0),
+(3208, 'vmsroot', 'tom@gmail.com', 'A new event was created!', 'Exciting news!\r\n\r\nThe [Grant test](event: 18) event at  on Thursday, January 1, 1970 was added!\r\nSign up today!', '2024-11-11-09:34', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -3417,8 +3355,7 @@ INSERT INTO `dbmessages` (`id`, `senderID`, `recipientID`, `title`, `body`, `tim
 -- Table structure for table `dbpersons`
 --
 
-DROP TABLE IF EXISTS `dbpersons`;
-CREATE TABLE IF NOT EXISTS `dbpersons` (
+CREATE TABLE `dbpersons` (
   `id` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `start_date` text DEFAULT NULL,
   `venue` text DEFAULT NULL,
@@ -3462,19 +3399,9 @@ CREATE TABLE IF NOT EXISTS `dbpersons` (
   `saturdays_end` char(5) DEFAULT NULL,
   `profile_pic` text NOT NULL,
   `force_password_change` tinyint(1) NOT NULL,
-  `gender` varchar(6) NOT NULL,
-  PRIMARY KEY (`id`)
+  `gender` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
---
--- RELATIONSHIPS FOR TABLE `dbpersons`:
---
-
---
--- Truncate table before insert `dbpersons`
---
-
-TRUNCATE TABLE `dbpersons`;
 --
 -- Dumping data for table `dbpersons`
 --
@@ -3488,6 +3415,82 @@ INSERT INTO `dbpersons` (`id`, `start_date`, `venue`, `first_name`, `last_name`,
 ('polack@um.edu', '2024-01-22', 'portland', 'Jennifer', 'Polack', '15 Wallace Farms Lane', 'Fredericksburg', 'VA', '22406', '1234567890', 'cellphone', '', '', '1970-05-01', 'polack@um.edu', 'Mom', '1234567890', 'Mom', 'Days', 'email', 'admin', 'Active', '', '', '', '', '$2y$10$mp18j4WqhlQo7MTeS/9kt.i08n7nbt0YMuRoAxtAy52BlinqPUE4C', '00:00', '12:00', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, 'Female'),
 ('tom@gmail.com', '2024-01-22', 'portland', 'tom', 'tom', '1345 Strattford St.', 'Mineola', 'NY', '12345', '1234567890', 'home', '', '', '1920-02-02', 'tom@gmail.com', 'Dad', '9876543210', 'Father', 'Mornings', 'phone', 'admin', 'Active', '', '', '', '', '$2y$10$1Zcj7n/prdkNxZjxTK1zUOF7391byZvsXkJcN8S8aZL57sz/OfxP.', '11:00', '17:00', '', '', '11:00', '14:00', '', '', '09:00', '14:00', '', '', '', '', '', 0, 'Male'),
 ('vmsroot', 'N/A', 'portland', 'vmsroot', '', 'N/A', 'N/A', 'VA', 'N/A', '', 'N/A', 'N/A', 'N/A', 'N/A', 'vmsroot', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '$2y$10$.3p8xvmUqmxNztEzMJQRBesLDwdiRU3xnt/HOcJtsglwsbUk88VTO', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `dbevents`
+--
+ALTER TABLE `dbevents`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dbfields`
+--
+ALTER TABLE `dbfields`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dbgrantfields`
+--
+ALTER TABLE `dbgrantfields`
+  ADD KEY `fk_grant_id` (`grant_id`),
+  ADD KEY `fk_field_id` (`field_id`);
+
+--
+-- Indexes for table `dbgrantlinks`
+--
+ALTER TABLE `dbgrantlinks`
+  ADD KEY `fk_grant_id` (`grant_id`),
+  ADD KEY `fk_link_id` (`link_id`);
+
+--
+-- Indexes for table `dblinks`
+--
+ALTER TABLE `dblinks`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dbmessages`
+--
+ALTER TABLE `dbmessages`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dbpersons`
+--
+ALTER TABLE `dbpersons`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `dbevents`
+--
+ALTER TABLE `dbevents`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `dbfields`
+--
+ALTER TABLE `dbfields`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `dblinks`
+--
+ALTER TABLE `dblinks`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `dbmessages`
+--
+ALTER TABLE `dbmessages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3209;
 
 --
 -- Constraints for dumped tables
