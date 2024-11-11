@@ -55,8 +55,8 @@
             ?>
             <p class="sender-time-line"><span><label>From </label><?php echo get_name_from_id($message['senderID']) ?></span>
             <span><label>Received </label><?php 
-                    $unpackedTimestamp = unpackMessageTimestamp($message['time']);
-                    echo $unpackedTimestamp[0] . ' at ' . $unpackedTimestamp[1];
+                    $time = $message['time'];
+                    echo $time;
                 ?></span>
             </p>
             <div class="message-body">

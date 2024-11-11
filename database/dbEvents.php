@@ -22,6 +22,7 @@
 
 include_once('dbinfo.php');
 include_once(dirname(__FILE__).'/../domain/Event.php');
+include_once('dbMessages.php');
 
 /*
  * add an event to dbEvents table: if already there, return false
@@ -146,7 +147,7 @@ function fetch_events_on_date($date) {
     $connection = connect();
     $date = mysqli_real_escape_string($connection, $date);
     $query = "select * from dbEvents
-              where date = '$date' order by startTime asc";
+              where open_date = '$date'";
     $results = mysqli_query($connection, $query);
     if (!$results) {
         mysqli_close($connection);
@@ -431,6 +432,7 @@ function detach_media($mediaID) {
 }
 
 function delete_event($id) {
+    delete_message_of_grantID($id);
     $query = "delete from dbEvents where id='$id'";
     $connection = connect();
     $result = mysqli_query($connection, $query);

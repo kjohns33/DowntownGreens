@@ -184,9 +184,9 @@ nav {
 @media only screen and (max-width: 1079px) {
     nav {
         flex-direction: column; 
-       background-color: var(--page-background-color);
- border-bottom: 2px solid var(--shadow-and-border-color);
-176     max-width: 100vw;
+        background-color: var(--page-background-color);
+        border-bottom: 2px solid var(--shadow-and-border-color);
+        max-width: 100vw;
     }
 
     nav ul {
@@ -269,6 +269,10 @@ input[type=submit], button, .button {
     transition: background-color .3s;
     cursor: pointer;
     text-align: center;
+}
+
+.buttoncreatenotif {
+    width: 25%;
 }
 
 input[type=submit]:hover, button:hover, .button:hover, link-tag:hover {
