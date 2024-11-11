@@ -1,4 +1,4 @@
-<?php /*
+<?php 
   session_cache_expire(30);
   session_start();
   ini_set("display_errors",1);
@@ -19,6 +19,7 @@
     header('Location: index.php');
     die();
   }
+  /*
     // get animal data from database for form
     // Connect to database
     include_once('database/dbinfo.php');
