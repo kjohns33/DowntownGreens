@@ -811,6 +811,7 @@ table.event {
 
 /* Event Search Page */
 main.search-form {
+	color: white;
     gap: 1rem;
     margin-bottom: 4rem;
     display: flex;
