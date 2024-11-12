@@ -88,80 +88,72 @@ if (isset($_GET['date'])) {
         input::placeholder {
             color: white;
         }
-    </style>
-</head>
+        </style>
+    </head>
+    <body>
+        <?php require_once('header.php') ?>
+        <h1>Add Grant</h1>
+        <main class="date">
+            <h2>Add Grant Form</h2>
+            <form id="new-event-form" method="post">
+                <label for="name">* Grant Name </label>
+                <input type="text" id="name" name="name" required placeholder="Enter name"> 
+                <label for="name">* Open Date </label>
+                <input type="date" id="open_date" name="open_date" style="color:white;" <?php if ($date) echo 'value="' . $date . '"'; ?> min="<?php echo date('Y-m-d'); ?>" required>
+                <label for="name">* Due Date </label>
+                <input type="date" id="due_date" name="due_date" style="color:white;"<?php if ($date) echo 'value="' . $date . '"'; ?> min="<?php echo date('Y-m-d'); ?>" required>
+                <label for="name">* Description </label>
+                <input type="text" id="description" name="description" required placeholder="Enter description">
+                <label for="name" >* Status </label>
+                <select id="completed" name="completed" style="color:white;">
+                    <option value="incomplete" >Incomplete</option>
+                    <option value="complete">Complete!</option>
+                    <option value="funded">Funding Awarded</option>
+                    <option value="not_funded">Funding Failed</option>
+                </select>
+                <label for="name"> Grant Type </label>
+                <input type="text" id="type" name="type" placeholder="Enter grant type">
+                <label for="name"> Partners </label>
+                <input type="text" id="partners" name="partners" placeholder="Enter partners">
+                <label for="name"> Grant Amount </label>
+                <input type="text" id="amount" name="amount" placeholder="Enter amount">
+                <div id="dynField-container"  style="margin-top:.5rem;"></div>
+                <script src= "js/dynField.js"></script>
+                
+                <fieldset>
+                    <div id="children-container"></div>
+                    <add-link type="button" onclick="addChildForm()">Add Link</add-link>
+                </fieldset>
 
-<body>
-    <?php require_once('header.php') ?>
-    <h1>Add Grant</h1>
-    <main class="date">
-        <h2>Add Grant Form</h2>
-        <form id="new-event-form" method="post">
-            <label for="name">* Grant Name </label>
-            <input type="text" id="name" name="name" required placeholder="Enter name">
-            <label for="name">* Open Date </label>
-            <input type="date" id="open_date" name="open_date" style="color:white;" <?php if ($date) echo 'value="' . $date . '"'; ?> min="<?php echo date('Y-m-d'); ?>" required>
-            <label for="name">* Due Date </label>
-            <input type="date" id="due_date" name="due_date" style="color:white;" <?php if ($date) echo 'value="' . $date . '"'; ?> min="<?php echo date('Y-m-d'); ?>" required>
-            <label for="name">* Description </label>
-            <input type="text" id="description" name="description" required placeholder="Enter description">
-            <label for="name">* Status </label>
-            <select id="completed" name="completed" style="color:white;">
-                <option value="incomplete">Incomplete</option>
-                <option value="complete">Complete!</option>
-                <option value="funded">Funding Awarded</option>
-                <option value="not_funded">Funding Failed</option>
-            </select>
-            <label for="name"> Grant Type </label>
-            <input type="text" id="type" name="type" placeholder="Enter grant type">
-            <label for="name"> Partners </label>
-            <input type="text" id="partners" name="partners" placeholder="Enter partners">
-            <label for="name"> Grant Amount </label>
-            <input type="text" id="amount" name="amount" placeholder="Enter amount">
-            <div id="dynField-container" style="margin-top:.5rem;"></div>
-            <script src="js/dynField.js"></script>
+                <script>
+                    let childCount = 0;
+                    const children = [];
 
-            <fieldset>
-                <div id="children-container"></div>
-                <button type="button" onclick="addChildForm()">Add Link</button>
-            </fieldset>
+                    function addChildForm() {
+                        childCount++;
+                        const container = document.getElementById('children-container');
+                        
+                        const childDiv = document.createElement('div');
+                        childDiv.className = 'child-form';
+                        childDiv.id = `child-form-${childCount}`;
+                        
+                        childDiv.innerHTML = `
+                            <label>Link ${children.length + 1}</label>
 
-            <script>
-                let childCount = 0;
-                const children = [];
+                            <label for="link_name">Name</label>
+                            <input type="text" id="link_name" name="link_name" required placeholder="Enter link name">
 
-                function addChildForm() {
-                    childCount++;
-                    const container = document.getElementById('children-container');
+                            <label for="link_data">Link</label>
+                            <input type="text" id="link_data" name="link_data" required placeholder="Enter link data">
 
-                    const childDiv = document.createElement('div');
-                    childDiv.className = 'child-form';
-                    childDiv.id = `child-form-${childCount}`;
+                            <link-tag type="button" onclick="removeChildForm(${childCount})">Remove Link</link-tag>
 
-                    childDiv.innerHTML = `
-                        <label>Link ${children.length + 1}</label>
-
-                        <label for="link_name">Name</label>
-                        <input type="text" id="link_name" name="link_name[]" required placeholder="Enter link name">
-
-                        <label for="link_data">Link</label>
-                        <input type="text" id="link_data" name="link_data[]" required placeholder="Enter link data">
-
-                        <button type="button" onclick="removeChildForm(${childCount})">Remove Link</button>
-
-                        <hr>
-                    `;
-
-                    // Add hidden input for children
-                    const hiddenChildInput = document.createElement('input');
-                    hiddenChildInput.type = 'hidden';
-                    hiddenChildInput.name = 'children[]';
-                    hiddenChildInput.value = `child-form-${childCount}`; // Store the form id or relevant data
-                    childDiv.appendChild(hiddenChildInput);
-
-                    container.appendChild(childDiv);
-                    children.push(childDiv);
-                    renumberChildren();
+                            <hr>
+                        `;
+                        
+                        container.appendChild(childDiv);
+                        children.push(childDiv);
+                        renumberChildren();
                 }
 
 
