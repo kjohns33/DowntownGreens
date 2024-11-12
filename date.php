@@ -44,7 +44,7 @@
         <?php require_once('header.php') ?>
         <h1>View Day</h1>
         <main class="date">
-            <h2>Events for <?php echo date('l, F j, Y', $timeStamp) ?></h2>
+        <h2>Grants for <?php echo date('l, F j, Y', $timeStamp) ?></h2>
             <!-- Loop -->
             <?php
                 require('database/dbEvents.php');
@@ -53,20 +53,19 @@
                 $events = fetch_events_on_date($date);
                 if ($events) {
                     foreach ($events as $event) {
-                        $animal = get_animal($event["animalID"])[0]["name"];
-                        $location = get_location($event['locationID'])[0]["name"]; 
+                        $grant = fetch_event_by_id($event["id"]);
+                        $name = $event['name'];
                         echo "
                             <table class='event'>
                                 <thead>
                                     <tr>
-                                        <th colspan='2' data-event-id='" . $event['id'] . "'>" . $event['name'] . "</th>
+                                        <th colspan='2' data-event-id='" . $event['id'] . "'>" . $name . "</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td>Animal</td><td>" . $animal . " </td></tr>
-                                    <tr><td>Time</td><td>" . time24hto12h($event['startTime']) . "</td></tr>
-                                    <tr><td>Location</td><td>" . $location . "</td></tr>
-                                    <tr><td>Description</td><td>" . $event['description'] . "</td></tr>
+                                    <tr><td>Grant</td><td>" . $name . " </td></tr>
+                                    <tr><td>Open Date</td><td>" . $event['open_date'] . " </td></tr>
+                                    <tr><td>Due Date</td><td>" . $event['due_date'] . " </td></tr>
                                 </tbody>
                               </table>
                         ";
@@ -74,14 +73,14 @@
                         
                     }
                 } else {
-                    echo '<p class="none-scheduled">There are no events scheduled on this day</p>';
+                    echo '<p class="none-scheduled">There are no grants scheduled on this day</p>';
                 }
             ?>
             <?php
             if ($accessLevel >= 2) {
                 echo '
                     <a class="button" href="addEvent.php?date=' . $date . '">
-                        Create New Event
+                        Add New Grant
                     </a>';
             }
             ?>

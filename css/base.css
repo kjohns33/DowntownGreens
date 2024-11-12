@@ -67,7 +67,7 @@ table, td, tr, th, form, fieldset, em, button, a {
     --accent-color: #5fa44f;
     /*gold*/
     --secondary-accent-color: #d6b543;
-    --special-case-color: #fa7f9a;
+    --special-case-color: #979797;
 
     --calendar-event-color: #808080;
     --calendar-event-color-hover: var(--main-color);
@@ -275,7 +275,7 @@ input[type=submit], button, .button {
     width: 25%;
 }
 
-input[type=submit]:hover, button:hover, .button:hover, link-tag:hover {
+input[type=submit]:hover, button:hover, .button:hover, link-tag:hover, add-link:hover {
     background-color: var(--accent-color);
 }
 
@@ -815,6 +815,7 @@ table.event {
 
 /* Event Search Page */
 main.search-form {
+	color: white;
     gap: 1rem;
     margin-bottom: 4rem;
     display: flex;
