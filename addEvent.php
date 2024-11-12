@@ -111,7 +111,7 @@
                 
                 <fieldset>
                     <div id="children-container"></div>
-                    <button type="button" onclick="addChildForm()">Add Link</button>
+                    <add-link type="button" onclick="addChildForm()">Add Link</add-link>
                 </fieldset>
 
                 <script>
@@ -135,7 +135,7 @@
                             <label for="link_data">Link</label>
                             <input type="text" id="link_data" name="link_data" required placeholder="Enter link data">
 
-                            <button type="button" onclick="removeChildForm(${childCount})">Remove Link</button>
+                            <link-tag type="button" onclick="removeChildForm(${childCount})">Remove Link</link-tag>
 
                             <hr>
                         `;
