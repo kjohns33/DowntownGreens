@@ -158,7 +158,7 @@ function fetch_events_on_date($date) {
     $connection = connect();
     $date = mysqli_real_escape_string($connection, $date);
     $query = "select * from dbEvents
-              where date = '$date' order by startTime asc";
+              where open_date = '$date' or due_date = '$date'";
     $results = mysqli_query($connection, $query);
     if (!$results) {
         mysqli_close($connection);
