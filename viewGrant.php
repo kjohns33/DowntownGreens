@@ -40,10 +40,10 @@
                     <table class="general">
                         <thead>
                             <tr>
-                                <th>Grant Name</th>
-                                <th style="width:1px">Open Date</th>
-                                <th style="width:1px">Due Date</th>
-                                <th style="width:1px">Status</th>
+                                <th><strong>Grant Name</strong></th>
+                                <th style="width:1px"><strong>Open Date</strong></th>
+                                <th style="width:1px"><strong>Due Date</strong></th>
+                                <th style="width:1px"><strong>Status</strong></th>
                             </tr>
                         </thead>
                         <tbody class="standout">
