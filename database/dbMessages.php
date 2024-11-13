@@ -6,8 +6,8 @@ date_default_timezone_set("America/New_York");
 
 function get_user_messages($userID) {
     $query = "select * from dbMessages
-    where recipientID='$userID'
-    order by prioritylevel desc";
+              where recipientID='$userID'
+              order by prioritylevel desc";
     $connection = connect();
     $result = mysqli_query($connection, $query);
     if (!$result) {
@@ -26,8 +26,8 @@ function get_user_messages($userID) {
 }
 
 function get_user_unread_count($userID) {
-    $query = "select count(*) from dbMessages m inner join dbevents e on m.grant_id = e.id
-        where e.archived<>'yes' and recipientID='$userID' and wasRead=0";
+    $query = "select count(*) from dbMessages 
+        where recipientID='$userID' and wasRead=0";
     $connection = connect();
     $result = mysqli_query($connection, $query);
     if (!$result) {
@@ -163,18 +163,17 @@ function message_all_users($from, $title, $body) {
     return true;
 }
 
-function message_all_users_prio($personID, $from, $title, $body, $prio, $grantID, $msgtype, $interval, $sent) {
+function message_all_users_prio($from, $title, $body, $prio) {
     $time = date('Y-m-d-H:i');
-    $query = "select id from dbPersons";
+    $query = "select id from dbPersons where id!='$from'";
     $connection = connect();
     $result = mysqli_query($connection, $query);
     $rows = mysqli_fetch_all($result, MYSQLI_NUM); //get all the users in the database dbPersons
     foreach ($rows as $row) { //for every user in db person, generate a notification
         $to = json_encode($row); //converting the array of users into strings to put into the database of messages
         $to = substr($to,2,-2); //getting rid of the brackets and quotes in the string: ie - ["user"]
-        $query = "insert into dbMessages (person_id, senderID, recipientID, title, body, prioritylevel, grant_id, 
-            message_type, interval_type, sent)
-                  values ('$personID', '$from', '$to', '$title', '$body', '$prio', '$grantID', '$msgtype', '$interval', '$sent')"; //inserting the notification in that users inbox
+        $query = "insert into dbMessages (senderID, recipientID, title, body, time, prioritylevel)
+                  values ('$from', '$to', '$title', '$body', '$time', '$prio')"; //inserting the notification in that users inbox
         $result = mysqli_query($connection, $query); 
     }
     mysqli_close($connection);    
@@ -189,345 +188,102 @@ function delete_message($id) {
     return $result;
 }
 
-function delete_message_of_grantID($id) {
-    $query = "delete from dbMessages where grant_id='$id'";
-    $connection = connect();
-    $result = mysqli_query($connection, $query);
-    $result = boolval($result);
-    mysqli_close($connection);
-    return $result;
-}
-
-function delete_auto_messages_of_grantID_and_type_except_interval($id, $msg_type, $interval) {
-    $query = "delete from dbMessages where grant_id='$id' and interval_type not in ('$interval', 'custom') and message_type='$msg_type'";
-    $connection = connect();
-    $result = mysqli_query($connection, $query);
-    $result = boolval($result);
-    mysqli_close($connection);
-    return $result;
-}
-
-//For if the grant name has been changed
-function update_message_title_and_body($grantID, $msg_type, $interval, $title, $body) {
-    $query = "update dbMessages set title='$title', body='$body' 
-        where grant_id='$grantID' and message_type='$msg_type' and interval_type='$interval'";
-    $connection = connect();
-    $result = mysqli_query($connection, $query);
-    $result = boolval($result);
-    mysqli_close($connection);
-    return $result;
-}
-
-function create_notification($id) {
-    var_dump($id);
-}
-
-function is_corresponding_grant_archived($messageID) {
-    $query = "select count(*) as count from dbMessages m inner join dbevents e on m.grant_id = e.id
-        where m.id = '$messageID' and e.archived<>'yes'
-        order by prioritylevel desc";
-    $connection = connect();
-    $result = mysqli_query($connection, $query);
-    $row = mysqli_fetch_assoc($result);
-    if ($row['count'] == 1) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function get_grant_name_from_messageID($messageID) {
-    $query = "select * from dbMessages m inner join dbevents e on m.grant_id = e.id
-        where m.id = '$messageID'";
-    $connection = connect();
-    $result = mysqli_query($connection, $query);
-    if (mysqli_num_rows($result) < 1) {
-        mysqli_close($connection);
-        return false;
-    }
-    $row = mysqli_fetch_assoc($result);
-    return $row['name'];
-}
-
-function get_grant_id_from_messageID($messageID) {
-    $query = "select e.id as grantID, m.id, m.grant_id from dbMessages m inner join dbevents e on m.grant_id = e.id
-        where m.id = '$messageID'";
-    $connection = connect();
-    $result = mysqli_query($connection, $query);
-    if (mysqli_num_rows($result) < 1) {
-        mysqli_close($connection);
-        return false;
-    }
-    /*foreach ($rows as $row) {
-        $row = mysqli_fetch_assoc($result);
-        $id = $row['id'];
-    }*/
-    $row = mysqli_fetch_assoc($result);
-    return $row['grantID'];
-}
-
 function dateChecker(){
-    $query = "select * from dbEvents";
+    //var_dump(debug_backtrace());
+    $query = "select * from dbPersons";
     $connection = connect();
     $result = mysqli_query($connection, $query);
-    $oneDayAhead = date('Y-m-d', strtotime('+1 day'));
-    $oneWeekAhead = date('Y-m-d', strtotime('+1 week'));
-    $oneMonthAhead = date('Y-m-d', strtotime('+1 month'));
-    $sixMonthsAhead = date('Y-m-d', strtotime('+6 months'));
+    $twoWeeksAhead = date('Y-m-d', strtotime('+2 weeks'));
+    $fivedaysAhead = date('Y-m-d', strtotime('+5 days'));
     $currentDate = date('Y-m-d');
-    if($result){
-        //For each grant, check its open and due dates for sending automatic system messages (1 week, 1 month, and 6 months)
+    /*if($result){
         while($row = mysqli_fetch_assoc($result)){
-            //FROM GRANT DB (dbevents)
+            $rabies_due = $row['rabies_due_date'];
             $name = $row['name'];
-            $open_date = $row['open_date'];
-            $due_date = $row['due_date'];
-            $id = $row['id'];
-
+            $heartworm_due = $row['heartworm_due_date'];
+            $distemper1_due = $row['distemper1_due_date'];
+            $distemper2_due = $row['distemper2_due_date'];
+            $distemper3_due = $row['distemper3_due_date'];
+            //The Logic for Two Weeks Out
+            if($rabies_due >= $currentDate && $rabies_due <= $twoWeeksAhead){
+                $title = $name . " Rabies shot is coming up in two weeks";
+                $body = $name . " Rabies shot is due on " . $rabies_due;
+                message_all_users_prio('vmsroot', $title, $body ,'1'); 
+            }
+            if($heartworm_due >= $currentDate && $heartworm_due <= $twoWeeksAhead){
+                $title = $name . " Heartworm shot is coming up in two weeks";
+                $body = $name . " Heartworm shot is due on " . $heartworm_due ;
+                message_all_users_prio('vmsroot', $title, $body ,'1');  
+            }
+            if($distemper1_due >= $currentDate && $distemper1_due <= $twoWeeksAhead){
+                $title = $name . " Distemper 1 shot is coming up in two weeks";
+                $body = $name . " Distemper 1 shot is due on " . $distemper1_due ;
+                message_all_users_prio('vmsroot', $title, $body ,'1');  
+            }
+            if($distemper2_due >= $currentDate && $distemper2_due <= $twoWeeksAhead){
+                $title = $name . " Distemper 2 shot is coming up in two weeks";
+                $body = $name . " Distemper 2 shot is due on " . $distemper2_due ;
+                message_all_users_prio('vmsroot', $title, $body ,'1');   
+            }
+            if($distemper3_due >= $currentDate && $distemper3_due <= $twoWeeksAhead){
+                $title = $name . " Distemper 3 shot is coming up in two weeks";
+                $body = $name . " Distemper 3 shot is due on " . $distemper3_due ;
+                message_all_users_prio('vmsroot', $title, $body ,'1');   
+            }
+            //The Logic for 5 Days Out
+            if($rabies_due >= $currentDate && $rabies_due <= $fivedaysAhead){
+                $title = $name . " Rabies shot is coming up in 5 days";
+                $body = $name . " Rabies shot is due on " . $rabies_due;
+                message_all_users_prio('vmsroot', $title, $body ,'2');  
+            }
+            if($heartworm_due >= $currentDate && $heartworm_due <= $fivedaysAhead){
+                $title = $name . " Heartworm shot is coming up in 5 days";
+                $body = $name . " Heartworm shot is due on " . $heartworm_due ;
+                message_all_users_prio('vmsroot', $title, $body ,'2');  
+            }
+            if($distemper1_due >= $currentDate && $distemper1_due <= $fivedaysAhead){
+                $title = $name . " Distemper 1 shot is coming up in 5 days";
+                $body = $name . " Distemper 1 shot is due on " . $distemper1_due ;
+                message_all_users_prio('vmsroot', $title, $body ,'2'); 
+            }
+            if($distemper2_due >= $currentDate && $distemper2_due <= $fivedaysAhead){
+                $title = $name . " Distemper 2 shot is coming up in 5 days";
+                $body = $name . " Distemper 2 shot is due on " . $distemper1_due ;
+                message_all_users_prio('vmsroot', $title, $body ,'2'); 
+            }
+            if($distemper3_due >= $currentDate && $distemper3_due <= $fivedaysAhead){
+                $title = $name . " Distemper 3 shot is coming up in 5 days";
+                $body = $name . " Distemper 3 shot is due on " . $distemper1_due ;
+                message_all_users_prio('vmsroot', $title, $body ,'2');  
+            }
             //The Logic for It Being Late
-            //Grant has opened
-            if($open_date <= $currentDate){
-                //First, check if there are automatic messages already there, if so delete them
-                $query = "select * from dbmessages where grant_id = " . $id . " and message_type = 'open' and 
-                    (interval_type = '1Day' or interval_type = '1Week' or interval_type = '1Month' or interval_type = '6Months')
-                    and (sent = 'sent' or sent = 'dismissed')";
-                $result2 = mysqli_query($connection, $query);
-                if ($result2) {
-                    delete_auto_messages_of_grantID_and_type_except_interval($id, 'open', 'late');
-                }
-
-                //If the grant does not have a late message for open date, add it to dbmessages
-                $query = "select count(*) as count from dbmessages where grant_id = " . $id . " and message_type = 'open' and 
-                    interval_type = 'late' and (sent = 'sent' or sent = 'dismissed')";
-                $result2 = mysqli_query($connection, $query);
-                $row2 = mysqli_fetch_assoc($result2);
-                $title = $name . " has OPENED";
-                $body = $name . " opened on " . $open_date;
-                if ($row2['count'] == 0) {
-                    message_all_users_prio('vmsroot', 'vmsroot', $title, $body ,'3', $id, 'open', 'late', 'sent');
-                } else {
-                    update_message_title_and_body($id, 'open', 'late', $title, $body);
-                }
+            if($rabies_due <= $currentDate){
+                $title = $name . " Rabies shot is LATE";
+                $body = $name . " Rabies shot was due on " . $rabies_due;
+                message_all_users_prio('vmsroot', $title, $body ,'3');  
             }
-            //Grant is due
-            if($due_date <= $currentDate){
-                //First, check if there are automatic messages already there, if so delete them
-                $query = "select * from dbmessages where grant_id = " . $id . " and message_type = 'due' and 
-                    (interval_type = '1Day' or interval_type = '1Week' or interval_type = '1Month' or interval_type = '6Months')
-                    and (sent = 'sent' or sent = 'dismissed')";
-                $result2 = mysqli_query($connection, $query);
-                if ($result2) {
-                    delete_auto_messages_of_grantID_and_type_except_interval($id, 'due', 'late');
-                }
-
-                //If the grant does not have a late message for due date, add it to dbmessages
-                $query = "select count(*) as count from dbmessages where grant_id = " . $id . " and message_type = 'due' and 
-                    interval_type = 'late' and (sent = 'sent' or sent = 'dismissed')";
-                $result2 = mysqli_query($connection, $query);
-                $row2 = mysqli_fetch_assoc($result2);
-                $title = $name . " was DUE";
-                $body = $name . " was due on " . $due_date;
-                if ($row2['count'] == 0) {
-                    message_all_users_prio('vmsroot', 'vmsroot', $title, $body ,'3', $id, 'due', 'late', 'sent');
-                } else {
-                    update_message_title_and_body($id, 'due', 'late', $title, $body);
-                }
+            if($heartworm_due  <= $currentDate){
+                $title = $name . " Heartworm shot is LATE";
+                $body = $name . " Heartworm shot was due on " . $heartworm_due ;
+                message_all_users_prio('vmsroot', $title, $body ,'3');  
             }
-            
-            
-            //The Logic for One Day Out
-            if($open_date > $currentDate && $open_date <= $oneDayAhead){
-                //First, check if there are automatic messages already there, if so delete them
-                $query = "select * from dbmessages where grant_id = " . $id . " and message_type = 'open' and 
-                    (interval_type = '1Week' or interval_type = '1Month' or interval_type = '6Months' or interval_type = 'late') 
-                    and (sent = 'sent' or sent = 'dismissed')";
-                $result2 = mysqli_query($connection, $query);
-                if ($result2) {
-                    delete_auto_messages_of_grantID_and_type_except_interval($id, 'open', '1Day');
-                }
-
-                //If the grant does not have a 1 day interval message for open date and it's one day out, add it to dbmessages
-                $query = "select count(*) as count from dbmessages where grant_id = " . $id . " and message_type = 'open' and 
-                    interval_type = '1Day' and (sent = 'sent' or sent = 'dismissed')";
-                $result2 = mysqli_query($connection, $query);
-                $row2 = mysqli_fetch_assoc($result2);
-                $title = $name . " open date is coming up in one day";
-                $body = $name . " is opening on " . $open_date ;
-                if ($row2['count'] == 0) {
-                    message_all_users_prio('vmsroot', 'vmsroot', $title, $body ,'2', $id, 'open', '1Day', 'sent');
-                } else {
-                    update_message_title_and_body($id, 'open', '1Day', $title, $body);
-                }
+            if($distemper1_due  <= $currentDate){
+                $title = $name . " Distemper 1 shot is LATE";
+                $body = $name . " Distemper 1 shot was due on " . $distemper1_due ;
+                message_all_users_prio('vmsroot', $title, $body ,'3');  
             }
-            if($due_date > $currentDate && $due_date <= $oneDayAhead){
-                //First, check if there are automatic messages already there, if so delete them
-                $query = "select * from dbmessages where grant_id = " . $id . " and message_type = 'due' and 
-                    (interval_type = '1Week' or interval_type = '1Month' or interval_type = '6Months' or interval_type = 'late')
-                    and (sent = 'sent' or sent = 'dismissed')";
-                $result2 = mysqli_query($connection, $query);
-                if ($result2) {
-                    delete_auto_messages_of_grantID_and_type_except_interval($id, 'due', '1Day');
-                }
-
-                //If the grant does not have a 1 day interval message for due date and it's one day out, add it to dbmessages
-                $query = "select count(*) as count from dbmessages where grant_id = " . $id . " and message_type = 'due' and 
-                    interval_type = '1Day' and (sent = 'sent' or sent = 'dismissed')";
-                $result2 = mysqli_query($connection, $query);
-                $row2 = mysqli_fetch_assoc($result2);
-                $title = $name . " due date is coming up in one day";
-                $body = $name . " is due on " . $due_date ;
-                if ($row2['count'] == 0) {
-                    message_all_users_prio('vmsroot', 'vmsroot', $title, $body, '2', $id, 'due', '1Day', 'sent');
-                } else {
-                    update_message_title_and_body($id, 'due', '1Day', $title, $body);
-                }
+            if($distemper2_due  <= $currentDate){
+                $title = $name . " Distemper 2 shot is LATE";
+                $body = $name . " Distemper 2 shot was due on " . $distemper1_due ;
+                message_all_users_prio('vmsroot', $title, $body ,'3');   
             }
-
-            //The Logic for One Week Out
-            if($open_date > $currentDate && $open_date <= $oneWeekAhead && $open_date > $oneDayAhead){
-                //First, check if there are automatic messages already there, if so delete them
-                $query = "select * from dbmessages where grant_id = " . $id . " and message_type = 'open' and 
-                    (interval_type = '1Day' or interval_type = '1Month' or interval_type = '6Months' or interval_type = 'late')
-                    and (sent = 'sent' or sent = 'dismissed')";
-                $result2 = mysqli_query($connection, $query);
-                if ($result2) {
-                    delete_auto_messages_of_grantID_and_type_except_interval($id, 'open', '1Week');
-                }
-
-                //If the grant does not have a 1 week interval message for open date and it's one week out, add it to dbmessages
-                $query = "select count(*) as count from dbmessages where grant_id = " . $id . " and message_type = 'open' and 
-                    interval_type = '1Week' and (sent = 'sent' or sent = 'dismissed')";
-                $result2 = mysqli_query($connection, $query);
-                $row2 = mysqli_fetch_assoc($result2);
-                $title = $name . " open date is coming up in one week";
-                $body = $name . " is opening on " . $open_date ;
-                if ($row2['count'] == 0) {
-                    message_all_users_prio('vmsroot', 'vmsroot', $title, $body ,'2', $id, 'open', '1Week', 'sent');
-                } else {
-                    update_message_title_and_body($id, 'open', '1Week', $title, $body);
-                }
-            }
-            if($due_date > $currentDate && $due_date <= $oneWeekAhead && $due_date > $oneDayAhead){
-                //First, check if there are automatic messages already there, if so delete them
-                $query = "select * from dbmessages where grant_id = " . $id . " and message_type = 'due' and 
-                    (interval_type = '1Day' or interval_type = '1Month' or interval_type = '6Months' or interval_type = 'late')
-                    and (sent = 'sent' or sent = 'dismissed')";
-                $result2 = mysqli_query($connection, $query);
-                if ($result2) {
-                    delete_auto_messages_of_grantID_and_type_except_interval($id, 'due', '1Week');
-                }
-
-                //If the grant does not have a 1 week interval message for due date and it's one week out, add it to dbmessages
-                $query = "select count(*) as count from dbmessages where grant_id = " . $id . " and message_type = 'due' and 
-                    interval_type = '1Week' and (sent = 'sent' or sent = 'dismissed')";
-                $result2 = mysqli_query($connection, $query);
-                $row2 = mysqli_fetch_assoc($result2);
-                $title = $name . " due date is coming up in one week";
-                $body = $name . " is due on " . $due_date ;
-                if ($row2['count'] == 0) {
-                    message_all_users_prio('vmsroot', 'vmsroot', $title, $body, '2', $id, 'due', '1Week', 'sent');
-                } else {
-                    update_message_title_and_body($id, 'due', '1Week', $title, $body);
-                }
-            }
-
-            //The Logic for One Month Out
-            if($open_date >= $currentDate && $open_date <= $oneMonthAhead && $open_date > $oneWeekAhead){
-                //First, check if there are automatic messages already there, if so delete them
-                $query = "select * from dbmessages where grant_id = " . $id . " and message_type = 'open' and 
-                    (interval_type = '1Day' or interval_type = '1Week' or interval_type = '6Months' or interval_type = 'late')
-                    and (sent = 'sent' or sent = 'dismissed')";
-                $result2 = mysqli_query($connection, $query);
-                if ($result2) {
-                    delete_auto_messages_of_grantID_and_type_except_interval($id, 'open', '1Month');
-                }
-
-                //If the grant does not have a 1 month interval message for open date and it's one month out, add it to dbmessages
-                $query = "select count(*) as count from dbmessages where grant_id = " . $id . " and message_type = 'open' and 
-                    interval_type = '1Month' and (sent = 'sent' or sent = 'dismissed')";
-                $result2 = mysqli_query($connection, $query);
-                $row2 = mysqli_fetch_assoc($result2);
-                $title = $name . " open date is coming up in one month";
-                $body = $name . " is opening on " . $open_date ;
-                if ($row2['count'] == 0) {
-                    message_all_users_prio('vmsroot', 'vmsroot', $title, $body , '1', $id, 'open', '1Month', 'sent');
-                } else {
-                    update_message_title_and_body($id, 'open', '1Month', $title, $body);
-                }
-            }
-            if($due_date > $currentDate && $due_date <= $oneMonthAhead && $due_date > $oneWeekAhead){
-                //First, check if there are automatic messages already there, if so delete them
-                $query = "select * from dbmessages where grant_id = " . $id . " and message_type = 'due' and 
-                    (interval_type = '1Day' or interval_type = '1Week' or interval_type = '6Months' or interval_type = 'late')
-                    and (sent = 'sent' or sent = 'dismissed')";
-                $result2 = mysqli_query($connection, $query);
-                if ($result2) {
-                    delete_auto_messages_of_grantID_and_type_except_interval($id, 'due', '1Month');
-                }
-
-                //If the grant does not have a 1 month interval message for due date and it's one month out, add it to dbmessages
-                $query = "select count(*) as count from dbmessages where grant_id = " . $id . " and message_type = 'due' and 
-                    interval_type = '1Month' and (sent = 'sent' or sent = 'dismissed')";
-                $result2 = mysqli_query($connection, $query);
-                $row2 = mysqli_fetch_assoc($result2);
-                $title = $name . " due date is coming up in one month";
-                $body = $name . " is due on " . $due_date;
-                if ($row2['count'] == 0) {
-                    message_all_users_prio('vmsroot', 'vmsroot', $title, $body ,'1', $id, 'due', '1Month', 'sent');
-                } else {
-                    update_message_title_and_body($id, 'due', '1Month', $title, $body);
-                }
-            }
-
-            //The Logic for Six Months Out
-            if($open_date >= $currentDate && $open_date <= $sixMonthsAhead && $open_date > $oneMonthAhead){
-                //First, check if there are automatic messages already there, if so delete them
-                $query = "select * from dbmessages where grant_id = " . $id . " and message_type = 'open' and 
-                    (interval_type = '1Day' or interval_type = '1Week' or interval_type = '1Month' or interval_type = 'late')
-                    and (sent = 'sent' or sent = 'dismissed')";
-                $result2 = mysqli_query($connection, $query);
-                if ($result2) {
-                    delete_auto_messages_of_grantID_and_type_except_interval($id, 'open', '6Months');
-                }
-
-                //If the grant does not have a 6 month interval message for open date and it's 6 months out, add it to dbmessages
-                $query = "select count(*) as count from dbmessages where grant_id = " . $id . " and message_type = 'open' and 
-                    interval_type = '6Months' and (sent = 'sent' or sent = 'dismissed')";
-                $result2 = mysqli_query($connection, $query);
-                $row2 = mysqli_fetch_assoc($result2);
-                $title = $name . " open date is coming up in six months";
-                $body = $name . " is opening on " . $open_date ;
-                if ($row2['count'] == 0) {
-                    message_all_users_prio('vmsroot', 'vmsroot', $title, $body ,'1', $id, 'open', '6Months', 'sent');
-                } else {
-                    update_message_title_and_body($id, 'open', '6Months', $title, $body);
-                }
-            }
-            if($due_date >= $currentDate && $due_date <= $sixMonthsAhead && $due_date > $oneMonthAhead){
-                //First, check if there are automatic messages already there, if so delete them
-                $query = "select * from dbmessages where grant_id = " . $id . " and message_type = 'due' and 
-                    (interval_type = '1Day' or interval_type = '1Week' or interval_type = '1Month' or interval_type = 'late')
-                    and (sent = 'sent' or sent = 'dismissed')";
-                $result2 = mysqli_query($connection, $query);
-                if ($result2) {
-                    delete_auto_messages_of_grantID_and_type_except_interval($id, 'due', '6Months');
-                }
-
-                //If the grant does not have a 6 month interval message for due date and it's 6 months out, add it to dbmessages
-                $query = "select count(*) as count from dbmessages where grant_id = " . $id . " and message_type = 'due' and 
-                    interval_type = '6Months' and (sent = 'sent' or sent = 'dismissed')";
-                $result2 = mysqli_query($connection, $query);
-                $row2 = mysqli_fetch_assoc($result2);
-                $title = $name . " due date is coming up in six months";
-                $body = $name . " is due on " . $due_date;
-                if ($row2['count'] == 0) {
-                    message_all_users_prio('vmsroot', 'vmsroot', $title, $body ,'1', $id, 'due', '6Months', 'sent');
-                } else {
-                    update_message_title_and_body($id, 'due', '6Months', $title, $body);
-                }
+            if($distemper3_due  <= $currentDate){
+                $title = $name . " Distemper 3 shot is LATE";
+                $body = $name . " Distemper 3 shot was due on " . $distemper1_due ;
+                message_all_users_prio('vmsroot', $title, $body ,'3');   
             }
         }
-    }
+    }*/
     mysqli_close($connection);    
     return true;
 }
