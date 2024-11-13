@@ -50,6 +50,10 @@ tr.message:hover {
     flex-direction: column;
 }
 
+.inline-elements {
+    display: inline;
+}
+
 .sender-time-line {
     display: flex;
     flex-direction: row;
