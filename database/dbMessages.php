@@ -199,7 +199,7 @@ function delete_message_of_grantID($id) {
 }
 
 function delete_auto_messages_of_grantID_and_type_except_interval($id, $msg_type, $interval) {
-    $query = "delete from dbMessages where grant_id='$id' and interval_type<>('$interval' || 'custom') and message_type='$msg_type'";
+    $query = "delete from dbMessages where grant_id='$id' and interval_type not in ('$interval', 'custom') and message_type='$msg_type'";
     $connection = connect();
     $result = mysqli_query($connection, $query);
     $result = boolval($result);
@@ -234,6 +234,36 @@ function is_corresponding_grant_archived($messageID) {
     } else {
         return false;
     }
+}
+
+function get_grant_name_from_messageID($messageID) {
+    $query = "select * from dbMessages m inner join dbevents e on m.grant_id = e.id
+        where m.id = '$messageID'";
+    $connection = connect();
+    $result = mysqli_query($connection, $query);
+    if (mysqli_num_rows($result) < 1) {
+        mysqli_close($connection);
+        return false;
+    }
+    $row = mysqli_fetch_assoc($result);
+    return $row['name'];
+}
+
+function get_grant_id_from_messageID($messageID) {
+    $query = "select e.id as grantID, m.id, m.grant_id from dbMessages m inner join dbevents e on m.grant_id = e.id
+        where m.id = '$messageID'";
+    $connection = connect();
+    $result = mysqli_query($connection, $query);
+    if (mysqli_num_rows($result) < 1) {
+        mysqli_close($connection);
+        return false;
+    }
+    /*foreach ($rows as $row) {
+        $row = mysqli_fetch_assoc($result);
+        $id = $row['id'];
+    }*/
+    $row = mysqli_fetch_assoc($result);
+    return $row['grantID'];
 }
 
 function dateChecker(){
@@ -425,7 +455,7 @@ function dateChecker(){
                     update_message_title_and_body($id, 'open', '1Month', $title, $body);
                 }
             }
-            if($due_date >= $currentDate && $due_date <= $oneMonthAhead && $due_date > $oneWeekAhead){
+            if($due_date > $currentDate && $due_date <= $oneMonthAhead && $due_date > $oneWeekAhead){
                 //First, check if there are automatic messages already there, if so delete them
                 $query = "select * from dbmessages where grant_id = " . $id . " and message_type = 'due' and 
                     (interval_type = '1Day' or interval_type = '1Week' or interval_type = '6Months' or interval_type = 'late')

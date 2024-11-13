@@ -76,6 +76,9 @@
         <?php require_once('header.php') ?>
         <h1>Inbox</h1>
         <main class="general">
+            <?php if (isset($_GET['deleteNotifSuccess'])): ?>
+                    <div class="happy-toast">Notification deleted successfully!</div>
+            <?php endif; ?>
             <h2>Your Notifications</h2>
             <button class="buttoncreatenotif" onclick="showCreateNotifConfirmation()">Create Notification</button>
             <?php 
@@ -113,6 +116,7 @@
                                     }
                                     $title = $message['title'];
                                     $time = $message['time'];
+                                    $wasRead = $message['wasRead'];
                                     /*$timePacked = $message['time'];
                                     $pieces = explode('-', $timePacked);
                                     $year = $pieces[0];
@@ -134,9 +138,13 @@
                                     }
                                     echo "
                                         <tr class='$class' style='color:white; 'data-message-id='$messageID'>
-                                            <td>$sender</td>
-                                            <td>$title</td>
-                                            <td>$time</td>
+                                            <td>$sender</td>";
+                                            if (!$wasRead) {
+                                                echo "<td>(!) $title";
+                                            } else {
+                                                echo "<td>$title</td>";
+                                            }
+                                            echo "<td>$time</td>
                                         </tr>";
                                 }
                             ?>
