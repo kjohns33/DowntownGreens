@@ -30,22 +30,23 @@ require_once(dirname(__FILE__).'/../domain/Link.php');
  * add an event to dbEvents table: if already there, return false
  */
 
-function add_event($event) {
+function add_event($event)
+{
     if (!$event instanceof Event)
         die("Error: add_event type mismatch");
-    $con=connect();
+    $con = connect();
     $query = "SELECT * FROM dbEvents WHERE id = '" . $event->get_id() . "'";
-    $result = mysqli_query($con,$query);
+    $result = mysqli_query($con, $query);
     //if there's no entry for this id, add it
     if ($result == null || mysqli_num_rows($result) == 0) {
-        mysqli_query($con,'INSERT INTO dbEvents VALUES("' .
-                $event->get_id() . '","' .
-                $event->get_event_date() . '","' .
-                $event->get_venue() . '","' .
-                $event->get_event_name() . '","' . 
-                $event->get_description() . '","' .
-                $event->get_event_id() .            
-                '");');							
+        mysqli_query($con, 'INSERT INTO dbEvents VALUES("' .
+            $event->get_id() . '","' .
+            $event->get_event_date() . '","' .
+            $event->get_venue() . '","' .
+            $event->get_event_name() . '","' .
+            $event->get_description() . '","' .
+            $event->get_event_id() .
+            '");');
         mysqli_close($con);
         return true;
     }
@@ -53,15 +54,6 @@ function add_event($event) {
     return false;
 }
 
-function make_a_link($result_row){
-    $link = new Link (
-        //$result_row['id'],
-        null,
-        $result_row['link_name'],
-        $result_row['link_data'],
-    );
-    return $link;
-}
 
 /*
  * remove an event from dbEvents table.  If already there, return false
@@ -190,7 +182,7 @@ function fetch_event_by_id($id) {
     return null;
 }
 function make_grant($result_row){
-    $event = new Grant(
+    return new Grant(
         null,
         $result_row['name'],
         $result_row['open_date'],
@@ -202,11 +194,9 @@ function make_grant($result_row){
         $result_row['amount'],
         null
     );
-
-    return $event;
 }
 
-function create_event($grant) {
+function add_grant($grant) {
     if(!$grant instanceOf Grant){
         die("type mismatch -- add grant");
     }
@@ -226,8 +216,7 @@ function create_event($grant) {
     if (!$result) {
         return null;
     }
-    $id = mysqli_insert_id($connection);
-    return $id;
+    return mysqli_insert_id($connection);
 }
 
 function get_grant_id($event){
@@ -241,29 +230,6 @@ function get_grant_id($event){
     return $row[0];
 }
 
-function add_link($link, $grant_id, $count) {
-    $connection = connect();
-    
-    // Get values and ensure they're safe for the query
-    $name = $link->getName();
-    $data = $link->getURL();
-
-    // Insert query
-    $query = "insert into dbLinks (name, link, grant_id) VALUES ('$name[$count]', '$data[$count]', '$grant_id')";
-    $result = mysqli_query($connection, $query);
-    
-    if (!$result) {
-        // Log or display detailed error
-        echo "Error: " . mysqli_error($connection);
-        mysqli_close($connection);
-        return null;
-    }
-    
-    $id = mysqli_insert_id($connection);
-    mysqli_close($connection);
-    
-    return $id;
-}
 
 function add_services_to_event($eventID, $serviceIDs) {
     $connection = connect();
