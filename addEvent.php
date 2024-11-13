@@ -44,7 +44,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo 'bad args';
             die();
         }
+        /*
         if (isset($_POST['children']) && is_array($_POST['children'])) {
+        */
             $children = $_POST['children'];  // Get the link data from the form
             unset($_POST['children']);  // Clean up for sanitization
 
@@ -62,8 +64,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     add_link($link, $grant_id, $count);
                     $count = $count + 1;
                 }
+                header("Location: event.php?id=$grant_id&createSuccess");
             }
+            /*
         }
+            */
     }
 }
 $date = null;
