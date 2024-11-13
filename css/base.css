@@ -271,10 +271,6 @@ input[type=submit], button, .button {
     text-align: center;
 }
 
-.buttoncreatenotif {
-    width: 25%;
-}
-
 input[type=submit]:hover, button:hover, .button:hover, link-tag:hover, add-link:hover {
     background-color: var(--accent-color);
 }

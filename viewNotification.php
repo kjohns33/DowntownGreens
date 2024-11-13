@@ -43,64 +43,27 @@
         <?php require_once('universal.inc') ?>
         <title>Downtown Greens | View Notification</title>
         <link rel="stylesheet" href="css/messages.css"></link>
-        <link rel="stylesheet" href="css/event.css" type="text/css" />
-        <?php if ($accessLevel >= 2) : ?>
-            <script src="js/event.js"></script>
-        <?php endif ?>
         <script src="js/messages.js"></script>
     </head>
     <body>
-        <?php if ($accessLevel >= 2) : ?>
-            <div id="delete-confirmation-wrapper" class="hidden">
-                <div id="delete-confirmation">
-                    <p>Are you sure you want to delete this notification?</p>
-                    <p>This action cannot be undone.</p>
-
-                    <?php echo "<form method=\"post\" action=\"deleteNotification.php?id=" . $id . "\">" ?>
-                        <input type="submit" value="Delete Notification">
-                        <input type="hidden" name="id" value="<?= $id ?>">
-                    </form>
-                    <button id="delete-cancel">Cancel</button>
-                </div>
-            </div>
-        <?php endif ?>
         <?php require_once('header.php') ?>
         <h1>View Notification</h1>
         <main class="message">
             <?php 
                 require_once('database/dbPersons.php');
                 require_once('include/output.php');
-                require_once('database/dbEvents.php');
             ?>
             <p class="sender-time-line"><span><label>From </label><?php echo get_name_from_id($message['senderID']) ?></span>
             <span><label>Received </label><?php 
-                    $time = $message['time'];
-                    echo $time;
+                    $unpackedTimestamp = unpackMessageTimestamp($message['time']);
+                    echo $unpackedTimestamp[0] . ' at ' . $unpackedTimestamp[1];
                 ?></span>
             </p>
             <div class="message-body">
-                <?php 
-                $grant_name = get_grant_name_from_messageID($id);
-                $grant_id = get_grant_id_from_messageID($id);
-
-                if ($grant_name) {
-                    ?>
-                    <h2><?php echo $message['title']; ?></h2>
-                    <div class="inline-elements">
-                    <?php $body = "<a href=\"event.php?id=" . $grant_id . "\">" . $grant_name . "</a>" . substr($message['body'], strlen($grant_name));
-                    echo $body;
-                    ?></div>
-                    <?php
-                } else { 
-                    ?>
-                    <h2><?php echo $message['title']; ?></h2>
-                    <p><?php echo prepareMessageBody($message['body']) ?></p>
-                    <?php 
-                } 
-                ?>
+                <h2><?php echo $message['title'] ?></h2>
+                <p><?php echo prepareMessageBody($message['body']) ?></p>
             </div>
-            <!--<button id="delete-button" data-message-id="<?php //echo $id ?>">Delete Notification</button>-->
-            <button onclick="showDeleteConfirmation()">Delete Notification</button>
+            <button id="delete-button" data-message-id="<?php echo $id ?>">Delete Notification</button>
             <a class="button cancel" href="inbox.php">Return to Inbox</a>
         </main>
     </body>

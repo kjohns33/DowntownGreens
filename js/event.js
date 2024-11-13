@@ -29,21 +29,6 @@ function showCompleteConfirmation() {
     $('#complete-confirmation-wrapper').removeClass('hidden');
 }
 
-function hideCreateNotifConfirmation(e) {
-    if (e.target === this) {
-        $('#create-notif-confirmation-wrapper').addClass('hidden');
-    }
-}
-
-$(function() {
-    $('#create-notif-cancel').click(hideCreateNotifConfirmation);
-    $('#create-notif-confirmation-wrapper').click(hideCreateNotifConfirmation);
-});
-
-function showCreateNotifConfirmation() {
-    $('#create-notif-confirmation-wrapper').removeClass('hidden');
-}
-
 function hideArchiveConfirmation(e) {
     if (e.target === this) {
         $('#archive-confirmation-wrapper').addClass('hidden');

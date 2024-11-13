@@ -42,4 +42,3 @@
     $result['id'] = $id;
 
     echo json_encode($result);
-    header('Location: inbox.php?deleteNotifSuccess');
