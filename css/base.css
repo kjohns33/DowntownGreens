@@ -804,6 +804,7 @@ table.event tr:first-of-type > td {
 }
 
 table.event {
+	color:white;
     border-bottom: 3px solid var(--shadow-and-border-color);
     padding-bottom: 1rem;
     background-color: var(--standout-background);
