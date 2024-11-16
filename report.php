@@ -111,9 +111,9 @@
 
     <form class="report_select" method="get" action="reportsPage.php">
         <label for="name">* Start Date </label>
-        <input type="date" id="start_date" name="start_date" style="color:white;" <?php if ($date) echo 'value="' . $date . '"'; ?> min="<?php echo date('Y-m-d'); ?>" required>
+        <input type="date" id="start_date" name="start_date" style="color:white;" <?php if ($date) echo 'value="' . $date . '"'; ?> required>
         <label for="name">* Stop Date </label>
-        <input type="date" id="stop_date" name="stop_date" style="color:white;"<?php if ($date) echo 'value="' . $date . '"'; ?> min="<?php echo date('Y-m-d'); ?>" required>
+        <input type="date" id="stop_date" name="stop_date" style="color:white;"<?php if ($date) echo 'value="' . $date . '"'; ?> required>
         <?php if ($date): ?>
                     <a class="button cancel" href="calendar.php?month=<?php echo substr($date, 0, 7) ?>" style="margin-top: -.5rem">Return to Calendar</a>
                 <?php else: ?>
