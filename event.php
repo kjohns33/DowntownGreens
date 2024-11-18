@@ -186,11 +186,11 @@
     <?php if ($access_level >= 2) : ?>
         <div id="delete-confirmation-wrapper" class="hidden">
             <div id="delete-confirmation">
-                <p>Are you sure you want to delete this appointment?</p>
+                <p>Are you sure you want to delete this grant?</p>
                 <p>This action cannot be undone.</p>
 
                 <form method="post" action="deleteEvent.php">
-                    <input type="submit" value="Delete Appointment">
+                    <input type="submit" value="Delete Grant">
                     <input type="hidden" name="id" value="<?= $id ?>">
                 </form>
                 <button id="delete-cancel">Cancel</button>
@@ -200,8 +200,14 @@
     <?php if ($access_level >= 2) : ?>
         <div id="complete-confirmation-wrapper" class="hidden">
             <div id="complete-confirmation">
-                <p>Are you sure you want to complete this appointment?</p>
+                <p>Are you sure you want to complete this grant?</p>
                 <p>This action cannot be undone.</p>
+
+                <form method="post" action="completeEvent.php">
+                    <input type="submit" value="Complete Grant">
+                    <input type="hidden" name="id" value="<?= $id ?>">
+                </form>
+
                 <button id="complete-cancel">Cancel</button>
             </div>
         </div>
@@ -356,6 +362,11 @@
                         
         <!-- TODO: will figure out another way to center
                  later -->
+        <!-- have to close table so they buttons can be separate from the actual table-->
+        
+        		</tbody>
+        	</table>
+        </div>
         <?php
 		if ($access_level >= 2) {
                 	echo '
@@ -391,15 +402,17 @@
                                 </td>
                         </tr>
                         ';
-
-                        echo '
+                        
+					/*
+                    	 echo '
                         <tr>
                         	<td colspan="2">
-                                	<a class="button cancel" href="viewGrant.php">Return to Grants</a>
+                                	<a class="button" href="viewGrant.php">Return to Grants</a>
                                 </td>
                         </tr>
-                        ';
+                        ';*/
                  }
+                 
 	?> 
 
         <?php /* if ($access_level >= 2) : ?>
@@ -413,6 +426,8 @@
             <!--<button onclick="showDeleteConfirmation()">Delete Grant</button>-->
         <?php endif */?>
         
+        <a class="button cancel" href="viewGrant.php">Return to Grants</a>
+         
         <!--<a href="calendar.php?month=<?/*php echo substr($event_info['date'], 0, 7) */?>" class="button cancel" style="margin-top: -.5rem">Return to Calendar</a>-->
     </main>
 </body>

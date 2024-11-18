@@ -54,7 +54,7 @@
     <head>
         <?php require('universal.inc'); ?>
         <script src="js/calendar.js"></script>
-        <title>Downtown Greens | Events Calendar</title>
+        <title>Downtown Greens | Grant Calendar</title>
         <style>.happy-toast { margin: 0 1rem 1rem 1rem; }</style>
     </head>
     <body>
@@ -97,9 +97,9 @@
             </h1>
             <!-- <input type="date" id="month-jumper" value="<?php echo date('Y-m-d', $month); ?>" min="2023-01-01"> -->
             <?php if (isset($_GET['deleteSuccess'])) : ?>
-                <div class="happy-toast">Event deleted successfully.</div>
+                <div class="happy-toast">Grant deleted successfully.</div>
             <?php elseif (isset($_GET['completeSuccess'])) : ?>
-                <div class="happy-toast">Event completed successfully.</div>
+                <div class="happy-toast">Grant completed successfully.</div>
             <?php endif ?>
             <div class="table-wrapper">
                 <table id="calendar">

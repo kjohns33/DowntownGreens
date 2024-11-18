@@ -1,4 +1,4 @@
-<?php /*
+<?php 
   session_cache_expire(30);
   session_start();
   ini_set("display_errors",1);
@@ -19,6 +19,17 @@
     header('Location: index.php');
     die();
   }
+  $date = null;
+  if (isset($_GET['date'])) {
+      $date = $_GET['date'];
+      $datePattern = '/[0-9]{4}-[0-9]{2}-[0-9]{2}/';
+      $timeStamp = strtotime($date);
+      if (!preg_match($datePattern, $date) || !$timeStamp) {
+          header('Location: calendar.php');
+          die();
+      }
+  }
+/*
     // get animal data from database for form
     // Connect to database
     include_once('database/dbinfo.php');
@@ -75,29 +86,41 @@
     <main class="report">
 	<?php
 	    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit_click"])) {
-		$args = sanitize($_POST);
-		$report = $args['report_type'];
-		$name = $args['name'];
-        }
+            require_once('include/input-validation.php');
+            require_once('database/dbEvents.php');
+            $args = sanitize($_POST, null);
+            $required = array(
+                "start_date", "stop_date",
+            );
+            if (!wereRequiredFieldsSubmitted($args, $required)) {
+                echo 'bad form data';
+                die();
+            } else {
+                $startdate = $args['start_date'] = validateDate($args["start_date"]);
+                $stopdate = $args['stop_date'] = validateDate($args["stop_date"]);
+                if (!$startdate || !$stopdate > 11){
+                    echo 'bad args';
+                    die();
+                }
+            }
+            }
 	    ?>
 
 	<h2>Generate Report</h2>
 	<br>
 
     <form class="report_select" method="get" action="reportsPage.php">
-    <div>
-        <label for="name">Select Animal For Report</label>
-        <select for="name" id="animal" name="animal" required>
-            <?php
-                while ($animal = mysqli_fetch_array($all_animals, MYSQLI_ASSOC)):;
-            ?>
-            <option value="<?php echo $animal['name'];?>">
-                <?php echo $animal['name'];?>
-            </option>
-            <?php endwhile; ?>
-        </select><br/>
-    </div>
+        <label for="name">* Start Date </label>
+        <input type="date" id="start_date" name="start_date" style="color:white;" <?php if ($date) echo 'value="' . $date . '"'; ?> required>
+        <label for="name">* Stop Date </label>
+        <input type="date" id="stop_date" name="stop_date" style="color:white;"<?php if ($date) echo 'value="' . $date . '"'; ?> required>
+        <?php if ($date): ?>
+                    <a class="button cancel" href="calendar.php?month=<?php echo substr($date, 0, 7) ?>" style="margin-top: -.5rem">Return to Calendar</a>
+                <?php else: ?>
+                    <a class="button cancel" href="index.php" style="margin-top: -.5rem">Return to Dashboard</a>
+                <?php endif ?>
     <input type="submit" name="submit_click">
+    </form>
     </main>
 
     </body>
