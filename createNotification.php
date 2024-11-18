@@ -11,13 +11,18 @@
     require_once('include/input-validation.php');
     $args = sanitize($_POST);
     $id = $args['id'];
-    if (!$id) {
-        header('Location: index.php');
+    $title = isset($_POST['title']) ? $_POST['title'] : '';
+    $body = isset($_POST['body']) ? $_POST['body'] : '';
+    $send_date = isset($_POST['send_date']) ? $_POST['send_date'] : '';
+    $priority = isset($_POST['priority']) ? $_POST['priority'] : '';
+    $send_to = isset($_POST['send_to']) ? (array)$_POST['send_to'] : [];
+    if (!$id || !$title || !$body || !$send_date || !$priority || empty($send_to)) {
+        header('Location: inbox.php?createNotifFailure');
         die();
     }
-    if (create_notification($id)) {
+    if (create_notification($id, $title, $body, $send_date, $priority, $send_to)) {
         header('Location: inbox.php?createNotifSuccess');
         die();
     }
-    header('Location: index.php');
+    header('Location: inbox.php');
 ?>

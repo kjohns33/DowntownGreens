@@ -14,6 +14,7 @@
 
 .custom-style .btn {
     border-width: 2px; /* Adjust the border width as desired */
+    border-color: var(--shadow-and-border-color) !important; /* Override and change border color */
     background-color: var(--page-background-color); /* Dropdown button background color */
     color: white; /* Text color */
     border-radius: 0; /* Remove rounded corners */
@@ -24,14 +25,26 @@
 .custom-style .btn:hover,
 .custom-style .btn:focus {
     background-color: #45a049; /* Hover color */
-    border-color: #45a049;
+    border-color: darkgreen;
 }
 
 /* Dropdown Menu Background and Border */
 .custom-style .dropdown-menu {
     background-color: #f0f8ff; /* Dropdown menu background color */
-    border: 1px solid #4CAF50; /* Border color */
+    border: 6px solid #ffffff; /* Border color */
     border-radius: 0; /* Remove rounded corners */
+}
+
+button.btn.dropdown-toggle.btn-light.bs-placeholder::after {
+    color: white; 
+}
+
+/* Get rid of shadow */
+.custom-style .btn:focus, 
+.custom-style .btn:active,
+.custom-style .btn.dropdown-toggle {
+    box-shadow: none; /* Remove shadow */
+    border-color: white;
 }
 
 /* Search Box Styling */
@@ -48,7 +61,7 @@
 
 /* Selected Item Background Color */
 .custom-style .dropdown-menu .selected {
-    background-color: #81c784; /* Background color for selected items */
+    background-color: var(--page-font-color); /* Background color for selected items */
     color: white;
 }
 

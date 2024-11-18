@@ -36,38 +36,46 @@
             <div id="create-notif-confirmation-wrapper" class="hidden">
                 <div id="create-notif-confirmation">
                     <p>Please Enter Your Notification Information:</p>
-                    <label for="title">* Notification Title </label>
-                    <input type="text" id="title" name="title" placeholder="Enter notification title">
-                    <label for="name">* Notification Body </label>
-                    <input type="text" id="body" name="body" placeholder="Enter notification body">
-                    <label for="name">* Send Date </label>
-                    <input type="date" id="open_date" name="open_date" style="color:white;" min="<?php echo date('Y-m-d'); ?>" required>
-                    <label for="name">* Send To </label>
-
-                    <!-- Multiselect Dropdown -->
-                    <select class="selectpicker custom-style" data-selected-text-format="count > 3" multiple data-live-search="true" data-width="100%" data-actions-box="true" data-live-search-placeholder="Search..." data-select-all-text="Select All" data-deselect-all-text="Deselect All">
-                    <?php
-                            require_once('database/dbPersons.php');
-                            $persons = getall_volunteers();
-                            if (count($persons) > 0) {
-                                foreach ($persons as $person) {
-                                    $name = $person->get_first_name() . ' ' . $person->get_last_name();
-                                    echo "<option>" . $name . "</option>";
-                                }
-                            }
-                    ?>
-                    </select>
-
-                    <!-- Initialize the Select Picker -->
-                    <script>
-                        $(document).ready(function() {
-                            $('.selectpicker').selectpicker();
-                        });
-                    </script>
-
                     <form method="post" action="createNotification.php">
-                        <input type="submit" style="color: white;" value="Create Notification">
-                        <input type="hidden" name="id" value="<?= $id ?>">
+                        <label for="title">* Notification Title </label>
+                        <input type="text" style="color: white" id="title" name="title" placeholder="Enter notification title" required>
+                        <label for="body">* Notification Body </label>
+                        <input type="text" style="color: white" id="body" name="body" placeholder="Enter notification body" required>
+                        <label for="send_date">* Send Date </label>
+                        <input type="date" id="send_date" name="send_date" style="color:white;" min="<?php echo date('Y-m-d'); ?>" required>
+                        <label for="send_to">* Send To </label>
+
+                        <!-- Multiselect Dropdown -->
+                        <select id="send_to" name="send_to[]" class="selectpicker custom-style" data-selected-text-format="count > 3" multiple data-live-search="true" data-width="100%" data-actions-box="true" data-live-search-placeholder="Search..." data-select-all-text="Select All" data-deselect-all-text="Deselect All" required>
+                        <?php
+                                require_once('database/dbPersons.php');
+                                $persons = getall_volunteers();
+                                if (count($persons) > 0) {
+                                    foreach ($persons as $person) {
+                                        $name = $person->get_first_name() . ' ' . $person->get_last_name();
+                                        echo "<option>" . $name . "</option>";
+                                    }
+                                }
+                        ?>
+                        </select>
+
+                        <!-- Initialize the Select Picker -->
+                        <script>
+                            $(document).ready(function() {
+                                $('.selectpicker').selectpicker();
+                            });
+                        </script>
+
+                        <label for="priority" >* Priority </label>
+                        <select style="color:white;" id="priority" name="priority">
+                            <option value="1" selected>1</option>
+                            <option value="2" >2</option>
+                            <option value="3" >3</option>
+                        </select>
+                        <p></p>
+
+                            <input type="submit" style="color: white;" value="Create Notification">
+                            <input type="hidden" name="id" value="<?= $userID ?>">
                     </form>
                     <button id="create-notif-cancel">Cancel</button>
                 </div>
@@ -111,7 +119,7 @@
                                         $sender = $lookup;
                                     }
                                     $messageID = $message['id'];
-                                    if (!is_corresponding_grant_archived($messageID)) {
+                                    if ($message['grant_id'] != NULL && !is_corresponding_grant_archived($messageID)) {
                                         continue;
                                     }
                                     $title = $message['title'];
