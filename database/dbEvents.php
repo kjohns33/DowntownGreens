@@ -192,6 +192,7 @@ function fetch_event_by_id($id) {
     mysqli_close($connection);
     return null;
 }
+
 function make_grant($result_row){
     return new Grant(
         null,

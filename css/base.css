@@ -271,6 +271,24 @@ input[type=submit], button, .button {
     text-align: center;
 }
 
+input[type=submit], .del-button {
+    color: var(--button-font-color);
+    background-color: darkred;
+    padding: var(--button-padding);
+    border: none;
+    border-radius: var(--button-border-radius);
+    font-weight: 500;
+    width: 100%;
+
+    transition: background-color .3s;
+    cursor: pointer;
+    text-align: center;
+}
+
+.del-button:hover {
+    background-color: var(--error-color);
+}
+
 .buttoncreatenotif {
     width: 25%;
 }
