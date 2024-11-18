@@ -271,6 +271,10 @@ input[type=submit], button, .button {
     text-align: center;
 }
 
+.buttoncreatenotif {
+    width: 25%;
+}
+
 input[type=submit]:hover, button:hover, .button:hover, link-tag:hover, add-link:hover {
     background-color: var(--accent-color);
 }
@@ -786,10 +790,12 @@ table.event td:first-of-type {
 }
 
 table.event td {
+	border-bottom: 1px solid var(--shadow-and-border-color);
     padding: 0.5rem 1rem;
 }
 
 table.event th {
+	border-bottom: 2px solid var(--shadow-and-border-color);
     border-top-left-radius: .25rem;
     border-top-right-radius: .25rem;
     background-color: var(--main-color);
@@ -804,6 +810,7 @@ table.event tr:first-of-type > td {
 }
 
 table.event {
+	color:white;
     border-bottom: 3px solid var(--shadow-and-border-color);
     padding-bottom: 1rem;
     background-color: var(--standout-background);
@@ -901,6 +908,7 @@ table.general th {
 }
 
 table.general th, table.general td {
+	border-bottom: 3px solid var(--shadow-and-border-color);
     padding: 1rem;
     white-space: nowrap;
 }
