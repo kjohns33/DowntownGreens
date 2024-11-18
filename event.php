@@ -362,6 +362,11 @@
                         
         <!-- TODO: will figure out another way to center
                  later -->
+        <!-- have to close table so they buttons can be separate from the actual table-->
+        
+        		</tbody>
+        	</table>
+        </div>
         <?php
 		if ($access_level >= 2) {
                 	echo '
@@ -397,15 +402,17 @@
                                 </td>
                         </tr>
                         ';
-
-                        echo '
+                        
+					/*
+                    	 echo '
                         <tr>
                         	<td colspan="2">
-                                	<a class="button cancel" href="viewGrant.php">Return to Grants</a>
+                                	<a class="button" href="viewGrant.php">Return to Grants</a>
                                 </td>
                         </tr>
-                        ';
+                        ';*/
                  }
+                 
 	?> 
 
         <?php /* if ($access_level >= 2) : ?>
@@ -419,6 +426,8 @@
             <!--<button onclick="showDeleteConfirmation()">Delete Grant</button>-->
         <?php endif */?>
         
+        <a class="button cancel" href="viewGrant.php">Return to Grants</a>
+         
         <!--<a href="calendar.php?month=<?/*php echo substr($event_info['date'], 0, 7) */?>" class="button cancel" style="margin-top: -.5rem">Return to Calendar</a>-->
     </main>
 </body>
