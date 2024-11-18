@@ -25,7 +25,13 @@ if ($accessLevel < 2) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     require_once('include/input-validation.php');
     require_once('database/dbEvents.php');
+    require_once('database/dbLinks.php');
+
+
+    $children = $_POST['children'];  // Get the link data before sanitization
+    unset($_POST['children']);
     $args = sanitize($_POST, null);
+
     $required = array(
         "name",
         "open_date",
@@ -44,39 +50,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo 'bad args';
             die();
         }
-        if (isset($_POST['children']) && is_array($_POST['children'])) {
-            $children = $_POST['children'];  // Get the link data from the form
-            unset($_POST['children']);  // Clean up for sanitization
 
-            $args = sanitize($_POST, null);
+        $grant = make_grant($args);
+        $success = add_grant($grant);
+        $grant_id = get_grant_id($grant);
 
-            $event = make_grant($args);
-
-            $success = create_event($event);
-
-            if ($success) {
-                $grant_id = get_grant_id($event);
-                $count = 0;
-                foreach ($children as $childId) {
-                    $link = make_a_link($args);
-                    add_link($link, $grant_id, $count);
-                    $count = $count + 1;
-                }
+        if ($success) {
+            foreach ($children as $child) {
+                $link = make_link($child);
+                add_link($link, $grant_id);
             }
         }
+        header("Location: event.php?id=$grant_id&createSuccess");
+        exit;
     }
 }
-$date = null;
-if (isset($_GET['date'])) {
-    $date = $_GET['date'];
-    $datePattern = '/[0-9]{4}-[0-9]{2}-[0-9]{2}/';
-    $timeStamp = strtotime($date);
-    if (!preg_match($datePattern, $date) || !$timeStamp) {
-        header('Location: calendar.php');
-        die();
+    $date = null;
+    if (isset($_GET['date'])) {
+        $date = $_GET['date'];
+        $datePattern = '/[0-9]{4}-[0-9]{2}-[0-9]{2}/';
+        $timeStamp = strtotime($date);
+        if (!preg_match($datePattern, $date) || !$timeStamp) {
+            header('Location: calendar.php');
+            die();
+        }
     }
-}
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -140,11 +138,11 @@ if (isset($_GET['date'])) {
                         childDiv.innerHTML = `
                             <label>Link ${children.length + 1}</label>
 
-                            <label for="link_name">Name</label>
-                            <input type="text" id="link_name" name="link_name" required placeholder="Enter link name">
+                            <label for="link_name_${childCount}">Name</label>
+                            <input type="text" id="link_name_${childCount}" name="children[${childCount}][link-name]" required placeholder="Enter link name">
 
-                            <label for="link_data">Link</label>
-                            <input type="text" id="link_data" name="link_data" required placeholder="Enter link data">
+                            <label for="link_data_${childCount}">Link</label>
+                            <input type="text" id="link_data_${childCount}" name="children[${childCount}][link-data]" required placeholder="Enter link data">
 
                             <link-tag type="button" onclick="removeChildForm(${childCount})">Remove Link</link-tag>
 
