@@ -25,6 +25,8 @@ include_once('dbMessages.php');
 include_once(dirname(__FILE__).'/../domain/Event.php');
 require_once(dirname(__FILE__).'/../domain/Grant.php');
 require_once(dirname(__FILE__).'/../domain/Link.php');
+require_once(dirname(__FILE__).'/../domain/Field.php');
+
 
 /*
  * add an event to dbEvents table: if already there, return false
@@ -164,6 +166,15 @@ function fetch_events_on_date($date) {
     }
     mysqli_close($connection);
     return $events;
+}
+
+function make_field($result_row){
+    $field = new Field(
+        null,
+        $result_row['name'],
+        $result_row['data']
+    );
+    return $field;
 }
 
 function fetch_event_by_id($id) {

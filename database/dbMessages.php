@@ -17,7 +17,9 @@ function get_user_messages($userID) {
     $messages = mysqli_fetch_all($result, MYSQLI_ASSOC);
     foreach ($messages as &$message) {
         foreach ($message as $key => $value) {
-            $message[$key] = htmlspecialchars($value);
+            if ($value != NULL) {
+                $message[$key] = htmlspecialchars($value);
+            }
         }
     }
     unset($message);
@@ -55,7 +57,9 @@ function get_message_by_id($id) {
         return null;
     }
     foreach ($row as $key => $value) {
-        $row[$key] = htmlspecialchars($value);
+        if ($value != NULL) {
+            $row[$key] = htmlspecialchars($value);
+        }
     }
     $row['body'] = str_replace("\r\n", "<br>", $row['body']);
     return $row;
@@ -218,8 +222,41 @@ function update_message_title_and_body($grantID, $msg_type, $interval, $title, $
     return $result;
 }
 
-function create_notification($id) {
-    var_dump($id);
+function get_recipientID_from_name($name) {
+    $pieces = explode(" ", $name);
+    $first_name = $pieces[0];
+    $last_name = $pieces[1];
+    $query = "select id from dbPersons where first_name='$first_name' and last_name='$last_name'";
+    $connection = connect();
+    $result = mysqli_query($connection, $query);
+    $row = mysqli_fetch_assoc($result);
+    mysqli_close($connection);
+    return $row['id'];
+}
+
+function create_notification($id, $title, $body, $send_date, $priority, $send_to) {
+    //send the selected recipients from create notif dropdown the message
+    $connection = connect();
+    foreach ($send_to as $recipient) {
+        $recipient = get_recipientID_from_name($recipient);
+        var_dump($recipient);
+        $query = "insert into dbMessages
+            (person_id, senderID, recipientID, title, body, scheduled_date, message_type, interval_type, priorityLevel)
+            values ('$id', '$id', '$recipient', '$title', '$body', '$send_date', 'custom', 'custom', '$priority')";
+        $result = mysqli_query($connection, $query);
+        $result = boolval($result);
+        if (!$result) { return false; }
+    }
+    //send vmsroot the message
+    $recipient = 'vmsroot';
+    $query = "insert into dbMessages
+        (person_id, senderID, recipientID, title, body, scheduled_date, message_type, interval_type, priorityLevel)
+        values ('$id', '$id', '$recipient', '$title', '$body', '$send_date', 'custom', 'custom', '$priority')";
+    $result = mysqli_query($connection, $query);
+    $result = boolval($result);
+    if (!$result) { return false; }
+    mysqli_close($connection);
+    return true;
 }
 
 function is_corresponding_grant_archived($messageID) {
@@ -258,15 +295,32 @@ function get_grant_id_from_messageID($messageID) {
         mysqli_close($connection);
         return false;
     }
-    /*foreach ($rows as $row) {
-        $row = mysqli_fetch_assoc($result);
-        $id = $row['id'];
-    }*/
     $row = mysqli_fetch_assoc($result);
     return $row['grantID'];
 }
 
+function update_sent_status($id, $sent) {
+    $query = "update dbMessages set sent='$sent' where id='$id'";
+    $connection = connect();
+    $result = mysqli_query($connection, $query);
+    $result = boolval($result);
+    mysqli_close($connection);
+    return $result;
+}
+
 function dateChecker(){
+    //first, check custom notifications:
+    $query = "select * from dbMessages where interval_type='custom' and message_type='custom'";
+    $connection = connect();
+    $result = mysqli_query($connection, $query);
+    $currentDate = date('Y-m-d');
+    while($row = mysqli_fetch_assoc($result)){
+        if ($row['scheduled_date'] <= $currentDate && $row['sent'] == 'notSent') {
+            update_sent_status($row['id'], 'sent');
+        }
+    }
+    mysqli_close($connection);    
+
     $query = "select * from dbEvents";
     $connection = connect();
     $result = mysqli_query($connection, $query);

@@ -363,8 +363,10 @@
                     echo"</table>";
                     ?>
                         
+
 <!--         TODO: will figure out another way to center-->
 <!--                 later -->
+
         <?php
 		if ($access_level >= 2) {
                 	echo '
@@ -400,15 +402,17 @@
                                 </td>
                         </tr>
                         ';
-
-                        echo '
+                        
+					/*
+                    	 echo '
                         <tr>
                         	<td colspan="2">
-                                	<a class="button cancel" href="viewGrant.php">Return to Grants</a>
+                                	<a class="button" href="viewGrant.php">Return to Grants</a>
                                 </td>
                         </tr>
-                        ';
+                        ';*/
                  }
+
 	    ?>
 
         <?php /* if ($access_level >= 2) : ?>
@@ -478,6 +482,7 @@
         <?php endif ?>
         <!-- <button>Compose New Message</button> -->
         <a class="button cancel" href="index.php">Return to Dashboard</a>
+
     </main>
 </body>
 </html>

@@ -808,10 +808,12 @@ table.event td:first-of-type {
 }
 
 table.event td {
+	border-bottom: 1px solid var(--shadow-and-border-color);
     padding: 0.5rem 1rem;
 }
 
 table.event th {
+	border-bottom: 2px solid var(--shadow-and-border-color);
     border-top-left-radius: .25rem;
     border-top-right-radius: .25rem;
     background-color: var(--main-color);
@@ -918,14 +920,13 @@ table.general th:last-of-type {
 }
 
 table.general th {
-	border-bottom: 2px solid var(--shadow-and-border-color);
     background-color: var(--main-color);
     color: var(--button-font-color);
     font-weight: 500;
 }
 
 table.general th, table.general td {
-	border-bottom: 1px solid var(--shadow-and-border-color);
+	border-bottom: 3px solid var(--shadow-and-border-color);
     padding: 1rem;
     white-space: nowrap;
 }
