@@ -275,15 +275,28 @@
             }else{
                 $event_amount = $event_info['amount'];
             }
-            
 
             $event_in_past = strcmp(date('Y-m-d'), $event_info['due_date']) > 0;
             echo '<h2 class="centered">'.$event_name.'</h2>';
+
+        function fetch_links_by_id($id) {
+            $connection = connect();
+            $query = "select * from dbLinks where grant_id = '$id'";
+            $result = mysqli_query($connection, $query);
+            if (!$result) {
+                mysqli_close($connection);
+                return null;
+            }
+            $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
+            mysqli_close($connection);
+            return $events;
+        }
+
         ?>
         <div id="table-wrapper">
             <table class="general">
                 <tbody>
-        <!-- band aid fix for white font need to do inline css to override-->
+        <!-- band-aid fix for white font need to do inline css to override-->
                     <tr style="color:white;">	
                         <td class="label"> Grant </td>
                         <td><?php echo $event_name ?></td>     		
@@ -316,52 +329,42 @@
                         <td class="label"> Grant Amount </td>
                         <td><?php echo $event_amount ?></td>     		
                     </tr>
-                    <!-- <tr>	
-                        <td class="label">Service(s) </td>
-                        <td>
-                            <?php /*
-                                $services = get_services($id);
-                                $length = count($services);
-                                for ($i = 0; $i < $length; $i++) { 
-                                    echo $services[$i]['name'];
-                                    if ($i < $length - 1) {
-                                        echo ', ';
-                                    }
-                                }
-                            ?>
-                        </td>     		
-                    </tr> -->
-                    <!--<tr>	
-                        <td class="label">Location </td>
-                        <td>
-                            <?php 
-                                $locations = get_location($event_location);
-                                foreach($locations as $location) {
-                                    echo $location['name'];
-                                }
-                            ?>
-                        </td>     		
-                    </tr>
-                    <tr>	
-                        <td class="label">Location Address </td>
-                        <td>
-                            <?php 
-                                foreach($locations as $location) {
-                                    echo $location['address'];
-                                }
-                            ?>
-                        </td>     		
-                    </tr>
-                    <tr>	
-                        <td class="label">Description </td><td></td>
-                    </tr>
-                    <tr>
-                        <td id="description-cell" colspan="2"><?php echo $event_description */?></td>     		
-                    </tr> -->
-                    
+
+
+                    <?php
+                    $links = fetch_links_by_id($id);
+                    if (count($links) > 0):
+
+                    require_once('database/dbPersons.php');
+                    require_once('include/output.php');
+                            $count = 0;
+                    foreach ($links as $link) {
+                        $count++;
+
+                        echo'<tr style="color:white;">';
+                        echo"<td class='label'> Link $count </td>";
+                        echo"<td>&nbsp</td>";
+                        echo'</tr>';
+
+                        $link_id = $link['id'];
+                        $link_name = $link['name'];
+                        $link_link = $link['link'];
+
+                        echo'<tr style="color:white;">';
+                        echo'<td class="label"> Link Name </td>';
+                        echo"<td> $link_name </td>";
+                        echo'</tr>';
+                        echo'<tr style="color:white;">';
+                        echo'<td class="label"> Link </td>';
+                        echo"<td><a href='//$link_link' target = '_blank'>$link_link</a></td>";
+                        echo'</tr>';
+                    }
+                    echo"</tbody>";
+                    echo"</table>";
+                    ?>
                         
-        <!-- TODO: will figure out another way to center
-                 later -->
+<!--         TODO: will figure out another way to center-->
+<!--                 later -->
         <?php
 		if ($access_level >= 2) {
                 	echo '
@@ -393,7 +396,7 @@
                         echo '
                         <tr>
                         	<td colspan="2">
-                                	<button onclick="showDeleteConfirmation()">Delete Grant</button>
+                                	<button class = "del-button" onclick="showDeleteConfirmation()">Delete Grant</button>
                                 </td>
                         </tr>
                         ';
@@ -406,7 +409,7 @@
                         </tr>
                         ';
                  }
-	?> 
+	    ?>
 
         <?php /* if ($access_level >= 2) : ?>
             <!-- <form method="post" action="deleteEvent.php">
@@ -419,8 +422,62 @@
             <!--<button onclick="showDeleteConfirmation()">Delete Grant</button>-->
         <?php endif */?>
         
-        <!--<a href="calendar.php?month=<?/*php echo substr($event_info['date'], 0, 7) */?>" class="button cancel" style="margin-top: -.5rem">Return to Calendar</a>-->
+        <!--<a href="calendar.php?month=/*php echo substr($event_info['date'], 0, 7) */?>" class="button cancel" style="margin-top: -.5rem">Return to Calendar</a>-->
+        <?php elseif (count($event_info) != null): ?>
+            </tbody>
+            </table>
+            <?php
+            if ($access_level >= 2) {
+                echo '
+                        <tr>
+                        	<td colspan="2">
+                                	<a href="editEvent.php?id=' . $id . '" class="button">Edit Grant Details</a>
+                                </td>
+                        </tr>
+                        ';
+
+                if ($event_archived != 'yes') {
+                    echo '
+                            <tr>
+                                <td colspan="2">
+                                        <button onclick="showArchiveConfirmation()">Archive Grant</button>
+                                    </td>
+                            </tr>
+                            ';
+                } else {
+                    echo '
+                            <tr>
+                                <td colspan="2">
+                                        <button onclick="showUnarchiveConfirmation()">Unarchive Grant</button>
+                                    </td>
+                            </tr>
+                            ';
+                }
+
+                echo '
+                        <tr>
+                        	<td colspan="2">
+                                	<button class = "del-button" onclick="showDeleteConfirmation()">Delete Grant</button>
+                                </td>
+                        </tr>
+                        ';
+
+                echo '
+                        <tr>
+                        	<td colspan="2">
+                                	<a class="button cancel" href="viewGrant.php">Return to Grants</a>
+                                </td>
+                        </tr>
+                        ';
+            }
+
+            ?>
+
+        <?php else: ?>
+            <p class="no-messages standout" style="color:white;">You currently have no grants.</p>
+        <?php endif ?>
+        <!-- <button>Compose New Message</button> -->
+        <a class="button cancel" href="index.php">Return to Dashboard</a>
     </main>
 </body>
-
 </html>
