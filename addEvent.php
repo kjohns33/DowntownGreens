@@ -30,6 +30,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $children = $_POST['children'];  // Get the link data before sanitization
     unset($_POST['children']);
+
+    $fchildren = $_POST['fchildren'];
+    unset($_POST['fchildren']);
     $args = sanitize($_POST, null);
 
     $required = array(
@@ -60,6 +63,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $link = make_link($child);
                 add_link($link, $grant_id);
             }
+
+            foreach ($fchildren as $fchild) {
+                $field = make_field($fchild);
+                add_field($field, $grant_id);
+            }
+
         }
         header("Location: event.php?id=$grant_id&createSuccess");
         exit;
@@ -119,11 +128,72 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <script src= "js/dynField.js"></script>
                 
                 <fieldset>
+                    <div id="fchildren-container"></div>
+                    <add-link style="margin-bottom:.5rem;" type="button" onclick="addfChildForm()">Add Field</add-link>
+                </fieldset>
+
+                <fieldset>
                     <div id="children-container"></div>
                     <add-link type="button" onclick="addChildForm()">Add Link</add-link>
                 </fieldset>
 
                 <script>
+                    let fchildCount = 0;
+                    const fchildren = [];
+
+                    function addfChildForm() {
+                        fchildCount++;
+                        const fcontainer = document.getElementById('fchildren-container');
+                        
+                        const fchildDiv = document.createElement('div');
+                        fchildDiv.className = 'fchild-form';
+                        fchildDiv.id = `fchild-form-${fchildCount}`;
+                        
+                        fchildDiv.innerHTML = `
+                            <label>Field ${fchildren.length + 1}</label>
+
+                            <label for="field_name_${fchildCount}">Name</label>
+                            <input type="text" id="field_name_${fchildCount}" name="fchildren[${fchildCount}][field-name]" required placeholder="Enter field name">
+
+                            <label for="field_data_${fchildCount}">Field</label>
+                            <input type="text" id="field_data_${fchildCount}" name="fchildren[${fchildCount}][field-data]" required placeholder="Enter field data">
+
+                            <link-tag type="button" onclick="removefChildForm(${fchildCount})">Remove Field</link-tag>
+
+                            <hr>
+                        `;
+                        
+                        fcontainer.appendChild(fchildDiv);
+                        fchildren.push(fchildDiv);
+                        renumberfChildren();
+                }
+
+
+                function removefChildForm(fchildId) {
+                    // Find the child div to remove
+                    const fchildDiv = document.getElementById(`fchild-form-${fchildId}`);
+                    if (fchildDiv) {
+                        fchildDiv.remove(); // Remove the specific child form
+
+                        // Remove the corresponding child element from the array
+                        const findex = fchildren.findIndex(fchild => fchild.id === `fchild-form-${fchildId}`);
+                        if (findex > -1) {
+                            fchildren.splice(findex, 1);
+                        }
+
+                        // Renumber the children after removal
+                        renumberfChildren();
+                    }
+                }
+
+                function renumberfChildren() {
+                    // Iterate over each child form and update the displayed child number
+                    fchildren.forEach((fchild, findex) => {
+                        const fchildHeader = fchild.querySelector('h4');
+                        fchildHeader.textContent = `fChild ${findex + 1}`;
+                    });
+                }
+  //
                     let childCount = 0;
                     const children = [];
 
