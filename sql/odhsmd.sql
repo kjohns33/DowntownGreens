@@ -64,7 +64,8 @@ INSERT INTO `dbevents` (`id`, `name`, `open_date`, `description`, `completed`, `
 CREATE TABLE `dbfields` (
   `id` int(10) NOT NULL,
   `name` text NOT NULL,
-  `data` text NOT NULL
+  `data` text NOT NULL,
+  `grant_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
