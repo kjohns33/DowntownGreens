@@ -17,7 +17,7 @@
     }
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="">
     <head>
         <?php require_once('universal.inc') ?>
         <link rel="stylesheet" href="css/messages.css"></link>
@@ -32,7 +32,7 @@
                     <div class="happy-toast">Grant archived successfully!</div>
                 <?php endif; ?>
             <h2>Your Grants</h2>
-            <?php 
+            <?php
                 require_once('database/dbEvents.php');
                 $grants = fetch_events_as_array();
                 if (count($grants) > 0): ?>

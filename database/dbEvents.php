@@ -171,11 +171,26 @@ function fetch_events_on_date($date) {
 function make_field($result_row){
     $field = new Field(
         null,
-        $result_row['name'],
-        $result_row['data']
+        $result_row['field-name'],
+        $result_row['field-data']
     );
     return $field;
 }
+
+function add_field($field, $grant_id) {
+    if(!$field instanceOf Field){
+    die("type mismatch -- add fields");
+    }
+    $connection = connect();
+    $name = $field->getName();
+    $fData = $field->getData();
+    $query = "insert into dbfields (name, data, grant_id) values ('$name', '$fData', '$grant_id')";
+    $result = mysqli_query($connection, $query);
+    if (!$result) {
+    return null;
+    }
+    return mysqli_insert_id($connection);
+    }
 
 function fetch_event_by_id($id) {
     $connection = connect();
@@ -192,6 +207,7 @@ function fetch_event_by_id($id) {
     mysqli_close($connection);
     return null;
 }
+
 function make_grant($result_row){
     return new Grant(
         null,

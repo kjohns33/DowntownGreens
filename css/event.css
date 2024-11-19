@@ -294,3 +294,27 @@ td.label {
 #description-cell {
     white-space: normal;
 }
+
+a[href^="//"] {
+    color: white;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+a[href^="//"]:hover {
+    color: gold;
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+a[href^="//"]:active {
+    color: purple;
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+/*a[href^="//"]:visited {*/
+/*    color: navajowhite;*/
+/*    background-color: transparent;*/
+/*    text-decoration: underline;*/
+/*}*/
