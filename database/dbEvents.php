@@ -212,6 +212,7 @@ function make_grant($result_row){
     return new Grant(
         null,
         $result_row['name'],
+        $result_row['funder'],
         $result_row['open_date'],
         $result_row['due_date'],
         $result_row['description'],
@@ -229,6 +230,7 @@ function add_grant($grant) {
     }
     $connection = connect();
     $name = $grant->getName();
+    $funder = $grant->getFunder();
     $opendate = $grant->getOpenDate();
     $duedate = $grant->getDueDate();
     $description = $grant->getDescription();
@@ -237,8 +239,8 @@ function add_grant($grant) {
     $partners = $grant->getPartners();
     $amount = $grant->getAmount();
     $archived = "no";
-    $query = "insert into dbevents (name, open_date, due_date, description, completed, type, partners, amount, archived)
-    values ('$name', '$opendate', '$duedate', '$description', '$completed', '$type', '$partners', '$amount', '$archived')";
+    $query = "insert into dbevents (name, funder, open_date, due_date, description, completed, type, partners, amount, archived)
+    values ('$name', '$funder', '$opendate', '$duedate', '$description', '$completed', '$type', '$partners', '$amount', '$archived')";
     $result = mysqli_query($connection, $query);
     if (!$result) {
         return null;
