@@ -37,6 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $required = array(
         "name",
+        "funder",
         "open_date",
         "due_date",
         "description",
@@ -104,7 +105,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h2>Add Grant Form</h2>
             <form id="new-event-form" method="post">
                 <label for="name">* Grant Name </label>
-                <input type="text" id="name" name="name" required placeholder="Enter name"> 
+                <input type="text" id="name" name="name" required placeholder="Enter name">
+                <label for="funder">* Funder</label>
+                <input type="text" id="funder" name="funder" required placeholder="Enter funder">
                 <label for="name">* Open Date </label>
                 <input type="date" id="open_date" name="open_date" style="color:white;" <?php if ($date) echo 'value="' . $date . '"'; ?> required>
                 <label for="name">* Due Date </label>
@@ -113,10 +116,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="text" id="description" name="description" required placeholder="Enter description">
                 <label for="name" >* Status </label>
                 <select id="completed" name="completed" style="color:white;">
-                    <option value="incomplete" >Incomplete</option>
-                    <option value="complete">Complete!</option>
-                    <option value="funded">Funding Awarded</option>
-                    <option value="not_funded">Funding Failed</option>
+                    <option value="not_started" >Proposal Not Started</option>
+                    <option value="incomplete">Proposal Incomplete</option>
+                    <option value="submitted">Proposal Submitted!</option>
+                    <option value="declined">Proposal Declined</option>
+                    <option value="accepted">Proposal Accepted!</option>
+                    <option value="awarded">Gift Awarded!</option>
                 </select>
                 <label for="name"> Grant Type </label>
                 <input type="text" id="type" name="type" placeholder="Enter grant type">

@@ -3,6 +3,7 @@
 class Grant {
     private $id;
     private $name;
+    private $funder;
     private $open_date;
     private $due_date;
     private $description;
@@ -12,9 +13,10 @@ class Grant {
     private $amount;
     private $archived;
 
-    public function __construct($id, $name, $open_date, $due_date, $description, $completed, $type, $partners, $amount, $archived){
+    public function __construct($id, $name, $funder, $open_date, $due_date, $description, $completed, $type, $partners, $amount, $archived){
         $this->id = $id;
         $this->name = $name;
+        $this->funder = $funder;
         $this->open_date = $open_date;
         $this->due_date = $due_date;
         $this->description = $description;
@@ -31,6 +33,10 @@ class Grant {
 
     public function getName() {
         return $this->name;
+    }
+
+    public function getFunder() {
+        return $this->funder;
     }
 
     public function getOpenDate() {
