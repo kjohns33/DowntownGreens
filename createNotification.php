@@ -16,7 +16,7 @@
     $send_date = isset($_POST['send_date']) ? $_POST['send_date'] : '';
     $priority = isset($_POST['priority']) ? $_POST['priority'] : '';
     $send_to = isset($_POST['send_to']) ? (array)$_POST['send_to'] : [];
-    if (!$id || !$title || !$body || !$send_date || !$priority || empty($send_to)) {
+    if (!$id || !$title || !$send_date || !$priority || empty($send_to)) {
         header('Location: inbox.php?createNotifFailure');
         die();
     }

@@ -39,8 +39,8 @@
                     <form method="post" action="createNotification.php">
                         <label for="title">* Notification Title </label>
                         <input type="text" style="color: white" id="title" name="title" placeholder="Enter notification title" required>
-                        <label for="body">* Notification Body </label>
-                        <input type="text" style="color: white" id="body" name="body" placeholder="Enter notification body" required>
+                        <label for="body">Notification Body </label>
+                        <input type="text" style="color: white" id="body" name="body" placeholder="Enter notification body">
                         <label for="send_date">* Send Date </label>
                         <input type="date" id="send_date" name="send_date" style="color:white;" min="<?php echo date('Y-m-d'); ?>" required>
                         <label for="send_to">* Send To </label>
@@ -66,7 +66,7 @@
                             });
                         </script>
 
-                        <label for="priority" >* Priority </label>
+                        <label for="priority" >Priority </label>
                         <select style="color:white;" id="priority" name="priority">
                             <option value="1" selected>1</option>
                             <option value="2" >2</option>
@@ -86,6 +86,9 @@
         <main class="general">
             <?php if (isset($_GET['deleteNotifSuccess'])): ?>
                     <div class="happy-toast">Notification deleted successfully!</div>
+            <?php endif; ?>
+            <?php if (isset($_GET['createNotifSuccess'])) : ?>
+                <div class="happy-toast">Notification created successfully!</div>
             <?php endif; ?>
             <h2>Your Notifications</h2>
             <button class="buttoncreatenotif" onclick="showCreateNotifConfirmation()">Create Notification</button>
@@ -125,6 +128,10 @@
                                     $title = $message['title'];
                                     $time = $message['time'];
                                     $wasRead = $message['wasRead'];
+                                    $scheduledDate = $message['scheduled_date'];
+                                    if ($scheduledDate) {
+                                        if ($scheduledDate > date("Y-m-d")) { continue; }
+                                    }
                                     /*$timePacked = $message['time'];
                                     $pieces = explode('-', $timePacked);
                                     $year = $pieces[0];

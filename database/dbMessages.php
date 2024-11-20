@@ -7,7 +7,7 @@ date_default_timezone_set("America/New_York");
 function get_user_messages($userID) {
     $query = "select * from dbMessages
     where recipientID='$userID'
-    order by prioritylevel desc";
+    order by prioritylevel desc, time, grant_id";
     $connection = connect();
     $result = mysqli_query($connection, $query);
     if (!$result) {
