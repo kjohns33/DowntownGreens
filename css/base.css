@@ -271,7 +271,7 @@ input[type=submit], button, .button {
     text-align: center;
 }
 
-input[type=submit], .del-button {
+.del-button {
     color: var(--button-font-color);
     background-color: darkred;
     padding: var(--button-padding);

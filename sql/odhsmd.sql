@@ -118,7 +118,7 @@ INSERT INTO `dblinks` (`id`, `name`, `link`, `grant_id`) VALUES
 
 CREATE TABLE `dbmessages` (
   `id` int(11) NOT NULL,
-  `grant_id` int(11) NOT NULL,
+  `grant_id` int(11),
   `person_id` varchar(256) NOT NULL,
   `senderID` varchar(256) NOT NULL,
   `recipientID` varchar(256) NOT NULL,
