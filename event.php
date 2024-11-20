@@ -254,6 +254,7 @@
         <?php    
             require_once('include/output.php');
             $event_name = $event_info['name'];
+            $event_funder = $event_info['funder'];
             $event_open_date = date('l, F j, Y', strtotime($event_info['open_date']));
             $event_due_date= date('l, F j, Y', strtotime($event_info['due_date']));
             $event_description = $event_info['description'];
@@ -300,6 +301,10 @@
                     <tr style="color:white;">	
                         <td class="label"> Grant </td>
                         <td><?php echo $event_name ?></td>     		
+                    </tr>
+                    <tr style="color:white;">
+                        <td class="funder"> Funder </td>
+                        <td><?php echo $event_funder ?></td>
                     </tr>
                     <tr style="color:white;">	
                         <td class="label"> Status </td>

@@ -28,7 +28,7 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $args = sanitize($_POST, null);
         $required = array(
-            "id", "name", "completed", "open_date", "due_date", "description");
+            "id", "funder", "name", "completed", "open_date", "due_date", "description");
         
         if (!wereRequiredFieldsSubmitted($args, $required)) {
             var_dump($args);
@@ -45,6 +45,7 @@
             $endTime = $validated[1];
             $date = $args['date'] = validateDate($args["date"]);*/
             $name = $args['name'];
+            $funder = $args['funder'];
             $completed = $args['completed'];
             $open_date = $args['open_date'];
             $due_date = $args['due_date'];
@@ -116,6 +117,9 @@
                 <label for="name">Grant Name </label>
                 <input type="hidden" name="id" value="<?php echo $id ?>"/> 
                 <input type="text" style="color:white;" id="name" name="name" value="<?php echo $event['name'] ?>" required placeholder="Enter name">
+                <label for="funder">Funder</label>
+                <input type="hidden" name="funder" value="<?php echo $event['funder'] ?>"/>
+                <input type="text" style="color:white;" id="funder" name="funder" value="<?php echo $event['funder'] ?>" required placeholder="Enter funder">
                 <?php //Get $completed variable (the current status) to set the "selected" option in the drop down select form
                     if (!isset($_GET['id'])) {
                         // uhoh
@@ -153,10 +157,12 @@
                 ?>
                 <label for="name" >Status </label>
                 <select style="color:white;" id="completed" name="completed">
-                    <option value="incomplete"  <?php echo $completed === 'incomplete' ? 'selected' : ''; ?>>Incomplete</option>
-                    <option value="complete" <?php echo $completed === 'complete' ? 'selected' : ''; ?>>Complete</option>
-                    <option value="funded" <?php echo $completed === 'funded' ? 'selected' : ''; ?>>Funding Awarded</option>
-                    <option value="not_funded" <?php echo $completed === 'not_funded' ? 'selected' : ''; ?>>Funding Failed</option>
+                    <option value="not_started" >Proposal Not Started</option>
+                    <option value="incomplete">Proposal Incomplete</option>
+                    <option value="submitted">Proposal Submitted!</option>
+                    <option value="declined">Proposal Declined</option>
+                    <option value="accepted">Proposal Accepted!</option>
+                    <option value="awarded">Gift Awarded!</option>
                 </select>
                 <label for="name">Open Date </label>
                 <input type="date" style="color:white;" id="open_date" name="open_date" value="<?php echo $event['open_date'] ?>" required>
@@ -170,45 +176,6 @@
                 <input type="text" id="partners" name="partners" value="<?php echo $event_partners ?>" placeholder="Enter partners">
                 <label for="name"> Grant Amount </label>
                 <input type="text" id="amount" name="amount" value="<?php echo $event_amount ?>" placeholder="Enter amount">
-                <!--<fieldset>
-                    <label for="name">* Service </label>
-                    <?php 
-                        // fetch data from the $all_services variable
-                        // and individually display as an option
-                        echo '<ul>';
-                        while ($service = mysqli_fetch_array(
-                                $all_services, MYSQLI_ASSOC)):; 
-                            $shouldCheck = false;
-                            foreach($current_services as $current_serv) {
-                                if ($service['id'] == $current_serv['id']) {
-                                    $shouldCheck = true;
-                                }
-                            }
-                            if ($shouldCheck) {
-                                echo '<li><input class="checkboxes" type="checkbox" name="service[]" value="' . $service['id'] . '" checked required/> ' . $service['name'];
-                            } else {
-                                echo '<li><input class="checkboxes" type="checkbox" name="service[]" value="' . $service['id'] . '" required/> ' . $service['name'];
-                            }
-                        endwhile;
-                    ?>
-                </fieldset> 
-                    <?php 
-                        // fetch data from the $all_locations variable
-                        // and individually display as an option
-                        while ($location = mysqli_fetch_array(
-                                $all_locations, MYSQLI_ASSOC)):; 
-                    
-                            if ($event['locationID'] == $location['id']) {
-                                echo '<option selected value="' . $location['id']. '">';
-                            } else {
-                                echo '<option value="' . $location['id']. '">';
-                            }
-                            echo $location['name'];
-                            echo '</option>';
-                        
-                        endwhile; 
-                        // terminate while loop
-                    ?>-->
                 </select><p></p>
                 <input type="submit" value="Update Grant">
                 <a class="button cancel" href="event.php?id=<?php echo htmlspecialchars($_GET['id']) ?>" style="margin-top: .5rem">Cancel</a>

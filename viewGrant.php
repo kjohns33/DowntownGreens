@@ -54,6 +54,7 @@
                                 foreach ($grants as $grant) {
                                     $grantID = $grant['id'];
                                     $title = $grant['name'];
+                                    $funder = $grant['funder'];
                                     $status = $grant['completed'];
                                     $openDate = $grant['open_date'];
                                     $timePacked = $grant['due_date'];
