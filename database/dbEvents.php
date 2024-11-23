@@ -578,4 +578,24 @@ function update_animal2($animal) {
     return $id;
 }
 
+/* generate report things*/
+function fetch_event_open_range($start_date, $stop_date) {
+   $connection = connect();
+   $beg_date = mysqli_real_escape_string($connection, $start_date);
+   $end_date = mysqli_real_escape_string($connection, $stop_date);
+   $query = "SELECT * from dbEvents WHERE open_date >= '$beg_date' and open_date <= '$end_date'";
+   $result = mysqli_query($connection, $query);
+
+   if (!$result) {
+       mysqli_close($connection);
+       return null;
+   }
+
+   $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
+   mysqli_close($connection);
+   return $events;
+
+}
+
+
 ?>

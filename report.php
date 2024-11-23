@@ -29,15 +29,7 @@
           die();
       }
   }
-/*
-    // get animal data from database for form
-    // Connect to database
-    include_once('database/dbinfo.php');
-    $con=connect();
-    // Get all the animals from animal table
-    $sql = "SELECT * FROM `dbAnimals`";
-    $all_animals = mysqli_query($con,$sql);
-    */ //COMMENT OUT TIL WE DO BACK END//
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -88,6 +80,7 @@
 	    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit_click"])) {
             require_once('include/input-validation.php');
             require_once('database/dbEvents.php');
+            require_once('reports.php');
             $args = sanitize($_POST, null);
             $required = array(
                 "start_date", "stop_date",
@@ -102,6 +95,16 @@
                     echo 'bad args';
                     die();
                 }
+                $start = strtotime($startdate);
+                $stop = strtotime($stopdate);
+                if ($stop < $start)
+                {
+                    echo "Invalid date range - try again";
+                }
+                else{
+                    displayReportsForDateRange($startdate, $stopdate);
+                    die();
+                }
             }
             }
 	    ?>
@@ -109,17 +112,16 @@
 	<h2>Generate Report</h2>
 	<br>
 
-    <form class="report_select" method="get" action="reportsPage.php">
+    <form class="report_select" method="post" >
         <label for="name">* Start Date </label>
-        <input type="date" id="start_date" name="start_date" style="color:white;" <?php if ($date) echo 'value="' . $date . '"'; ?> required>
+        <input type="date" id="start_date" name="start_date" style="color:white;" <?php if ($date) echo 'value="' . $date . '"'; ?>  required>
         <label for="name">* Stop Date </label>
-        <input type="date" id="stop_date" name="stop_date" style="color:white;"<?php if ($date) echo 'value="' . $date . '"'; ?> required>
-        <?php if ($date): ?>
-                    <a class="button cancel" href="calendar.php?month=<?php echo substr($date, 0, 7) ?>" style="margin-top: -.5rem">Return to Calendar</a>
-                <?php else: ?>
-                    <a class="button cancel" href="index.php" style="margin-top: -.5rem">Return to Dashboard</a>
-                <?php endif ?>
-    <input type="submit" name="submit_click">
+        <input type="date" id="stop_date" name="stop_date" style="color:white;"<?php if ($date) echo 'value="' . $date . '"'; ?>  required>
+        <?php
+	       echo "</select><br/>";
+	    ?>
+        <input type="submit" name="submit_click" value="Submit" style="margin-top: -1rem">
+        <a class="button cancel" href="index.php" >Return to Dashboard</a>
     </form>
     </main>
 

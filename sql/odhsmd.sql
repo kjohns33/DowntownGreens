@@ -36,7 +36,7 @@ CREATE TABLE `dbevents` (
   `due_date` date DEFAULT NULL,
   `type` text DEFAULT NULL,
   `partners` text DEFAULT NULL,
-  `amount` text DEFAULT NULL,
+  `amount` float DEFAULT 0,
   `archived` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -45,15 +45,15 @@ CREATE TABLE `dbevents` (
 --
 
 INSERT INTO `dbevents` (`id`, `name`, `open_date`, `description`, `completed`, `due_date`, `type`, `partners`, `amount`, `archived`) VALUES
-(9, 'test', '2025-01-01', 'test', 'incomplete', '2025-01-02', NULL, NULL, NULL, ''),
-(11, 'Test 2', '2024-10-22', 'c', 'incomplete', '2024-10-25', NULL, NULL, NULL, ''),
-(12, 'Test 3', '2024-10-26', 'testing', 'incomplete', '2024-10-31', NULL, NULL, NULL, ''),
-(13, 'Test 4', '2024-10-29', 'Test 4', 'incomplete', '2024-12-31', NULL, NULL, NULL, ''),
-(14, 'Test 5', '2025-01-01', 'Test 5', 'incomplete', '2025-01-31', NULL, NULL, NULL, ''),
-(15, 'Test 6', '2024-11-05', 'Test 6', 'incomplete', '2024-11-30', NULL, NULL, NULL, ''),
-(16, 'Test 7', '2024-10-22', 'Test 7', 'incomplete', '2024-10-25', NULL, NULL, NULL, ''),
-(17, 'Test 8', '2024-10-24', 'Test 8', 'complete', '2024-10-31', NULL, NULL, NULL, ''),
-(18, 'Grant test', '2024-11-21', 'A test grant for the demo', 'incomplete', '2024-11-22', 'test', '', '100', 'no');
+(9, 'test', '2025-01-01', 'test', 'not_started', '2025-01-02', NULL, NULL, 982.0, ''),
+(11, 'Test 2', '2024-10-22', 'c', 'incomplete', '2024-10-25', NULL, NULL, 2314.0, ''),
+(12, 'Test 3', '2024-10-26', 'testing', 'submitted', '2024-10-31', NULL, NULL, 782.0, ''),
+(13, 'Test 4', '2024-10-29', 'Test 4', 'declined', '2024-12-31', NULL, NULL, 2000.0, ''),
+(14, 'Test 5', '2025-01-01', 'Test 5', 'accepted', '2025-01-31', NULL, NULL, 4500.0, ''),
+(15, 'Test 6', '2024-11-05', 'Test 6', 'submitted', '2024-11-30', NULL, NULL, 1200.0, ''),
+(16, 'Test 7', '2024-10-22', 'Test 7', 'incomplete', '2024-10-25', NULL, NULL, 888.0, ''),
+(17, 'Test 8', '2024-10-24', 'Test 8', 'awarded', '2024-10-31', NULL, NULL, 11234.0, ''),
+(18, 'Grant test', '2024-11-21', 'A test grant for the demo', 'incomplete', '2024-11-22', 'test', '', 34982.0, 'no');
 
 -- --------------------------------------------------------
 

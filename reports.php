@@ -1,115 +1,144 @@
 <?php
-/*
- * Copyright 2013 by Jerrick Hoang, Ivy Xing, Sam Roberts, James Cook, 
- * Johnny Coster, Judy Yang, Jackson Moniaga, Oliver Radwan, 
- * Maxwell Palmer, Nolan McNair, Taylor Talmage, and Allen Tucker. 
- * This program is part of RMH Homebase, which is free software.  It comes with 
- * absolutely no warranty. You can redistribute and/or modify it under the terms 
- * of the GNU General Public License as published by the Free Software Foundation
- * (see <http://www.gnu.org/licenses/ for more information).
- * 
- */
-
-/*
- * reports page for RMH homebase.
- * @author Jerrick Hoang
- * @version 11/5/2013
- */
-session_cache_expire(30);
-session_start();
-
-include_once('database/dbinfo.php');
-include_once('database/dbPersons.php');
-include_once('domain/Person.php');
-include_once('database/dbEvents.php');
-
-include_once('database/dbShifts.php');
-include_once('domain/Shift.php');
-?>
-
-<html>
-<head>
-<!-- <link rel="stylesheet" href="lib\bootstrap\css\bootstrap.css" type="text/css" /> -->
-<!-- <link rel="stylesheet" href="styles.css" type="text/css" /> -->
-<!-- <link rel="stylesheet" href="lib/jquery-ui.css" /> -->
-<script type="text/javascript" src="lib/jquery-1.9.1.js"></script>
-<script src="lib/jquery-ui.js"></script>
-<script>
-$(function() {
-	$( "#from" ).datepicker({dateFormat: 'y-mm-dd',changeMonth:true,changeYear:true});
-	$( "#to" ).datepicker({dateFormat: 'y-mm-dd',changeMonth:true,changeYear:true});
-
-	$(document).on("keyup", ".volunteer-name", function() {
-		var str = $(this).val();
-		var target = $(this);
-		$.ajax({
-			type: 'get',
-			url: 'reportsCompute.php?q='+str,
-			success: function (response) {
-				var suggestions = $.parseJSON(response);
-				console.log(target);
-				target.autocomplete({
-					source: suggestions
-				});
-			}
-		});
-	});
-
-	$("input[name='date']").change(function() {
-		if ($("input[name='date']:checked").val() == 'date-range') {
-			$("#fromto").show();
-		} else {
-			$("#fromto").hide();
+ 
+ 	function getReportsInDateRange($start_date, $end_date) {
+		$connection = connect();
+		$start_date = mysqli_real_escape_string($connection, $start_date);
+		$end_date = mysqli_real_escape_string($connection, $end_date);
+		$query = "select * from dbEvents
+				  where open_date >= '$start_date' and open_date <= '$end_date'
+				  order by open_date asc";
+		$result = mysqli_query($connection, $query);
+		if (!$result) {
+			mysqli_close($connection);
+			return null;
 		}
-	});
-
-	$("#report-submit").on('click', function (e) {
-		e.preventDefault();
-		$.ajax({
-			type: 'post',
-			url: 'reportsCompute.php',
-			data: $('#search-fields').serialize(),
-			success: function (response) {
-				$("#outputs").html(response);
+		require_once('include/output.php');
+		$events = array();
+		while ($result_row = mysqli_fetch_assoc($result)) {
+			$key = $result_row['open_date'];
+			if (isset($events[$key])) {
+				$events[$key] []= hsc($result_row);
+			} else {
+				$events[$key] = array(hsc($result_row));
 			}
-		});
-	} );
-	
-});
-</script>
-	<?php require_once('universal.inc') ?>
-        <title>Downtown Greens | Reports</title>
-        <style>
-            .report_select{
-                display: flex;
-                flex-direction: column;
-                gap: .5rem;
-                padding: 0 0 4rem 0;
-            }
-            @media only screen and (min-width: 1024px) {
-                .report_select {
-                    width: 50%;
-                }
-                main.reportSelection {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                }
-            }
-        </style>
-</head>
-<body>
- 	<?php require_once('header.php');
-	if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["go_to_reports_page"]) && isset($_POST["report_types"])) {
-		$type = $_POST['report_type'];
-		header("Location: /gwyneth/reportsPage.php?report_type=$type");
+		}
+		mysqli_close($connection);
+		return $events;
 	}
-	?>
-        <h1>Business and Operational Reports</h1>
-        <main class="reportSelection">
-            <form class="report_select" method="post">
-        <?php
-	
-        <?PHP include('footer.inc'); ?>
 
-</body>
+	function displayReportsForDateRange ($start_date, $end_date) { 
+		$pieces = explode('-', $start_date);
+		$pieces2 = explode('-', $end_date);
+		$year = $pieces[0];
+		$month = $pieces[1];
+		$day = $pieces[2];
+		$year2 = $pieces2[0];
+		$month2 = $pieces2[1];
+		$day2 = $pieces2[2];
+		?>
+        <h2>Grant Report <?php echo $month."/".$day."/".$year?> through <?php echo $month2."/".$day2."/".$year2?></h2>
+            <?php 
+                require_once('database/dbEvents.php');
+                $grants = fetch_event_open_range($start_date, $end_date);
+                if (count($grants) > 0): ?>
+ 		
+				<?php 
+					require_once('include/output.php');
+					
+					global $totalApplied;
+					global $totalWaiting;
+					global $totalAccepted;
+					global $fundsAnticipated;
+					global $fundsAwarded;
+					
+				 	$totalApplied = 0;
+					$totalWaiting = 0;
+					$totalAccepted = 0;
+					$fundsAnticipated = 0;
+					$fundsAwarded = 0;
+					
+					forEach($grants as $grant) {
+						$status = $grant['completed'];
+						$funds = $grant['amount'];
+						if($status == "submitted"){
+							$totalWaiting++;
+						}
+						if(($status == "submitted") || ($status == "declined") || 
+						($status == "accepted") || ($status == "awarded")){
+								$totalApplied++;
+							}
+						if($status == "accepted"){
+							$totalAccepted++;
+							$fundsAnticipated += $funds;
+						}
+						if($status == "awarded"){
+							$fundsAwarded += $funds;
+						}
+					}
+					echo "<b>".$totalApplied." Grants Applied<br>";
+					echo $totalWaiting." Grants Applied and Waiting for Response<br>";
+					echo $totalAccepted." Grants Accepted and Not Awarded Yet (Anticipated Award: $".number_format($fundsAnticipated,2)." )<br>";
+					echo "<br>";
+					echo "$".number_format($fundsAwarded, 2)." Total Awarded!<br>";
+					echo " <br>";
+					
+				?>
+				<div class="table-wrapper">
+				<table class="general">
+				<thead>
+				<tr>
+					<th><strong>Grant Name</strong></th>
+					<th style="width:1px"><strong>Open Date</strong></th>
+					<th style="width:1px"><strong>Due Date</strong></th>
+					<th style="width:1px"><strong>Amount</strong></th>
+					<th style="width:1px"><strong>Description</strong></th>
+				</tr>
+				</thead>
+				<tbody class="standout">
+					<?php				
+					foreach ($grants as $grant) {
+						$grantID = $grant['id'];
+						$title = $grant['name'];
+						$status = $grant['completed'];
+						$openDate = $grant['open_date'];
+						$dueDate = $grant['due_date'];
+						$timePacked = $grant['due_date'];
+                        $pieces2 = explode('-', $openDate);
+                        $pieces = explode('-', $timePacked);
+                        $year = $pieces[0];
+                        $month = $pieces[1];
+                        $day = $pieces[2];
+                        $year2 = $pieces2[0];
+                        $month2 = $pieces2[1];
+                        $day2 = $pieces2[2];
+						$descrip = $grant['description'];
+						$funds = $grant['amount'];
+						
+						if($status != "awarded"){
+							continue;
+						}
+						$fundsString = number_format($funds, 2);
+						echo "
+							<tr class='message' style='color:white;' data-message-id='$grantID'>
+								<td>$title</td>
+								<td>$month2/$day2/$year2</td>
+								<td>$month/$day/$year</td>
+								<td>$fundsString</td>
+								<td>$descrip</td>
+							</tr>";
+					}
+				?>
+			</tbody>
+		</table>
+	</div>
+	<?php else: ?>
+            <p class="no-messages standout" style="color:white;">No grants in the date range.</p>
+    <?php endif ?>
+	<?php
+	   echo "</select><br/>";
+	?>
+	<a class="button cancel" href="index.php" >Return to Dashboard</a>
+	<?php
+	
+	}
+?>
