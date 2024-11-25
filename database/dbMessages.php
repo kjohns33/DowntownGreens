@@ -27,9 +27,144 @@ function get_user_messages($userID) {
     return $messages;
 }
 
+function get_user_messages_ordered_by($userID, $order) {
+    $query = "select * from dbMessages m inner join dbevents e on m.grant_id = e.id
+    where recipientID='$userID'
+    order by $order desc, time, grant_id";
+    $connection = connect();
+    $result = mysqli_query($connection, $query);
+    if (!$result) {
+        error_log("Database query failed: " . mysqli_error($connection));
+        mysqli_close($connection);
+        return null;
+    }
+    $messages = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    foreach ($messages as &$message) {
+        foreach ($message as $key => $value) {
+            if ($value != NULL) {
+                $message[$key] = htmlspecialchars($value);
+            }
+        }
+    }
+    unset($message);
+    mysqli_close($connection);
+    return $messages;
+}
+
+function get_user_messages_ordered_by_unread($userID) {
+    $query = "select * from dbMessages
+    where recipientID='$userID'
+    order by wasRead asc, prioritylevel desc, time, grant_id";
+    $connection = connect();
+    $result = mysqli_query($connection, $query);
+    if (!$result) {
+        error_log("Database query failed: " . mysqli_error($connection));
+        mysqli_close($connection);
+        return null;
+    }
+    $messages = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    foreach ($messages as &$message) {
+        foreach ($message as $key => $value) {
+            if ($value != NULL) {
+                $message[$key] = htmlspecialchars($value);
+            }
+        }
+    }
+    unset($message);
+    mysqli_close($connection);
+    return $messages;
+}
+
+function get_user_messages_ordered_by_time($userID) {
+    $query = "select * from dbMessages
+    where recipientID='$userID'
+    order by time desc, prioritylevel, grant_id";
+    $connection = connect();
+    $result = mysqli_query($connection, $query);
+    if (!$result) {
+        error_log("Database query failed: " . mysqli_error($connection));
+        mysqli_close($connection);
+        return null;
+    }
+    $messages = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    foreach ($messages as &$message) {
+        foreach ($message as $key => $value) {
+            if ($value != NULL) {
+                $message[$key] = htmlspecialchars($value);
+            }
+        }
+    }
+    unset($message);
+    mysqli_close($connection);
+    return $messages;
+}
+
+function get_user_messages_ordered_by_open_due_dates($userID, $date) {
+    $alternateDate = ($date === 'open') ? 'due' : 'open';
+    $query = "
+        SELECT * 
+        FROM dbMessages
+        WHERE recipientID = '$userID'
+        ORDER BY 
+            FIELD(message_type, '$date', '$alternateDate', 'custom') ASC, 
+            prioritylevel DESC, 
+            time DESC, 
+            grant_id
+    ";
+    $connection = connect();
+    $result = mysqli_query($connection, $query);
+    if (!$result) {
+        error_log("Database query failed: " . mysqli_error($connection));
+        mysqli_close($connection);
+        return null;
+    }
+    $messages = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    foreach ($messages as &$message) {
+        foreach ($message as $key => $value) {
+            if ($value != NULL) {
+                $message[$key] = htmlspecialchars($value);
+            }
+        }
+    }
+    unset($message);
+    mysqli_close($connection);
+    return $messages;
+}
+
+function get_user_messages_nonsys_first($userID) {
+    $query = "
+        SELECT * 
+        FROM dbMessages
+        WHERE recipientID = '$userID'
+        ORDER BY 
+            FIELD(message_type, 'custom') DESC, 
+            prioritylevel DESC, 
+            time DESC, 
+            grant_id
+    ";
+    $connection = connect();
+    $result = mysqli_query($connection, $query);
+    if (!$result) {
+        error_log("Database query failed: " . mysqli_error($connection));
+        mysqli_close($connection);
+        return null;
+    }
+    $messages = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    foreach ($messages as &$message) {
+        foreach ($message as $key => $value) {
+            if ($value != NULL) {
+                $message[$key] = htmlspecialchars($value);
+            }
+        }
+    }
+    unset($message);
+    mysqli_close($connection);
+    return $messages;
+}
+
 function get_user_unread_count($userID) {
-    $query = "select count(*) from dbMessages m inner join dbevents e on m.grant_id = e.id
-        where e.archived<>'yes' and recipientID='$userID' and wasRead=0";
+    $query = "select count(*) from dbMessages m left join dbevents e on m.grant_id = e.id and e.archived<>'yes'
+        where recipientID='$userID' and wasRead=0";
     $connection = connect();
     $result = mysqli_query($connection, $query);
     if (!$result) {
@@ -301,6 +436,22 @@ function get_grant_id_from_messageID($messageID) {
 
 function update_sent_status($id, $sent) {
     $query = "update dbMessages set sent='$sent' where id='$id'";
+    $connection = connect();
+    $result = mysqli_query($connection, $query);
+    $result = boolval($result);
+    mysqli_close($connection);
+    return $result;
+}
+
+function markAllAsRead($id) {
+    $query = "
+        UPDATE dbMessages m
+        LEFT JOIN dbEvents e ON m.grant_id = e.id
+        SET m.wasRead = 1
+        WHERE m.recipientID='$id'
+        AND (m.grant_id IS NULL OR e.archived <> 'yes') 
+        AND m.wasRead = 0
+    ";
     $connection = connect();
     $result = mysqli_query($connection, $query);
     $result = boolval($result);

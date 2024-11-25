@@ -89,3 +89,100 @@ button.btn.dropdown-toggle.btn-light.bs-placeholder::after {
     overflow: hidden;
     text-overflow: ellipsis; /* Show '...' when content is too wide */
 }
+
+/* Make buttons appear on same line */
+.button-inline .btn {
+    display: inline-block;
+}
+
+.sortby-style {
+    display: inline-block;
+    width: 33.059%;
+}
+
+#button-inline {
+    display: flex; /* Make this a flex container */
+    flex-wrap: wrap; /* Allow wrapping if needed */
+    gap: .8rem; /* Optional: space between buttons */
+    justify-content: space-between; /* Spread out buttons evenly */
+    width: 100%; /* Ensure the container takes up full width */
+}
+
+.buttoncreatenotif, .sortby-style {
+    flex: 1; /* Allow each button to take equal width */
+    min-width: 10rem; /* Optional: Prevent buttons from getting too small */
+    box-sizing: border-box; /* Include padding and border in width calculation */
+}
+
+.sortby-style .btn {
+    border-top: 15px solid var(--shadow-and-border-color); /* Thick top border */
+    padding: .5em; /* Adjust padding for content */
+}
+
+/* Change font weight of text to make it bold/thicker */
+.sortby-style .btn .filter-option {
+    font-weight: 500; /* Make placeholder text bold */
+}
+
+/* Make the dropdown arrow white */
+.sortby-style .btn::after {
+    border-top-color: white !important; /* Change caret (arrow) color to white */
+}
+
+/* Style selected placeholder text color */
+.sortby-style .btn .filter-option {
+    color: white; /* Change placeholder text to white */
+    text-overflow: ellipsis;
+}
+
+.sortby-style .btn {
+    border-width: 0px; /* Adjust the border width as desired */
+    border-color: var(--shadow-and-border-color) !important; /* Override and change border color */
+    background-color: var(--page-font-color); /* Dropdown button background color */
+    color: white; /* Text color */
+    border-radius: 0; /* Remove rounded corners */
+    width: 100%; /* Make button fill container */
+}
+
+/* Hover Effect on Dropdown Button */
+.sortby-style .btn:hover,
+.sortby-style .btn:focus {
+    background-color: var(--page-background-color); /* Hover color */
+}
+
+/* Dropdown Menu Background and Border */
+.sortby-style .dropdown-menu {
+    background-color: #f0f8ff; /* Dropdown menu background color */
+    border: 6px solid #ffffff; /* Border color */
+    border-radius: 0; /* Remove rounded corners */
+}
+
+button.btn.dropdown-toggle.btn-light.bs-placeholder::after {
+    color: white; 
+}
+
+/* Get rid of shadow */
+.sortby-style .btn:focus, 
+.sortby-style .btn:active,
+.sortby-style .btn.dropdown-toggle {
+    box-shadow: none; /* Remove shadow */
+    border-color: white;
+}
+
+/* Dropdown Item Hover Background Color */
+.sortby-style .dropdown-menu li a:hover {
+    background-color: var(--page-background-color); /* Hover background color */
+    color: #333; /* Text color on hover */
+}
+
+/* Selected Item Background Color */
+.sortby-style .dropdown-menu .selected {
+    background-color: var(--page-font-color); /* Background color for selected items */
+    color: white;
+}
+
+/* Fix background color on button in the active/focused state */
+.sortby-style .btn:active,
+.sortby-style .btn:focus {
+    background-color: var(--page-background-color); /* Set consistent background color */
+}
