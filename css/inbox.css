@@ -186,3 +186,11 @@ button.btn.dropdown-toggle.btn-light.bs-placeholder::after {
 .sortby-style .btn:focus {
     background-color: var(--page-background-color); /* Set consistent background color */
 }
+
+.btn:active {
+    border-radius: .25rem !important;
+}
+
+.btn:focus {
+    border-radius: .25rem !important;
+}

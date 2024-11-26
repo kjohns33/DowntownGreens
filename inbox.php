@@ -152,14 +152,17 @@
                     const select = document.querySelector('.sortby-style select');
                     updatePlaceholder(select); // Call the function to update the button with default selected option
                 });
-                document.querySelector('table').addEventListener('click', function (e) {
-                    const target = e.target;
-                    if (target.tagName === 'TH') {
-                        const column = target.getAttribute('data-column');
-                        const sortOrder = target.classList.contains('asc') ? 'desc' : 'asc';
-                        fetchMessages(column, sortOrder); // Assuming you fetch messages based on column and order
+                const table = document.querySelector('table');
+                    if (table) {
+                        table.addEventListener('click', function (e) {
+                            const target = e.target;
+                            if (target.tagName === 'TH') {
+                                const column = target.getAttribute('data-column');
+                                const sortOrder = target.classList.contains('asc') ? 'desc' : 'asc';
+                                fetchMessages(column, sortOrder);
+                            }
+                        });
                     }
-                });
             </script>
             <?php 
                 require_once('database/dbMessages.php');
