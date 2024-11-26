@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fa9dfb9e-b8ed-4236-b539-807476d1c316" name="Changes" comment="added funder field to add grant and database and made requested header changes. requires new sql file that was sent in discord">
-      <change beforePath="$PROJECT_DIR$/editEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/editEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/event.php" beforeDir="false" afterPath="$PROJECT_DIR$/event.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewGrant.php" beforeDir="false" afterPath="$PROJECT_DIR$/viewGrant.php" afterDir="false" />
+    <list default="true" id="fa9dfb9e-b8ed-4236-b539-807476d1c316" name="Changes" comment="removing unnecessary fields from Person.php and dbPersons.php. Removed profileEditForm and Service.php because we weren't using it">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,6 +82,8 @@
       <workItem from="1731941213787" duration="1065000" />
       <workItem from="1731968244506" duration="1979000" />
       <workItem from="1732119274620" duration="2392000" />
+      <workItem from="1732128597370" duration="44000" />
+      <workItem from="1732581879513" duration="3229000" />
     </task>
     <task id="LOCAL-00001" summary="view grant deadlines/openings by day">
       <option name="closed" value="true" />
@@ -109,7 +109,23 @@
       <option name="project" value="LOCAL" />
       <updated>1732125395244</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="removing unnecessary fields from Person.php and dbPersons.php. Removed profileEditForm and Service.php because we weren't using it">
+      <option name="closed" value="true" />
+      <created>1732585358443</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1732585358443</updated>
+    </task>
+    <task id="LOCAL-00005" summary="removing unnecessary fields from Person.php and dbPersons.php. Removed profileEditForm and Service.php because we weren't using it">
+      <option name="closed" value="true" />
+      <created>1732585806589</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1732585806589</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -142,6 +158,9 @@
     <MESSAGE value="view grant deadlines/openings by day" />
     <MESSAGE value="link backend is actually working now" />
     <MESSAGE value="added funder field to add grant and database and made requested header changes. requires new sql file that was sent in discord" />
-    <option name="LAST_COMMIT_MESSAGE" value="added funder field to add grant and database and made requested header changes. requires new sql file that was sent in discord" />
+    <MESSAGE value="local&#10;Merge branch 'main' of https://github.com/kjohns33/DowntownGreens into links-edit-grant" />
+    <MESSAGE value="removing unnecessary fields from Person.php and dbPersons.php" />
+    <MESSAGE value="removing unnecessary fields from Person.php and dbPersons.php. Removed profileEditForm and Service.php because we weren't using it" />
+    <option name="LAST_COMMIT_MESSAGE" value="removing unnecessary fields from Person.php and dbPersons.php. Removed profileEditForm and Service.php because we weren't using it" />
   </component>
 </project>
