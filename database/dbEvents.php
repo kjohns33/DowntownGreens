@@ -22,7 +22,6 @@
 
 include_once('dbinfo.php');
 include_once('dbMessages.php');
-include_once(dirname(__FILE__).'/../domain/Event.php');
 require_once(dirname(__FILE__).'/../domain/Grant.php');
 require_once(dirname(__FILE__).'/../domain/Link.php');
 require_once(dirname(__FILE__).'/../domain/Field.php');
