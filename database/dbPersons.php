@@ -102,32 +102,6 @@ function reset_password($id, $newPass) {
 }
 
 /*
- * @return all rows from dbPersons table ordered by last name
- * if none there, return false
- */
-
-function getall_dbPersons($name_from, $name_to, $venue) {
-    $con=connect();
-    $query = "SELECT * FROM dbPersons";
-    $query.= " WHERE venue = '" .$venue. "'"; 
-    $query.= " AND last_name BETWEEN '" .$name_from. "' AND '" .$name_to. "'"; 
-    $query.= " ORDER BY last_name,first_name";
-    $result = mysqli_query($con,$query);
-    if ($result == null || mysqli_num_rows($result) == 0) {
-        mysqli_close($con);
-        return false;
-    }
-    $result = mysqli_query($con,$query);
-    $thePersons = array();
-    while ($result_row = mysqli_fetch_assoc($result)) {
-        $thePerson = make_a_person($result_row);
-        $thePersons[] = $thePerson;
-    }
-
-    return $thePersons;
-}
-
-/*
   @return all rows from dbPersons
 
 */
@@ -161,47 +135,6 @@ function make_a_person($result_row) {
                     $result_row['force_password_change'],
                 );   
     return $thePerson;
-}
-
-function get_people_for_export($attr, $first_name, $last_name, $type, $status, $start_date, $city, $zip, $phone, $email) {
-	$first_name = "'".$first_name."'";
-	$last_name = "'".$last_name."'";
-	$status = "'".$status."'";
-	$start_date = "'".$start_date."'";
-	$city = "'".$city."'";
-	$zip = "'".$zip."'";
-	$phone = "'".$phone."'";
-	$email = "'".$email."'";
-	$select_all_query = "'.'";
-	if ($start_date == $select_all_query) $start_date = $start_date." or start_date=''";
-	if ($email == $select_all_query) $email = $email." or email=''";
-    
-	$type_query = "";
-    if (!isset($type) || count($type) == 0) $type_query = "'.'";
-    else {
-    	$type_query = implode("|", $type);
-    	$type_query = "'.*($type_query).*'";
-    }
-    
-    error_log("query for start date is ". $start_date);
-    error_log("query for type is ". $type_query);
-    
-   	$con=connect();
-    $query = "SELECT ". $attr ." FROM dbPersons WHERE 
-    			first_name REGEXP ". $first_name . 
-    			" and last_name REGEXP ". $last_name . 
-    			" and (type REGEXP ". $type_query .")". 
-    			" and status REGEXP ". $status . 
-    			" and (start_date REGEXP ". $start_date . ")" .
-    			" and city REGEXP ". $city .
-    			" and zip REGEXP ". $zip .
-    			" and (phone1 REGEXP ". $phone ." or phone2 REGEXP ". $phone . " )" .
-    			" and (email REGEXP ". $email .") ORDER BY last_name, first_name";
-	error_log("Querying database for exporting");
-	error_log("query = " .$query);
-    $result = mysqli_query($con,$query);
-    return $result;
-
 }
 
     date_default_timezone_set("America/New_York");
