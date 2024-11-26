@@ -25,7 +25,6 @@
   */
 
 include_once('dbinfo.php');
-include_once(dirname(__FILE__).'/../domain/Appointment.php');
 
 /*
  * add an event to dbAppointments table: if already there, return false
