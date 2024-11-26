@@ -31,49 +31,11 @@ function add_person($person) {
     if ($result == null || mysqli_num_rows($result) == 0) {
         mysqli_query($con,'INSERT INTO dbPersons VALUES("' .
             $person->get_id() . '","' .
-            $person->get_start_date() . '","' .
-            $person->get_venue() . '","' .
             $person->get_first_name() . '","' .
             $person->get_last_name() . '","' .
-            $person->get_address() . '","' .
-            $person->get_city() . '","' .
-            $person->get_state() . '","' .
-            $person->get_zip() . '","' .
-            $person->get_phone1() . '","' .
-            $person->get_phone1type() . '","' .
-            $person->get_phone2() . '","' .
-            $person->get_phone2type() . '","' .
-            $person->get_birthday() . '","' .
-            $person->get_email() . '","' .
-            $person->get_contact_name() . '","' .
-            $person->get_contact_num() . '","' .
-            $person->get_relation() . '","' .
-            $person->get_contact_time() . '","' .
-            $person->get_cMethod() . '","' . 
-            implode(',', $person->get_type()) . '","' .
-            $person->get_status() . '","' .
-            implode(',', $person->get_availability()) . '","' .
-            implode(',', $person->get_schedule()) . '","' .
-            implode(',', $person->get_hours()) . '","' .
-            $person->get_notes() . '","' .
             $person->get_password() . '","' .
-            $person->get_sunday_availability_start() . '","' .
-            $person->get_sunday_availability_end() . '","' .
-            $person->get_monday_availability_start() . '","' .
-            $person->get_monday_availability_end() . '","' .
-            $person->get_tuesday_availability_start() . '","' .
-            $person->get_tuesday_availability_end() . '","' .
-            $person->get_wednesday_availability_start() . '","' .
-            $person->get_wednesday_availability_end() . '","' .
-            $person->get_thursday_availability_start() . '","' .
-            $person->get_thursday_availability_end() . '","' .
-            $person->get_friday_availability_start() . '","' .
-            $person->get_friday_availability_end() . '","' .
-            $person->get_saturday_availability_start() . '","' .
-            $person->get_saturday_availability_end() . '","' .
             $person->get_profile_pic() . '","' .
             $person->is_password_change_required() . '","' .
-            $person->get_gender() .
             '");'
         );							
         mysqli_close($con);
@@ -122,21 +84,6 @@ function retrieve_person($id) {
 }
 // Name is first concat with last name. Example 'James Jones'
 // return array of Persons.
-function retrieve_persons_by_name ($name) {
-	$persons = array();
-	if (!isset($name) || $name == "" || $name == null) return $persons;
-	$con=connect();
-	$name = explode(" ", $name);
-	$first_name = $name[0];
-	$last_name = $name[1];
-    $query = "SELECT * FROM dbPersons WHERE first_name = '" . $first_name . "' AND last_name = '". $last_name ."'";
-    $result = mysqli_query($con,$query);
-    while ($result_row = mysqli_fetch_assoc($result)) {
-        $the_person = make_a_person($result_row);
-        $persons[] = $the_person;
-    }
-    return $persons;	
-}
 
 function change_password($id, $newPass) {
     $con=connect();
