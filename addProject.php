@@ -30,8 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $project = make_project($args);
         $success = add_project($project);
-        if($success) {
-            header("Location: index.php");
+        if ($success){
+            header("Location: addProject.php?&createSuccess");
         }
         exit;
 }
@@ -51,7 +51,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 <?php require_once('header.php') ?>
 <h1>Add Project</h1>
-<main class="date">
+<main class="event-info">
+    <?php if (isset($_GET['createSuccess'])): ?>
+        <div class="happy-toast">Project created successfully!</div>
+    <?php endif ?>
     <h2>Add Project Form</h2>
     <form id="new-project-form" method="post">
         <label for="name">* Project Name </label>
@@ -59,6 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <p></p>
         <input type="submit" value="Add Project">
     </form>
+    <div>&nbsp</div>
     <a class="button cancel" href="index.php" style="margin-top: -.5rem">Return to Dashboard</a>
 </main>
 </body>

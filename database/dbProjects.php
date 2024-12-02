@@ -36,26 +36,38 @@ function fetch_projects() {
     return $events;
 }
 
-function select_project($project_id) {
+function add_to_junction($project_id, $grant_id){
     $connection = connect();
-    $query = "select * from dbProjects where id=$project_id";
-    $result = mysqli_query($connection, $query);
-    if (!$result) {
-        return null;
-    }
-    return mysqli_fetch_assoc($connection);
-}
-
-function add_to_junction($project, $grant_id){
-    if(!$project instanceOf Project){
-        die("type mismatch -- add project");
-    }
-    $connection = connect();
-    $project_id = $project->getID();
     $query = "insert into dbgrantprojects (project_id, grant_id) values ('$project_id', '$grant_id')";
     $result = mysqli_query($connection, $query);
     if (!$result) {
         return null;
     }
     return mysqli_insert_id($connection);
+}
+
+function fetch_projects_for_grant($grant_id){
+    $connection = connect();
+    $query = "select * from dbgrantprojects where grant_id = '$grant_id'";
+    $result = mysqli_query($connection, $query);
+    if (!$result) {
+        mysqli_close($connection);
+        return null;
+    }
+    $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    mysqli_close($connection);
+    return $events;
+}
+
+function fetch_project_by_id($project_id) {
+    $connection = connect();
+    $query = "select name from dbprojects where id = '$project_id'";
+    $result = mysqli_query($connection, $query);
+    if (!$result) {
+        mysqli_close($connection);
+        return null;
+    }
+    $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    mysqli_close($connection);
+    return $events;
 }

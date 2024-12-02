@@ -36,9 +36,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     unset($_POST['fchildren']);
     $args = sanitize($_POST, null);
 
-    $projects = $_POST['projects'];  // Get the link data before sanitization
-    unset($_POST['projects']);
-
     $required = array(
         "name",
         "funder",
@@ -59,11 +56,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             die();
         }
 
+        $projectIDs = $_POST['projects'] ?? []; // Access selected project IDs
+        $projectIDs = array_map('intval', $projectIDs); // Sanitize input
+
         $grant = make_grant($args);
         $success = add_grant($grant);
         $grant_id = get_grant_id($grant);
 
         if ($success) {
+            foreach ($projectIDs as $projectID) {
+                add_to_junction($projectID, $grant_id);
+            }
             foreach ($children as $child) {
                 $link = make_link($child);
                 add_link($link, $grant_id);
@@ -72,11 +75,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             foreach ($fchildren as $fchild) {
                 $field = make_field($fchild);
                 add_field($field, $grant_id);
-            }
-
-            foreach ($projects as $project_id) {
-                $project = select_project($project_id);
-                $result = add_to_junction($project, $grant_id);
             }
         }
         header("Location: event.php?id=$grant_id&createSuccess");
@@ -150,7 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $project_name = $project['name'];
                         $count++;
                         echo "<label for='$project_id' style='color:#000000; font-weight: normal;'>";
-                        echo "<input type='checkbox' id='$project_id' name='$project_id' value='$project_id' style='margin-left: 25px;'>";
+                        echo "<input type='checkbox' id='$project_id' name='projects[]' value='$project_id' style='margin-left: 25px;'>";
                         echo "&nbsp $project_name";
                         echo "</label><br>";
                     }
@@ -283,6 +281,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     });
                 }
             </script>
+
 
             <p></p>
             <input type="submit" value="Add Grant">
