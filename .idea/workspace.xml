@@ -4,10 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fa9dfb9e-b8ed-4236-b539-807476d1c316" name="Changes" comment="added funder field to add grant and database and made requested header changes. requires new sql file that was sent in discord">
-      <change beforePath="$PROJECT_DIR$/editEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/editEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/event.php" beforeDir="false" afterPath="$PROJECT_DIR$/event.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viewGrant.php" beforeDir="false" afterPath="$PROJECT_DIR$/viewGrant.php" afterDir="false" />
+    <list default="true" id="fa9dfb9e-b8ed-4236-b539-807476d1c316" name="Changes" comment="removing unnecessary fields from Person.php and dbPersons.php. Removed profileEditForm and Service.php because we weren't using it">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/dbAnimals.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/dbAppointments.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/dbEvents.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/dbEvents.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/dbMessages.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/dbMessages.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/dbPersons.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/dbPersons.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports.php" beforeDir="false" afterPath="$PROJECT_DIR$/reports.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reportsCompute.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reportsExport.php" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,18 +53,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;links-edit-grant&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "links-edit-grant",
+    "last_opened_file_path": "/Applications/XAMPP/xamppfiles/htdocs/DowntownGreens",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -84,6 +91,10 @@
       <workItem from="1731941213787" duration="1065000" />
       <workItem from="1731968244506" duration="1979000" />
       <workItem from="1732119274620" duration="2392000" />
+      <workItem from="1732128597370" duration="44000" />
+      <workItem from="1732581879513" duration="3229000" />
+      <workItem from="1732585902003" duration="393000" />
+      <workItem from="1732587211835" duration="3316000" />
     </task>
     <task id="LOCAL-00001" summary="view grant deadlines/openings by day">
       <option name="closed" value="true" />
@@ -109,7 +120,23 @@
       <option name="project" value="LOCAL" />
       <updated>1732125395244</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="removing unnecessary fields from Person.php and dbPersons.php. Removed profileEditForm and Service.php because we weren't using it">
+      <option name="closed" value="true" />
+      <created>1732585358443</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1732585358443</updated>
+    </task>
+    <task id="LOCAL-00005" summary="removing unnecessary fields from Person.php and dbPersons.php. Removed profileEditForm and Service.php because we weren't using it">
+      <option name="closed" value="true" />
+      <created>1732585806589</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1732585806589</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -142,6 +169,9 @@
     <MESSAGE value="view grant deadlines/openings by day" />
     <MESSAGE value="link backend is actually working now" />
     <MESSAGE value="added funder field to add grant and database and made requested header changes. requires new sql file that was sent in discord" />
-    <option name="LAST_COMMIT_MESSAGE" value="added funder field to add grant and database and made requested header changes. requires new sql file that was sent in discord" />
+    <MESSAGE value="local&#10;Merge branch 'main' of https://github.com/kjohns33/DowntownGreens into links-edit-grant" />
+    <MESSAGE value="removing unnecessary fields from Person.php and dbPersons.php" />
+    <MESSAGE value="removing unnecessary fields from Person.php and dbPersons.php. Removed profileEditForm and Service.php because we weren't using it" />
+    <option name="LAST_COMMIT_MESSAGE" value="removing unnecessary fields from Person.php and dbPersons.php. Removed profileEditForm and Service.php because we weren't using it" />
   </component>
 </project>

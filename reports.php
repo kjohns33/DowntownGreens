@@ -25,8 +25,14 @@
 		mysqli_close($connection);
 		return $events;
 	}
+?>
+        <h1>Business and Operational Reports</h1>
+        <main class="reportSelection">
+            <form class="report_select" method="post">
+        <?php include('footer.inc'); ?>
 
-	function displayReportsForDateRange ($start_date, $end_date) { 
+	<?php 
+    function displayReportsForDateRange ($start_date, $end_date) { 
 		$pieces = explode('-', $start_date);
 		$pieces2 = explode('-', $end_date);
 		$year = $pieces[0];
@@ -137,6 +143,7 @@
 	<?php
 	   echo "</select><br/>";
 	?>
+
 	<a class="button cancel" href="index.php" >Return to Dashboard</a>
 	<?php
 	

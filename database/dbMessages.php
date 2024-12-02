@@ -1,7 +1,6 @@
 <?php
 
 require_once('database/dbinfo.php');
-include_once(dirname(__FILE__).'/../domain/Event.php');
 date_default_timezone_set("America/New_York");
 
 function get_user_messages($userID) {
@@ -117,54 +116,8 @@ function message_all_users_of_types($from, $types, $title, $body) {
     return true;
 }
 
-function message_all_volunteers($from, $title, $body) {
-    return message_all_users_of_types($from, ['"volunteer"'], $title, $body);
-}
-
-function system_message_all_volunteers($title, $body) {
-    return message_all_users_of_types('vmsroot', ['"volunteer"'], $title, $body);
-}
-
-function message_all_admins($from, $title, $body) {
-    return message_all_users_of_types($from, ['"admin"', '"superadmin"'], $title, $body);
-}
-
 function system_message_all_admins($title, $body) {
     return message_all_users_of_types('vmsroot', ['"admin"', '"superadmin"'], $title, $body);
-}
-
-function system_message_all_users_except($except, $title, $body) {
-    $time = date('Y-m-d-H:i');
-    $query = "select id from dbPersons where id!='$except'";
-    $connection = connect();
-    $result = mysqli_query($connection, $query);
-    $rows = mysqli_fetch_all($result, MYSQLI_NUM);
-    foreach ($rows as $row) {
-        $to = $row[0];
-        $query = "insert into dbMessages (senderID, recipientID, title, body, time)
-                  values ('vmsroot', '$to', '$title', '$body', '$time')";
-        $result = mysqli_query($connection, $query);
-    }
-    mysqli_close($connection);    
-    return true;
-}
-
-//function to go through all users within the database of user accounts and send them a notification given a title and body 
-function message_all_users($from, $title, $body) {
-    $time = date('Y-m-d-H:i');
-    $query = "select id from dbPersons where id!='$from'";
-    $connection = connect();
-    $result = mysqli_query($connection, $query);
-    $rows = mysqli_fetch_all($result, MYSQLI_NUM); //get all the users in the database dbPersons
-    foreach ($rows as $row) { //for every user in db person, generate a notification
-        $to = json_encode($row); //converting the array of users into strings to put into the database of messages
-        $to = substr($to,2,-2); //getting rid of the brackets and quotes in the string: ie - ["user"]
-        $query = "insert into dbMessages (senderID, recipientID, title, body, time)
-                  values ('$from', '$to', '$title', '$body', '$time')"; //inserting the notification in that users inbox
-        $result = mysqli_query($connection, $query); 
-    }
-    mysqli_close($connection);    
-    return true;
 }
 
 function message_all_users_prio($personID, $from, $title, $body, $prio, $grantID, $msgtype, $interval, $sent) {
