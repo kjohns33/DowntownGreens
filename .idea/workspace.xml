@@ -5,15 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fa9dfb9e-b8ed-4236-b539-807476d1c316" name="Changes" comment="removing unnecessary fields from Person.php and dbPersons.php. Removed profileEditForm and Service.php because we weren't using it">
+      <change afterPath="$PROJECT_DIR$/addProject.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/dbProjects.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domain/Project.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/add-project.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/admin.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/dbAnimals.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/dbAppointments.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/dbEvents.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/dbEvents.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/dbMessages.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/dbMessages.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/dbPersons.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/dbPersons.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports.php" beforeDir="false" afterPath="$PROJECT_DIR$/reports.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reportsCompute.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reportsExport.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/addEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/header.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,19 +54,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "links-edit-grant",
-    "last_opened_file_path": "/Applications/XAMPP/xamppfiles/htdocs/DowntownGreens",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;links-edit-grant&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Applications/XAMPP/xamppfiles/htdocs/DowntownGreens&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/images" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -94,7 +100,8 @@
       <workItem from="1732128597370" duration="44000" />
       <workItem from="1732581879513" duration="3229000" />
       <workItem from="1732585902003" duration="393000" />
-      <workItem from="1732587211835" duration="3316000" />
+      <workItem from="1732587211835" duration="3551000" />
+      <workItem from="1733107283977" duration="6708000" />
     </task>
     <task id="LOCAL-00001" summary="view grant deadlines/openings by day">
       <option name="closed" value="true" />

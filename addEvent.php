@@ -26,6 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     require_once('include/input-validation.php');
     require_once('database/dbEvents.php');
     require_once('database/dbLinks.php');
+    require_once('database/dbProjects.php');
 
 
     $children = $_POST['children'];  // Get the link data before sanitization
@@ -34,6 +35,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fchildren = $_POST['fchildren'];
     unset($_POST['fchildren']);
     $args = sanitize($_POST, null);
+
+    $projects = $_POST['projects'];  // Get the link data before sanitization
+    unset($_POST['projects']);
 
     $required = array(
         "name",
@@ -70,6 +74,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 add_field($field, $grant_id);
             }
 
+            foreach ($projects as $project_id) {
+                $project = select_project($project_id);
+                $result = add_to_junction($project, $grant_id);
+            }
         }
         header("Location: event.php?id=$grant_id&createSuccess");
         exit;
@@ -100,6 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </head>
     <body>
         <?php require_once('header.php') ?>
+        <?php require_once('database/dbProjects.php') ?>
         <h1>Add Grant</h1>
         <main class="date">
             <h2>Add Grant Form</h2>
@@ -129,6 +138,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="text" id="partners" name="partners" placeholder="Enter partners">
                 <label for="name"> Grant Amount </label>
                 <input type="text" id="amount" name="amount" placeholder="Enter amount">
+                <label for="projects"> Projects Being Funded: </label>
+                <?php
+                $projects = fetch_projects();
+                if(count($projects) > 0) {
+                    require_once('database/dbPersons.php');
+                    require_once('include/output.php');
+                    $count = 0;
+                    foreach ($projects as $project) {
+                        $project_id = $project['id'];
+                        $project_name = $project['name'];
+                        $count++;
+                        echo "<label for='$project_id' style='color:#000000; font-weight: normal;'>";
+                        echo "<input type='checkbox' id='$project_id' name='$project_id' value='$project_id' style='margin-left: 25px;'>";
+                        echo "&nbsp $project_name";
+                        echo "</label><br>";
+                    }
+                }
+                ?>
+
                 <div id="dynField-container"  style="margin-top:.5rem;"></div>
                 <script src= "js/dynField.js"></script>
                 
