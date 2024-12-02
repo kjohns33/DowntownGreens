@@ -52,6 +52,7 @@
                 $_SESSION['type'] = $user->get_type();
                 $_SESSION['_id'] = $user->get_id();
                 // hard code root privileges
+
                 if ($user->get_id() == 'vmsroot') {
                     $_SESSION['access_level'] = 3;
                 }
