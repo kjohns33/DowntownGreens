@@ -100,19 +100,6 @@ function add_field($field, $grant_id) {
     return mysqli_insert_id($connection);
     }
 
-function fetch_fields_by_id($id) {
-    $connection = connect();
-    $query = "select * from dbfields where grant_id = '$id'";
-    $result = mysqli_query($connection, $query);
-    if (!$result) {
-        mysqli_close($connection);
-        return null;
-    }
-    $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    mysqli_close($connection);
-    return $events;
-}
-
 function fetch_event_by_id($id) {
     $connection = connect();
     $id = mysqli_real_escape_string($connection, $id);
