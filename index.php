@@ -49,6 +49,7 @@
             <div id="dashboard">
                 <?php
                     require_once('database/dbMessages.php');
+                    dateChecker();
                     $unreadMessageCount = get_user_unread_count($person->get_id());
                     $inboxIcon = 'inbox.svg';
                     if ($unreadMessageCount) {

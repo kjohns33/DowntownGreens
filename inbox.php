@@ -71,9 +71,9 @@
 
                         <label for="priority" >Priority </label>
                         <select style="color:white;" id="priority" name="priority">
-                            <option value="1" selected>1</option>
-                            <option value="2" >2</option>
-                            <option value="3" >3</option>
+                            <option value="1" selected>Low</option>
+                            <option value="2" >Medium</option>
+                            <option value="3" >High</option>
                         </select>
                         <p></p>
 

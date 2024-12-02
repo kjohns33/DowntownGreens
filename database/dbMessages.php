@@ -319,6 +319,7 @@ function message_all_users_prio($personID, $from, $title, $body, $prio, $grantID
     mysqli_close($connection);    
     return true;
 }
+
 function delete_message($id) {
     $query = "delete from dbMessages where id='$id'";
     $connection = connect();
@@ -506,7 +507,11 @@ function dateChecker(){
                     interval_type = 'late' and (sent = 'sent' or sent = 'dismissed')";
                 $result2 = mysqli_query($connection, $query);
                 $row2 = mysqli_fetch_assoc($result2);
-                $title = $name . " has OPENED";
+                if ($open_date == $currentDate) {
+                    $title = $name . " is opening today";
+                } else {
+                    $title = $name . " has OPENED";
+                }
                 $body = $name . " opened on " . $open_date;
                 if ($row2['count'] == 0) {
                     message_all_users_prio('vmsroot', 'vmsroot', $title, $body ,'3', $id, 'open', 'late', 'sent');
@@ -530,7 +535,11 @@ function dateChecker(){
                     interval_type = 'late' and (sent = 'sent' or sent = 'dismissed')";
                 $result2 = mysqli_query($connection, $query);
                 $row2 = mysqli_fetch_assoc($result2);
-                $title = $name . " was DUE";
+                if ($due_date == $currentDate) {
+                    $title = $name . " is due today";
+                } else {
+                    $title = $name . " was DUE";
+                }
                 $body = $name . " was due on " . $due_date;
                 if ($row2['count'] == 0) {
                     message_all_users_prio('vmsroot', 'vmsroot', $title, $body ,'3', $id, 'due', 'late', 'sent');
@@ -556,7 +565,7 @@ function dateChecker(){
                     interval_type = '1Day' and (sent = 'sent' or sent = 'dismissed')";
                 $result2 = mysqli_query($connection, $query);
                 $row2 = mysqli_fetch_assoc($result2);
-                $title = $name . " open date is coming up in one day";
+                $title = $name . " open date is coming up tomorrow";
                 $body = $name . " is opening on " . $open_date ;
                 if ($row2['count'] == 0) {
                     message_all_users_prio('vmsroot', 'vmsroot', $title, $body ,'2', $id, 'open', '1Day', 'sent');
@@ -579,7 +588,7 @@ function dateChecker(){
                     interval_type = '1Day' and (sent = 'sent' or sent = 'dismissed')";
                 $result2 = mysqli_query($connection, $query);
                 $row2 = mysqli_fetch_assoc($result2);
-                $title = $name . " due date is coming up in one day";
+                $title = $name . " due date is coming up tomorrow";
                 $body = $name . " is due on " . $due_date ;
                 if ($row2['count'] == 0) {
                     message_all_users_prio('vmsroot', 'vmsroot', $title, $body, '2', $id, 'due', '1Day', 'sent');
@@ -604,7 +613,11 @@ function dateChecker(){
                     interval_type = '1Week' and (sent = 'sent' or sent = 'dismissed')";
                 $result2 = mysqli_query($connection, $query);
                 $row2 = mysqli_fetch_assoc($result2);
-                $title = $name . " open date is coming up in one week";
+                if ($open_date == $oneWeekAhead) {
+                    $title = $name . " open date is coming up in one week";
+                } else {
+                    $title = $name . " open date is coming up in less than one week";
+                }
                 $body = $name . " is opening on " . $open_date ;
                 if ($row2['count'] == 0) {
                     message_all_users_prio('vmsroot', 'vmsroot', $title, $body ,'2', $id, 'open', '1Week', 'sent');
@@ -627,7 +640,11 @@ function dateChecker(){
                     interval_type = '1Week' and (sent = 'sent' or sent = 'dismissed')";
                 $result2 = mysqli_query($connection, $query);
                 $row2 = mysqli_fetch_assoc($result2);
-                $title = $name . " due date is coming up in one week";
+                if ($due_date == $oneWeekAhead) {
+                    $title = $name . " due date is coming up in one week";
+                } else {
+                    $title = $name . " due date is coming up in less than one week";
+                }
                 $body = $name . " is due on " . $due_date ;
                 if ($row2['count'] == 0) {
                     message_all_users_prio('vmsroot', 'vmsroot', $title, $body, '2', $id, 'due', '1Week', 'sent');
@@ -652,7 +669,11 @@ function dateChecker(){
                     interval_type = '1Month' and (sent = 'sent' or sent = 'dismissed')";
                 $result2 = mysqli_query($connection, $query);
                 $row2 = mysqli_fetch_assoc($result2);
-                $title = $name . " open date is coming up in one month";
+                if ($open_date == $oneMonthAhead) {
+                    $title = $name . " open date is coming up in one month";
+                } else {
+                    $title = $name . " open date is coming up in less than one month";
+                }
                 $body = $name . " is opening on " . $open_date ;
                 if ($row2['count'] == 0) {
                     message_all_users_prio('vmsroot', 'vmsroot', $title, $body , '1', $id, 'open', '1Month', 'sent');
@@ -675,7 +696,11 @@ function dateChecker(){
                     interval_type = '1Month' and (sent = 'sent' or sent = 'dismissed')";
                 $result2 = mysqli_query($connection, $query);
                 $row2 = mysqli_fetch_assoc($result2);
-                $title = $name . " due date is coming up in one month";
+                if ($due_date == $oneMonthAhead) {
+                    $title = $name . " due date is coming up in one month";
+                } else {
+                    $title = $name . " due date is coming up in less than one month";
+                }
                 $body = $name . " is due on " . $due_date;
                 if ($row2['count'] == 0) {
                     message_all_users_prio('vmsroot', 'vmsroot', $title, $body ,'1', $id, 'due', '1Month', 'sent');
@@ -700,7 +725,11 @@ function dateChecker(){
                     interval_type = '6Months' and (sent = 'sent' or sent = 'dismissed')";
                 $result2 = mysqli_query($connection, $query);
                 $row2 = mysqli_fetch_assoc($result2);
-                $title = $name . " open date is coming up in six months";
+                if ($open_date == $sixMonthsAhead) {
+                    $title = $name . " open date is coming up in six months";
+                } else {
+                    $title = $name . " open date is coming up in less than six months";
+                }
                 $body = $name . " is opening on " . $open_date ;
                 if ($row2['count'] == 0) {
                     message_all_users_prio('vmsroot', 'vmsroot', $title, $body ,'1', $id, 'open', '6Months', 'sent');
@@ -723,7 +752,11 @@ function dateChecker(){
                     interval_type = '6Months' and (sent = 'sent' or sent = 'dismissed')";
                 $result2 = mysqli_query($connection, $query);
                 $row2 = mysqli_fetch_assoc($result2);
-                $title = $name . " due date is coming up in six months";
+                if ($due_date == $sixMonthsAhead) {
+                    $title = $name . " due date is coming up in six months";
+                } else {
+                    $title = $name . " due date is coming up in less than six months";
+                }
                 $body = $name . " is due on " . $due_date;
                 if ($row2['count'] == 0) {
                     message_all_users_prio('vmsroot', 'vmsroot', $title, $body ,'1', $id, 'due', '6Months', 'sent');
