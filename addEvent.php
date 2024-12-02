@@ -27,12 +27,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     require_once('database/dbEvents.php');
     require_once('database/dbLinks.php');
 
+    $childrenSet = False;
+    $fchidlrenSet = False;
 
+    if(isset($_POST['children'])){
     $children = $_POST['children'];  // Get the link data before sanitization
     unset($_POST['children']);
+    }
 
+    if(isset($_POST['fchildren'])){
     $fchildren = $_POST['fchildren'];
     unset($_POST['fchildren']);
+    }
     $args = sanitize($_POST, null);
 
     $required = array(
@@ -60,16 +66,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $grant_id = get_grant_id($grant);
 
         if ($success) {
+            if($children){
             foreach ($children as $child) {
                 $link = make_link($child);
                 add_link($link, $grant_id);
             }
+            }
 
+            if($fchildren){
             foreach ($fchildren as $fchild) {
                 $field = make_field($fchild);
                 add_field($field, $grant_id);
             }
-
+            }
         }
         header("Location: event.php?id=$grant_id&createSuccess");
         exit;
