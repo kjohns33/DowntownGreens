@@ -26,6 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     require_once('include/input-validation.php');
     require_once('database/dbEvents.php');
     require_once('database/dbLinks.php');
+    require_once('database/dbProjects.php');
 
 
     $children = $_POST['children'];  // Get the link data before sanitization
@@ -55,11 +56,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             die();
         }
 
+        $projectIDs = $_POST['projects'] ?? []; // Access selected project IDs
+        $projectIDs = array_map('intval', $projectIDs); // Sanitize input
+
         $grant = make_grant($args);
         $success = add_grant($grant);
         $grant_id = get_grant_id($grant);
 
         if ($success) {
+            foreach ($projectIDs as $projectID) {
+                add_to_junction($projectID, $grant_id);
+            }
             foreach ($children as $child) {
                 $link = make_link($child);
                 add_link($link, $grant_id);
@@ -69,7 +76,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $field = make_field($fchild);
                 add_field($field, $grant_id);
             }
-
         }
         header("Location: event.php?id=$grant_id&createSuccess");
         exit;
@@ -100,6 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </head>
     <body>
         <?php require_once('header.php') ?>
+        <?php require_once('database/dbProjects.php') ?>
         <h1>Add Grant</h1>
         <main class="date">
             <h2>Add Grant Form</h2>
@@ -129,6 +136,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="text" id="partners" name="partners" placeholder="Enter partners">
                 <label for="name"> Grant Amount </label>
                 <input type="text" id="amount" name="amount" placeholder="Enter amount">
+                <label for="projects"> Projects Being Funded: </label>
+                <?php
+                $projects = fetch_projects();
+                if(count($projects) > 0) {
+                    require_once('database/dbPersons.php');
+                    require_once('include/output.php');
+                    $count = 0;
+                    foreach ($projects as $project) {
+                        $project_id = $project['id'];
+                        $project_name = $project['name'];
+                        $count++;
+                        echo "<label for='$project_id' style='color:#000000; font-weight: normal;'>";
+                        echo "<input type='checkbox' id='$project_id' name='projects[]' value='$project_id' style='margin-left: 25px;'>";
+                        echo "&nbsp $project_name";
+                        echo "</label><br>";
+                    }
+                }
+                ?>
+
                 <div id="dynField-container"  style="margin-top:.5rem;"></div>
                 <script src= "js/dynField.js"></script>
                 
@@ -255,6 +281,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     });
                 }
             </script>
+
 
             <p></p>
             <input type="submit" value="Add Grant">

@@ -78,16 +78,16 @@
                         <span>Add Grant</span>
                     </div>
                 <?php endif ?>
+                <?php if ($_SESSION['access_level'] >= 2): ?>
+                    <div class="dashboard-item" data-link="addProject.php">
+                        <img src="images/add-project.svg">
+                        <span>Add Project</span>
+                    </div>
+                <?php endif ?>
                 <div class="dashboard-item" data-link="eventSearch.php">
                         <img src="images/search.svg">
                         <span>Find Grant</span>
                 </div>
-                <!-- Commenting out because volunteers won't be searching events
-                <div class="dashboard-item" data-link="eventSearch.php">
-                    <img src="images/search.svg">
-                    <span>Find Event</span>
-                </div>
-                -->
                 <?php if ($_SESSION['access_level'] >= 2): ?>
                     <div class="dashboard-item" data-link="viewArchived.php">
                         <img src="images/archive.svg">
@@ -98,13 +98,9 @@
                         <span>Create Report</span>
                     </div>
                 <?php endif ?>
-                <div class="dashboard-item" data-link="changePassword.php">
-                    <img src="images/change-password.svg">
-                    <span>Change Password</span>
-                </div>
-                <div class="dashboard-item" data-link="logout.php">
-                    <img src="images/logout.svg">
-                    <span>Log out</span>
+                <div class="dashboard-item" data-link="admin.php">
+                    <img src="images/admin.svg">
+                    <span>Account</span>
                 </div>
             </div>
         </main>

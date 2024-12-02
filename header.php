@@ -62,6 +62,7 @@
         $permission_array['date.php'] = 1;
         $permission_array['event.php'] = 1;
         $permission_array['viewnotification.php'] = 1;
+        $permission_array['admin.php'] = 1;
         //pages only managers can view
         $permission_array['personedit.php'] = 0; // changed to 0 so that applicants can apply
         $permission_array['viewschedule.php'] = 2;
@@ -76,6 +77,7 @@
         $permission_array['resetpassword.php'] = 2;
         $permission_array['viewarchived.php'] = 2;
         $permission_array['viewgrant.php'] = 2;
+        $permission_array['addproject.php'] = 2;
 
         //Check if they're at a valid page for their access level.
         $current_page = strtolower(substr($_SERVER['PHP_SELF'], strrpos($_SERVER['PHP_SELF'], '/') + 1));
@@ -111,9 +113,10 @@
             echo('<li class="nav-item dropdown">');
             echo('<a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Grants</a>');
             echo('<div class="dropdown-menu" aria-labelledby="navbarDropdown">');
-            echo('<a class="dropdown-item" href="' . $path . 'addEvent.php">Add</a>');
+            echo('<a class="dropdown-item" href="' . $path . 'addEvent.php">Add Grant</a>');
+            echo('<a class="dropdown-item" href="' . $path . 'addProject.php">Add Project</a>');
             echo('<a class="dropdown-item" href="' . $path . 'eventSearch.php">Search</a>');
-	        echo('<a class="dropdown-item" href="' . $path . 'report.php">Reports</a>');
+	        echo('<a class="dropdown-item" href="' . $path . 'report.php">Create Report</a>');
 	        echo('<a class="dropdown-item" href="' . $path . 'viewArchived.php">Archived Grants</a>');
             echo('</div>');
             echo('</li>');

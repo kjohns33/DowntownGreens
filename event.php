@@ -18,6 +18,7 @@
   	}
   	
   	include_once('database/dbEvents.php');
+    include_once('database/dbProjects.php');
   	
     // We need to check for a bad ID here before we query the db
     // otherwise we may be vulnerable to SQL injection(!)
@@ -308,7 +309,26 @@
                     </tr>
                     <tr style="color:white;">	
                         <td class="label"> Status </td>
-                        <td><?php echo $event_completed ?></td>     		
+                        <td><?php
+                            if($event_completed == 'not_started'){
+                                echo "Not Started";
+                            }
+                            if($event_completed == 'incomplete'){
+                                echo "Incomplete";
+                            }
+                            if($event_completed == 'submitted'){
+                                echo "Submitted";
+                            }
+                            if($event_completed == 'declined'){
+                                echo "Declined";
+                            }
+                            if($event_completed == 'accepted'){
+                                echo "Accepted";
+                            }
+                            if($event_completed == 'awarded'){
+                                echo "Funding Awarded";
+                            }
+                            ?></td>
                     </tr>
                     <tr style="color:white;">	
                         <td class="label"> Open Date </td>
@@ -334,7 +354,26 @@
                         <td class="label"> Grant Amount </td>
                         <td><?php echo $event_amount ?></td>     		
                     </tr>
+                    </tr>
+                    <tr style="color:white;">
+                        <td class="label"> Projects Being Funded: </td>
+                        <td><?php
+                            $projects = fetch_projects_for_grant($id);
+                            if($projects > 0){
+                                foreach($projects as $project){
+                                    $project_id = $project['project_id'];
+                                    $results = fetch_project_by_id($project_id);
+                                    if($results > 0){
+                                        foreach($results as $result){
+                                            $project_name = $result['name'];
+                                            echo $project_name . "<br>";
+                                        }
+                                    }
 
+                                }
+                            }
+                            ?></td>
+                    </tr>
 
                     <?php
                     $links = fetch_links_by_id($id);
