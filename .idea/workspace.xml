@@ -24,6 +24,13 @@
   <component name="ComposerSettings">
     <execution />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
@@ -45,6 +52,9 @@
   }
 }</component>
   <component name="PhpDebugGeneral" listening_started="true" />
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 2
@@ -58,6 +68,7 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;hairfield-edits&quot;,
+
     &quot;last_opened_file_path&quot;: &quot;/Applications/XAMPP/xamppfiles/htdocs/DowntownGreens&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -67,6 +78,12 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/images" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -100,6 +117,7 @@
       <workItem from="1732587211835" duration="3316000" />
       <workItem from="1733153605314" duration="905000" />
       <workItem from="1733173771146" duration="5399000" />
+
     </task>
     <task id="LOCAL-00001" summary="view grant deadlines/openings by day">
       <option name="closed" value="true" />
@@ -141,7 +159,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732585806589</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="adding the projects functionality. everything is working except the junction table. this commit requires a new sql file because of the projects and grantprojects tables.">
+      <option name="closed" value="true" />
+      <created>1733115226257</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1733115226257</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -151,6 +177,7 @@
     <option name="OPEN_GENERIC_TABS">
       <map>
         <entry key="4d61d5dd-eaa2-4a8d-8358-bcf5ef80518a" value="TOOL_WINDOW" />
+
       </map>
     </option>
     <option name="TAB_STATES">
@@ -177,6 +204,11 @@
             </State>
           </value>
         </entry>
+        <entry key="efeed1b7-adc0-4f3f-bccc-e38c39775f89">
+          <value>
+            <State />
+          </value>
+        </entry>
       </map>
     </option>
   </component>
@@ -187,6 +219,7 @@
     <MESSAGE value="local&#10;Merge branch 'main' of https://github.com/kjohns33/DowntownGreens into links-edit-grant" />
     <MESSAGE value="removing unnecessary fields from Person.php and dbPersons.php" />
     <MESSAGE value="removing unnecessary fields from Person.php and dbPersons.php. Removed profileEditForm and Service.php because we weren't using it" />
-    <option name="LAST_COMMIT_MESSAGE" value="removing unnecessary fields from Person.php and dbPersons.php. Removed profileEditForm and Service.php because we weren't using it" />
+    <MESSAGE value="adding the projects functionality. everything is working except the junction table. this commit requires a new sql file because of the projects and grantprojects tables." />
+    <option name="LAST_COMMIT_MESSAGE" value="adding the projects functionality. everything is working except the junction table. this commit requires a new sql file because of the projects and grantprojects tables." />
   </component>
 </project>
