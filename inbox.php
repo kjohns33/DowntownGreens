@@ -25,6 +25,9 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
         <link rel="stylesheet" href="css/inbox.css">
+        <script>
+            const userID = <?php echo json_encode($userID); ?>;
+        </script>
         <script src="js/messages.js"></script>
         <?php if ($accessLevel >= 2) : ?>
             <script src="js/event.js"></script>
@@ -68,9 +71,9 @@
 
                         <label for="priority" >Priority </label>
                         <select style="color:white;" id="priority" name="priority">
-                            <option value="1" selected>1</option>
-                            <option value="2" >2</option>
-                            <option value="3" >3</option>
+                            <option value="1" selected>Low</option>
+                            <option value="2" >Medium</option>
+                            <option value="3" >High</option>
                         </select>
                         <p></p>
 
@@ -81,6 +84,41 @@
                 </div>
             </div>
         <?php endif ?>
+        <?php if ($accessLevel >= 2) : ?>
+            <div id="delete-confirmation-wrapper" class="hidden">
+                <div id="delete-confirmation">
+                    <p>Are you sure you want to mark all notifications as read?</p>
+                    <p>This action cannot be undone.</p>
+
+                    <form method="post" id="delete-confirmation-form">
+                        <input type="submit" value="Mark All As Read">
+                        <input type="hidden" name="id" value="<?= $userID ?>">
+                    </form>
+                    <button id="delete-cancel">Cancel</button>
+                </div>
+            </div>
+        <?php endif ?>
+        <?php if ($accessLevel >= 2) : ?>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    // Handle form submission for "Mark All As Read"
+                    const confirmationForm = document.getElementById('delete-confirmation-form');
+                    confirmationForm.onsubmit = function (event) {
+                        event.preventDefault(); // Prevent form submission
+                        markAllAsRead();
+                    };
+                });
+
+                document.addEventListener('DOMContentLoaded', function () {
+                    const sortDropdown = document.querySelector('.sortby-style select');
+
+                    sortDropdown.addEventListener('change', function () {
+                        const sortOrder = this.value; // Get the selected sort order
+                        fetchMessages(sortOrder); // Call the function to fetch sorted messages
+                    });
+                });
+            </script>
+        <?php endif; ?>
         <?php require_once('header.php') ?>
         <h1>Inbox</h1>
         <main class="general">
@@ -90,8 +128,42 @@
             <?php if (isset($_GET['createNotifSuccess'])) : ?>
                 <div class="happy-toast">Notification created successfully!</div>
             <?php endif; ?>
+            <?php if (isset($_GET['markAllAsReadSuccess'])) : ?>
+                <div class="happy-toast">All notifications marked as read.</div>
+            <?php endif; ?>
             <h2>Your Notifications</h2>
-            <button class="buttoncreatenotif" onclick="showCreateNotifConfirmation()">Create Notification</button>
+            <div id="button-inline">
+                <button class="buttoncreatenotif" onclick="showCreateNotifConfirmation()">Create Notification</button>
+                <button class="buttoncreatenotif" onclick="showDeleteConfirmation()">Mark All As Read</button>
+                <div class="sortby-style">
+                    <select class="selectpicker" data-style="btn" data-width="100%" onchange="updatePlaceholder(this)">
+                        <option value="prio" selected>Priority</option>
+                        <option value="open">Open Date</option>
+                        <option value="due">Due Date</option>
+                        <option value="nonsys">Non-System Messages</option>
+                        <option value="time">Time Received</option>
+                        <option value="unread">Unread</option>
+                    </select>
+                </div>
+            </div>
+            <script>
+                // Automatically update the button text with the selected option on page load
+                document.addEventListener("DOMContentLoaded", function() {
+                    const select = document.querySelector('.sortby-style select');
+                    updatePlaceholder(select); // Call the function to update the button with default selected option
+                });
+                const table = document.querySelector('table');
+                    if (table) {
+                        table.addEventListener('click', function (e) {
+                            const target = e.target;
+                            if (target.tagName === 'TH') {
+                                const column = target.getAttribute('data-column');
+                                const sortOrder = target.classList.contains('asc') ? 'desc' : 'asc';
+                                fetchMessages(column, sortOrder);
+                            }
+                        });
+                    }
+            </script>
             <?php 
                 require_once('database/dbMessages.php');
                 require_once('database/dbPersons.php');
@@ -152,7 +224,7 @@
                                         $class .= ' prio3';
                                     }
                                     echo "
-                                        <tr class='$class' style='color:white; 'data-message-id='$messageID'>
+                                        <tr class='$class' style='color:white;' data-message-id='$messageID' 'wasRead=$wasRead'>
                                             <td>$sender</td>";
                                             if (!$wasRead) {
                                                 echo "<td>(!) $title";
@@ -167,7 +239,7 @@
                     </table>
                 </div>
             <?php else: ?>
-                <p class="no-messages standout">You currently have no unread messages.</p>
+                <p class="no-messages standout" style="color:white;">You currently have no messages.</p>
             <?php endif ?>
             <!-- <button>Compose New Message</button> -->
             <a class="button cancel" href="index.php">Return to Dashboard</a>
