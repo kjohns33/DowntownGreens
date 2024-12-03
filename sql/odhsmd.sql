@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 11, 2024 at 03:55 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost
+-- Generation Time: Dec 02, 2024 at 04:26 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,6 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `dbevents` (
   `id` int(11) NOT NULL,
   `name` text NOT NULL,
+  `funder` varchar(100) NOT NULL,
   `open_date` date NOT NULL,
   `description` text NOT NULL,
   `completed` text NOT NULL,
@@ -44,16 +45,27 @@ CREATE TABLE `dbevents` (
 -- Dumping data for table `dbevents`
 --
 
-INSERT INTO `dbevents` (`id`, `name`, `open_date`, `description`, `completed`, `due_date`, `type`, `partners`, `amount`, `archived`) VALUES
-(9, 'test', '2025-01-01', 'test', 'not_started', '2025-01-02', NULL, NULL, 982.0, ''),
-(11, 'Test 2', '2024-10-22', 'c', 'incomplete', '2024-10-25', NULL, NULL, 2314.0, ''),
-(12, 'Test 3', '2024-10-26', 'testing', 'submitted', '2024-10-31', NULL, NULL, 782.0, ''),
-(13, 'Test 4', '2024-10-29', 'Test 4', 'declined', '2024-12-31', NULL, NULL, 2000.0, ''),
-(14, 'Test 5', '2025-01-01', 'Test 5', 'accepted', '2025-01-31', NULL, NULL, 4500.0, ''),
-(15, 'Test 6', '2024-11-05', 'Test 6', 'submitted', '2024-11-30', NULL, NULL, 1200.0, ''),
-(16, 'Test 7', '2024-10-22', 'Test 7', 'incomplete', '2024-10-25', NULL, NULL, 888.0, ''),
-(17, 'Test 8', '2024-10-24', 'Test 8', 'awarded', '2024-10-31', NULL, NULL, 11234.0, ''),
-(18, 'Grant test', '2024-11-21', 'A test grant for the demo', 'incomplete', '2024-11-22', 'test', '', 34982.0, 'no');
+INSERT INTO `dbevents` (`id`, `name`, `funder`, `open_date`, `description`, `completed`, `due_date`, `type`, `partners`, `amount`, `archived`) VALUES
+(9, 'test', '', '2025-01-01', 'test', 'incomplete', '2025-01-02', NULL, NULL, 982.0, ''),
+(11, 'Test 2', 'Community', '2024-10-22', 'c', 'not_started', '2024-10-25', '', '', 2314.0, ''),
+(12, 'Test 3', '', '2024-10-26', 'testing', 'submitted', '2024-10-31', NULL, NULL, 782.0, ''),
+(13, 'Test 4', '', '2024-10-29', 'Test 4', 'incomplete', '2024-12-31', NULL, NULL, 2000.0, ''),
+(14, 'Test 5', '', '2025-01-01', 'Test 5', 'awarded', '2025-01-31', NULL, NULL, 4500.0, ''),
+(15, 'Test 6', '', '2024-11-05', 'Test 6', 'incomplete', '2024-11-30', NULL, NULL, 1200.0, ''),
+(16, 'Test 7', '', '2024-10-22', 'Test 7', 'awarded', '2024-10-25', NULL, NULL, 888.0, ''),
+(17, 'Test 8', '', '2024-10-24', 'Test 8', 'submitted', '2024-10-31', NULL, NULL, 11234.0, ''),
+(18, 'Grant test', '', '2024-11-21', 'A test grant for the demo', 'incomplete', '2024-11-22', 'test', '', 34982.0, 'no'),
+(20, 'testing projects', 'abc', '2025-01-01', 'test', 'not_started', '2025-01-05', '', '', 345.0, 'no'),
+(21, 'project test', 'abc', '2025-01-01', 'test', 'awarded', '2025-01-05', '', '', 8734.0, 'no'),
+(22, 'project test 2', 'abc', '2024-01-02', 'testing', 'not_started', '2024-01-06', '', '', 433.0, 'no'),
+(23, 'project test 4', 'abc', '2025-02-01', 'test', 'declined', '2025-02-05', '', '', 93456.0, 'no'),
+(24, 'testing projects 5', 'abd', '2025-01-02', 'test', 'accepted', '2025-01-10', '', '', 2222.0, 'no'),
+(25, 'test project database', 'abc', '2025-03-01', 'test', 'not_started', '2025-03-07', '', '', 12000.0, 'no'),
+(26, 'test project database', 'abc', '2025-03-01', 'test', 'not_started', '2025-03-07', '', '', 7778.0, 'no'),
+(27, 'testing projects1, fields, links', 'abc', '2024-04-05', 'abc', 'submitted', '2025-05-02', '', '', 3434.0, 'no'),
+(28, 'testing projects2, fields, links', 'abc', '2024-04-05', 'abc', 'accepted', '2025-05-02', '', '', 8844.0, 'no'),
+(29, 'testing projects3, fields, links', 'abc', '2024-04-05', 'abc', 'declined', '2025-05-02', '', '', 34342.0, 'no'),
+(30, 'testing projects4, fields, links', 'abc', '2024-04-05', 'abc', 'not_started', '2025-05-02', '', '', 4444.0, 'no');
 
 -- --------------------------------------------------------
 
@@ -93,6 +105,17 @@ CREATE TABLE `dbgrantlinks` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `dbgrantprojects`
+--
+
+CREATE TABLE `dbgrantprojects` (
+  `grant_id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `dblinks`
 --
 
@@ -108,7 +131,11 @@ CREATE TABLE `dblinks` (
 --
 
 INSERT INTO `dblinks` (`id`, `name`, `link`, `grant_id`) VALUES
-(1, 'Test link', 'www.umw.edu', 18);
+(1, 'Test link', 'www.umw.edu', 18),
+(2, 'test', 'www.test.com', 27),
+(3, 'test', 'www.test.com', 27),
+(4, 'test', 'www.test.com', 27),
+(5, 'test', 'www.test.com', 27);
 
 -- --------------------------------------------------------
 
@@ -118,7 +145,7 @@ INSERT INTO `dblinks` (`id`, `name`, `link`, `grant_id`) VALUES
 
 CREATE TABLE `dbmessages` (
   `id` int(11) NOT NULL,
-  `grant_id` int(11),
+  `grant_id` int(11) NOT NULL,
   `person_id` varchar(256) NOT NULL,
   `senderID` varchar(256) NOT NULL,
   `recipientID` varchar(256) NOT NULL,
@@ -302,23 +329,30 @@ INSERT INTO `dbpersons` (`id`, `start_date`, `venue`, `first_name`, `last_name`,
 ('tom@gmail.com', '2024-01-22', 'portland', 'tom', 'tom', '1345 Strattford St.', 'Mineola', 'NY', '12345', '1234567890', 'home', '', '', '1920-02-02', 'tom@gmail.com', 'Dad', '9876543210', 'Father', 'Mornings', 'phone', 'admin', 'Active', '', '', '', '', '$2y$10$1Zcj7n/prdkNxZjxTK1zUOF7391byZvsXkJcN8S8aZL57sz/OfxP.', '11:00', '17:00', '', '', '11:00', '14:00', '', '', '09:00', '14:00', '', '', '', '', '', 0, 'Male'),
 ('vmsroot', 'N/A', 'portland', 'vmsroot', '', 'N/A', 'N/A', 'VA', 'N/A', '', 'N/A', 'N/A', 'N/A', 'N/A', 'vmsroot', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '$2y$10$.3p8xvmUqmxNztEzMJQRBesLDwdiRU3xnt/HOcJtsglwsbUk88VTO', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dbprojects`
+--
+
+CREATE TABLE `dbprojects` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `dbprojects`
+--
+
+INSERT INTO `dbprojects` (`id`, `name`) VALUES
+(1, 'Community Garden'),
+(2, 'Youth Farm Program'),
+(3, 'Garden Sprouts'),
+(4, 'Garden Mapping');
+
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `dbmessages`
---
-ALTER TABLE `dbmessages`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `grant_id` (`grant_id`),
-  ADD KEY `person_id` (`person_id`);
-
---
--- AUTO_INCREMENT for table `dbmessages`
---
-ALTER TABLE `dbmessages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13857;
 
 --
 -- Indexes for table `dbevents`
@@ -347,15 +381,36 @@ ALTER TABLE `dbgrantlinks`
   ADD KEY `fk_link_id` (`link_id`);
 
 --
+-- Indexes for table `dbgrantprojects`
+--
+ALTER TABLE `dbgrantprojects`
+  ADD KEY `fk_project_id` (`project_id`),
+  ADD KEY `fk_grantid` (`grant_id`);
+
+--
 -- Indexes for table `dblinks`
 --
 ALTER TABLE `dblinks`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `dbmessages`
+--
+ALTER TABLE `dbmessages`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `grant_id` (`grant_id`),
+  ADD KEY `person_id` (`person_id`);
+
+--
 -- Indexes for table `dbpersons`
 --
 ALTER TABLE `dbpersons`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dbprojects`
+--
+ALTER TABLE `dbprojects`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -366,7 +421,7 @@ ALTER TABLE `dbpersons`
 -- AUTO_INCREMENT for table `dbevents`
 --
 ALTER TABLE `dbevents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `dbfields`
@@ -378,7 +433,19 @@ ALTER TABLE `dbfields`
 -- AUTO_INCREMENT for table `dblinks`
 --
 ALTER TABLE `dblinks`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `dbmessages`
+--
+ALTER TABLE `dbmessages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13857;
+
+--
+-- AUTO_INCREMENT for table `dbprojects`
+--
+ALTER TABLE `dbprojects`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -390,11 +457,13 @@ ALTER TABLE `dblinks`
 ALTER TABLE `dbgrantlinks`
   ADD CONSTRAINT `fk_grant_id` FOREIGN KEY (`grant_id`) REFERENCES `dbevents` (`id`),
   ADD CONSTRAINT `fk_link_id` FOREIGN KEY (`link_id`) REFERENCES `dblinks` (`id`);
-COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+--
+-- Constraints for table `dbgrantprojects`
+--
+ALTER TABLE `dbgrantprojects`
+  ADD CONSTRAINT `fk_grantid` FOREIGN KEY (`grant_id`) REFERENCES `dbevents` (`id`),
+  ADD CONSTRAINT `fk_project_id` FOREIGN KEY (`project_id`) REFERENCES `dbprojects` (`id`);
 
 --
 -- Constraints for table `dbmessages`
