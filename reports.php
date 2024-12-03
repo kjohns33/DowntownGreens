@@ -26,12 +26,8 @@
 		return $events;
 	}
 ?>
-        <h1>Business and Operational Reports</h1>
-        <main class="reportSelection">
-            <form class="report_select" method="post">
-        <?php include('footer.inc'); ?>
 
-	<?php 
+<?php 
     function displayReportsForDateRange ($start_date, $end_date) { 
 		$pieces = explode('-', $start_date);
 		$pieces2 = explode('-', $end_date);
@@ -83,12 +79,14 @@
 					}
 					echo "<b>".$totalApplied." Grants Applied<br>";
 					echo $totalWaiting." Grants Applied and Waiting for Response<br>";
-					echo $totalAccepted." Grants Accepted and Not Awarded Yet (Anticipated Award: $".number_format($fundsAnticipated,2)." )<br>";
+					echo $totalAccepted." Grants Accepted and Not Awarded Yet.".
+					     " (Anticipated Award: $".number_format($fundsAnticipated,2).") <br>";
 					echo "<br>";
 					echo "$".number_format($fundsAwarded, 2)." Total Awarded!<br>";
 					echo " <br>";
 					
 				?>
+
 				<div class="table-wrapper">
 				<table class="general">
 				<thead>
