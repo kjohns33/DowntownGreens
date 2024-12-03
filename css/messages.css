@@ -1,9 +1,9 @@
 :root {
     --unread-message-background: #f1eadf;
     --message-body-border-color: #ddd;
-    --priorityone-color:#4FFFB0;
-    --prioritytwo-color:#F0E68C;
-    --prioritythree-color:#fd5c63;
+    --priorityone-color:#5d975e;
+    --prioritytwo-color:#e98409;
+    --prioritythree-color:#aa4a44;
 }
 
 tr.message {

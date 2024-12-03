@@ -256,7 +256,7 @@ function system_message_all_admins($title, $body) {
 }
 
 function message_all_users_prio($personID, $from, $title, $body, $prio, $grantID, $msgtype, $interval, $sent) {
-    $time = date('Y-m-d-H:i');
+    $time = date('Y-m-d');
     $query = "select id from dbPersons";
     $connection = connect();
     $result = mysqli_query($connection, $query);
@@ -265,8 +265,9 @@ function message_all_users_prio($personID, $from, $title, $body, $prio, $grantID
         $to = json_encode($row); //converting the array of users into strings to put into the database of messages
         $to = substr($to,2,-2); //getting rid of the brackets and quotes in the string: ie - ["user"]
         $query = "insert into dbMessages (person_id, senderID, recipientID, title, body, prioritylevel, grant_id, 
-            message_type, interval_type, sent)
-                  values ('$personID', '$from', '$to', '$title', '$body', '$prio', '$grantID', '$msgtype', '$interval', '$sent')"; //inserting the notification in that users inbox
+            message_type, interval_type, scheduled_date, sent)
+                  values ('$personID', '$from', '$to', '$title', '$body', '$prio', '$grantID', '$msgtype', 
+                          '$interval', '$time', '$sent')"; //inserting the notification in that users inbox
         $result = mysqli_query($connection, $query); 
     }
     mysqli_close($connection);    
