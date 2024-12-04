@@ -374,6 +374,17 @@
                             }
                             ?></td>
                     </tr>
+                    <?php
+                    $additionalFields = fetch_fields_by_id($id);
+                    foreach($additionalFields as $aField){
+                        $fieldName = $aField['name'];
+                        $fieldData = $aField['data'];
+                        echo"<tr style='color:white;'>	
+                        <td class='label'> $fieldName </td>
+                        <td>$fieldData</td>     		
+                    </tr>";
+                    }
+                    ?>
 
                     <?php
                     $links = fetch_links_by_id($id);
