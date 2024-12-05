@@ -1,0 +1,63 @@
+/* General styling for the body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5; /* Light background for contrast */
+    margin: 0;
+    padding: 0;
+    color: #2E8B57; /* Dark green for general text */
+}
+
+
+
+/* General table styling */
+.table-wrapper table.general {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #11461a; /* White background for the table itself */
+    font-size: 1rem;
+}
+
+/* Table header styling */
+.table-wrapper table.general th {
+    background-color: #11461a; /* Dark green background for headers */
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #ffffff; /* White text for headers */
+    text-align: left;
+    padding: 10px;
+}
+
+.table-wrapper table.general td {
+    padding: 10px;
+    border-bottom: 1px solid #dddddd;
+    text-align: left;
+    color: #ffffff; /* Dark green text for table cells */
+}
+
+/* Hover effect for rows */
+.table-wrapper table.general tr {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.table-wrapper table.general tr:hover {
+    background-color: #5fa44f; /* Light greenish hover effect */
+}
+
+/* Links in the table */
+.table-wrapper table.general a {
+    color: #ffffff; /* Dark green links */
+    text-decoration: none;
+}
+
+
+
+/* Responsive design */
+@media only screen and (max-width: 720px) {
+    .table-wrapper {
+        padding: 5px;
+    }
+    table.general {
+        font-size: 0.9rem;
+    }
+}
