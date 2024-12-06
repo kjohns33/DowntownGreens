@@ -10,6 +10,7 @@
 		$month2 = $pieces2[1];
 		$day2 = $pieces2[2];
 		?>
+	<div id="report-content">    
         <h2>Grant Report <?php echo $month."/".$day."/".$year?> through <?php echo $month2."/".$day2."/".$year2?></h2>
             <?php 
                 require_once('database/dbEvents.php');
@@ -136,11 +137,42 @@
 	<?php else: ?>
             <p class="no-messages standout" style="color:white;">No grants in the date range.</p>
     <?php endif ?>
+	 </div> 
 	<?php
 	   echo "</select><br/>";
 	?>
 
+	<button onclick="printReport()" class="button print">Print Report</button>
 	<a class="button cancel" href="index.php" >Return to Dashboard</a>
+
+<script>
+    function printReport() {
+        console.log("Print Report Button Clicked!"); // Debugging step
+        
+        // Check if report-content exists
+        const reportContent = document.getElementById("report-content");
+        if (!reportContent) {
+            console.error("Report content not found!");
+            alert("Report content not found.");
+            return;
+        }
+
+        // Save original page content
+        const originalContent = document.body.innerHTML;
+
+        // Replace body content with report content
+        document.body.innerHTML = reportContent.innerHTML;
+
+        // Trigger print dialog
+        window.print();
+
+        // Restore the original page content after printing
+        document.body.innerHTML = originalContent;
+
+        // Reload the page to restore event handlers
+        window.location.reload();
+    }
+</script>
 	<?php
 	
 	}
