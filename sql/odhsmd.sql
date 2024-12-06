@@ -348,7 +348,17 @@ INSERT INTO `dbprojects` (`id`, `name`) VALUES
 (1, 'Community Garden'),
 (2, 'Youth Farm Program'),
 (3, 'Garden Sprouts'),
-(4, 'Garden Mapping');
+(4, 'Garden Mapping'),
+(5, 'Happy Faces'),
+(6, 'Retired Farmers');
+
+-- Dumping data for dbgrantprojects
+INSERT INTO `dbgrantprojects` (`project_id`, `grant_id`) VALUES
+(1, 14),
+(2, 14),
+(3, 14),
+(4, 21),
+(5, 21);
 
 --
 -- Indexes for dumped tables

@@ -1,31 +1,3 @@
-<?php
- 
- 	function getReportsInDateRange($start_date, $end_date) {
-		$connection = connect();
-		$start_date = mysqli_real_escape_string($connection, $start_date);
-		$end_date = mysqli_real_escape_string($connection, $end_date);
-		$query = "select * from dbEvents
-				  where open_date >= '$start_date' and open_date <= '$end_date'
-				  order by open_date asc";
-		$result = mysqli_query($connection, $query);
-		if (!$result) {
-			mysqli_close($connection);
-			return null;
-		}
-		require_once('include/output.php');
-		$events = array();
-		while ($result_row = mysqli_fetch_assoc($result)) {
-			$key = $result_row['open_date'];
-			if (isset($events[$key])) {
-				$events[$key] []= hsc($result_row);
-			} else {
-				$events[$key] = array(hsc($result_row));
-			}
-		}
-		mysqli_close($connection);
-		return $events;
-	}
-?>
 
 <?php 
     function displayReportsForDateRange ($start_date, $end_date) { 
@@ -41,6 +13,7 @@
         <h2>Grant Report <?php echo $month."/".$day."/".$year?> through <?php echo $month2."/".$day2."/".$year2?></h2>
             <?php 
                 require_once('database/dbEvents.php');
+				require_once('database/dbProjects.php');
                 $grants = fetch_event_open_range($start_date, $end_date);
                 if (count($grants) > 0): ?>
  		
@@ -96,6 +69,8 @@
 					<th style="width:1px"><strong>Due Date</strong></th>
 					<th style="width:1px"><strong>Amount</strong></th>
 					<th style="width:1px"><strong>Description</strong></th>
+					<th style="width:1px"><strong>Funder</strong></th>
+					<th style="width:1px"><strong>Projects Funded</strong></th>
 				</tr>
 				</thead>
 				<tbody class="standout">
@@ -104,6 +79,7 @@
 						$grantID = $grant['id'];
 						$title = $grant['name'];
 						$status = $grant['completed'];
+						$funder = $grant['funder'];
 						$openDate = $grant['open_date'];
 						$dueDate = $grant['due_date'];
 						$timePacked = $grant['due_date'];
@@ -121,6 +97,26 @@
 						if($status != "awarded"){
 							continue;
 						}
+						// Create the string of the Projects Funded
+						$projectList="";
+						$projects = fetch_projects_for_grant($grantID);
+                        if($projects > 0)
+						{
+                        	foreach($projects as $project)
+							{
+                            	$project_id = $project['project_id'];
+                            	$results = fetch_project_by_id($project_id);
+                            	if ($results > 0)
+								{
+                            		foreach($results as $result)
+									{
+                                    	$projectList = $projectList."<br>".$result['name'];
+                                    }
+                                }
+							}
+
+                        }
+
 						$fundsString = number_format($funds, 2);
 						echo "
 							<tr class='message' style='color:white;' data-message-id='$grantID'>
@@ -129,6 +125,8 @@
 								<td>$month/$day/$year</td>
 								<td>$fundsString</td>
 								<td>$descrip</td>
+								<td>$funder</td>
+								<td>$projectList</td>
 							</tr>";
 					}
 				?>
