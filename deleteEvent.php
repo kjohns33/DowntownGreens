@@ -23,6 +23,8 @@
             delete_all_reports($id);
         }
     }
+
+    remove_from_junction($id);
     if (delete_event($id)) {
         header('Location: calendar.php?deleteSuccess');
         die();

@@ -196,7 +196,12 @@
                 <p>This action cannot be undone.</p>
 
                 <form method="post" action="deleteEvent.php">
+                <?php if($event_info['is_report_date'] == 0): ?>
                     <input type="submit" value="Delete Grant">
+                <?php endif ?>
+                <?php if($event_info['is_report_date'] == 1): ?>
+                    <input type="submit" value="Delete Due Date">
+                <?php endif ?>
                     <input type="hidden" name="id" value="<?= $id ?>">
                     <input type="hidden" name="is_due_date" value="<?= $event_info['is_report_date'] ?>">
 
@@ -513,14 +518,14 @@
                         </tr>
                         ';
                         
-					/*
+					
                     	 echo '
                         <tr>
                         	<td colspan="2">
-                                	<a class="button" href="viewGrant.php">Return to Grants</a>
+                                	<a class="button cancel" href="viewGrant.php">Return to Grants</a>
                                 </td>
                         </tr>
-                        ';*/
+                        ';
                  }
 
 	    ?>
@@ -543,7 +548,7 @@
             <?php
             if ($access_level >= 2) {
                 if($event_is_report_date == 0){
-                echo '
+                    echo '
                         <tr>
                         	<td colspan="2">
                                 	<a href="editEvent.php?id=' . $id . '" class="button">Edit Grant Details</a>
@@ -580,7 +585,7 @@
                 }
                 
                 if($event_is_report_date == 1){
-                echo '
+                    echo '
                         <tr>
                         	<td colspan="2">
                                 	<button class = "del-button" onclick="showDeleteConfirmation()">Delete Due Date</button>
@@ -596,14 +601,8 @@
                     </tr>
                     ';
                 }
-
-                echo '
-                        <tr>
-                        	<td colspan="2">
-                                	<a class="button cancel" href="viewGrant.php">Return to Grants</a>
-                                </td>
-                        </tr>
-                        ';
+                
+                echo '<tr><td colspan="2"><a class="button cancel" href="viewGrant.php">Return to Grants</a></td></tr>';               
             }
 
             ?>
