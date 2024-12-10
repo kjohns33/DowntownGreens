@@ -240,10 +240,25 @@ function add_grant($grant, $reportDate) {
     return mysqli_insert_id($connection);
 }
 
+function remove_from_junction($grant_id){
+    $connection = connect();
+    $query = "delete from dbgrantprojects where grant_id = '$grant_id'";
+    $result = mysqli_query($connection, $query);
+    if(!$result){
+        mysqli_close($connection);
+        return null;
+
+    }
+
+}
+
+
 function get_grant_id($event){
     $connection = connect();
     $name = $event->getName();
-    $query = "select id from dbevents where name = '$name'";
+    $open_date = $event->getOpenDate();
+    $due_date = $event->getDueDate();
+    $query = "select id from dbevents where name = '$name' and open_date = '$open_date' and due_date = '$due_date'";
     $result = $connection->query($query);
     $row = mysqli_fetch_array($result);
     mysqli_commit($connection);

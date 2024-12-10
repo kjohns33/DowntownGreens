@@ -181,7 +181,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <fieldset>
                     <div id="rpchildren-container"></div>
-                    <add-link style="margin-bottom:.5rem;" type="button" onclick="addrpChildForm()">Add Report</add-link>
+                    <add-link style="margin-bottom:.5rem;" type="button" onclick="addrpChildForm()">Add Due Date</add-link>
                 </fieldset>
 
                 <script>

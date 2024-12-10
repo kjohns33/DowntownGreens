@@ -96,7 +96,9 @@
                 <img id="next-month-button" src="images/arrow-forward.png" data-month="<?php echo date("Y-m", $nextMonth); ?>">
             </h1>
             <!-- <input type="date" id="month-jumper" value="<?php echo date('Y-m-d', $month); ?>" min="2023-01-01"> -->
-            <?php if (isset($_GET['deleteSuccess'])) : ?>
+            <?php if (isset($_GET['deleteSuccess']) && isset($_GET['dueDate'])) : ?>
+                <div class="happy-toast">Due Date deleted successfully.</div>
+            <?php elseif (isset($_GET['deleteSuccess'])) : ?>
                 <div class="happy-toast">Grant deleted successfully.</div>
             <?php elseif (isset($_GET['completeSuccess'])) : ?>
                 <div class="happy-toast">Grant completed successfully.</div>
