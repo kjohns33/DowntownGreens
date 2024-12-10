@@ -29,7 +29,7 @@
         $args = sanitize($_POST, null);
         $required = array(
             "id", "funder", "name", "completed", "open_date", "due_date", "description");
-        
+
         if (!wereRequiredFieldsSubmitted($args, $required)) {
             var_dump($args);
             echo 'bad form data';
@@ -61,7 +61,11 @@
                 $errors .= '<p>Your request was missing arguments.</p>';
             }
             if (!$errors) {
-                $success = update_event($id, $args);
+                if($args['is_report_date'] == 1){
+                $success = update_report($id, $args);
+                }else{
+                    $success = update_event($id, $args);
+                }
                 if (!$success){
                     echo "Oopsy!";
                     die();
@@ -99,7 +103,7 @@
 <html>
     <head>
         <?php require_once('universal.inc') ?>
-        <title>Downtown Greens | Edit Appointment</title>
+        <title>Downtown Greens | Edit Grant</title>
         <style> input::placeholder{
         	color: white;
         }
@@ -107,16 +111,33 @@
     </head>
     <body>
         <?php require_once('header.php') ?>
+        <?php if($event['is_report_date'] == 0): ?>
         <h1>Modify Grant</h1>
+        <?php endif ?>
+        <?php if($event['is_report_date'] == 1): ?>
+        <h1>Modify Due Date</h1>
+        <?php endif ?>
         <main class="date">
         <?php if ($errors): ?>
             <div class="error-toast"><?php echo $errors ?></div>
         <?php endif ?>
+            <?php if($event['is_report_date'] == 0): ?>
             <h2>Grant Details</h2>
+            <?php endif ?>
+            <?php if($event['is_report_date'] == 1): ?>
+            <h2>Due Date Details</h2>
+            <?php endif ?>
             <form id="new-event-form" method="post">
+                <?php if($event['is_report_date'] == 0): ?>
                 <label for="name">Grant Name </label>
+                <?php endif ?>
+                <?php if($event['is_report_date'] == 1): ?>
+                <label for="name">Due Date Name </label>
+                <?php endif ?>
                 <input type="hidden" name="id" value="<?php echo $id ?>"/> 
                 <input type="text" style="color:white;" id="name" name="name" value="<?php echo $event['name'] ?>" required placeholder="Enter name">
+                
+                <?php if($event['is_report_date'] == 0): ?>
                 <label for="funder">Funder</label>
                 <input type="hidden" name="funder" value="<?php echo $event['funder'] ?>"/>
                 <input type="text" style="color:white;" id="funder" name="funder" value="<?php echo $event['funder'] ?>" required placeholder="Enter funder">
@@ -166,8 +187,10 @@
                 </select>
                 <label for="name">Open Date </label>
                 <input type="date" style="color:white;" id="open_date" name="open_date" value="<?php echo $event['open_date'] ?>" required>
+                <?php endif ?>
                 <label for="name">Due Date </label>
                 <input type="date" style="color:white;" id="due_date" name="due_date" value="<?php echo $event['due_date'] ?>" required>
+                <?php if($event['is_report_date'] == 0): ?>
                 <label for="name">Description </label>
                 <input type="text" style="color:white;" id="description" name="description" value="<?php echo $event['description'] ?>" required placeholder="Enter description">
                 <label for="name"> Grant Type </label>
@@ -178,6 +201,16 @@
                 <input type="text" id="amount" name="amount" value="<?php echo $event_amount ?>" placeholder="Enter amount">
                 </select><p></p>
                 <input type="submit" value="Update Grant">
+                <?php endif ?>
+                <?php if($event['is_report_date'] == 1): ?>
+                <input type="hidden" name="funder" value="<?php echo $event['funder'] ?>"/>
+                <input type="hidden" name="completed" value="<?php echo $completed ?>"/>
+                <input type="hidden" name="open_date" value="<?php echo $event['open_date'] ?>"/>
+                <input type="hidden" name="description" value="<?php echo $$event['description'] ?>"/>
+
+                <input type="submit" value="Update Due Date">
+                <?php endif ?>
+                <?php $_POST['is_report_date'] = $event['is_report_date']; ?>
                 <a class="button cancel" href="event.php?id=<?php echo htmlspecialchars($_GET['id']) ?>" style="margin-top: .5rem">Cancel</a>
             </form>
 

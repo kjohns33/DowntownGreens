@@ -129,6 +129,74 @@ function fetch_event_by_id($id) {
     return null;
 }
 
+function make_report($result_row, $grantid){
+    return new Grant(
+        null,
+        $result_row['report-name'],
+        '',
+        '',
+        $result_row['report-data'],
+        '',
+        '',
+        '',
+        '',
+        '',
+        null,
+        null
+    );
+}
+
+function add_report($grant_id, $report_id, $report) {
+    $connection = connect();
+    $query = "insert into dbreportdates (grant_id, report_id) values ('$grant_id', '$report_id')";
+    $result = mysqli_query($connection, $query);
+    if (!$result) {
+    return null;
+    }
+    return mysqli_insert_id($connection);
+    }
+
+function fetch_reports_by_id($id) {
+        $connection = connect();
+        $query = "select * from dbreportdates r join dbevents g on r.report_id = g.id where r.grant_id ='$id'";
+        $result = mysqli_query($connection, $query);
+        if (!$result) {
+            mysqli_close($connection);
+            return null;
+        }
+        $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        mysqli_close($connection);
+        return $events;
+}
+
+function fetch_assoc_grantRP($id) {
+    $connection = connect();
+    $query = "select * from dbevents g join dbreportdates r on g.id = r.grant_id where r.report_id ='$id'";
+    $result = mysqli_query($connection, $query);
+    if (!$result) {
+        mysqli_close($connection);
+        return null;
+    }
+    $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    mysqli_close($connection);
+    return $events[0];
+}
+
+function getReportCount($id) {
+    $connection = connect();
+    $query = "select count(*) as total_rows from dbreportdates r join dbevents g on r.report_id = g.id where r.grant_id ='$id'";
+    $result = mysqli_query($connection, $query);
+    if (!$result) {
+        mysqli_close($connection);
+        return null;
+    }
+    $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $event = $events[0];
+    $count = $event['total_rows'];
+    mysqli_close($connection);
+    return $count;
+}
+
 function make_grant($result_row){
     return new Grant(
         null,
@@ -141,11 +209,12 @@ function make_grant($result_row){
         $result_row['type'],
         $result_row['partners'],
         $result_row['amount'],
+        null,
         null
     );
 }
 
-function add_grant($grant) {
+function add_grant($grant, $reportDate) {
     if(!$grant instanceOf Grant){
         die("type mismatch -- add grant");
     }
@@ -160,8 +229,10 @@ function add_grant($grant) {
     $partners = $grant->getPartners();
     $amount = $grant->getAmount();
     $archived = "no";
-    $query = "insert into dbevents (name, funder, open_date, due_date, description, completed, type, partners, amount, archived)
-    values ('$name', '$funder', '$opendate', '$duedate', '$description', '$completed', '$type', '$partners', '$amount', '$archived')";
+    $isReportDate = $reportDate;
+    //0 = not a report date -- 1 = report date
+    $query = "insert into dbevents (name, funder, open_date, due_date, description, completed, type, partners, amount, archived, is_report_date)
+    values ('$name', '$funder', '$opendate', '$duedate', '$description', '$completed', '$type', '$partners', '$amount', '$archived', '$isReportDate')";
     $result = mysqli_query($connection, $query);
     if (!$result) {
         return null;
@@ -182,7 +253,7 @@ function get_grant_id($event){
 
 function update_event($eventID, $eventDetails) {
     $connection = connect();
-    var_dump($eventDetails);
+    //var_dump($eventDetails);
     $name = $eventDetails["name"];
     $open_date = $eventDetails["open_date"];
     $due_date = $eventDetails["due_date"];
@@ -195,6 +266,21 @@ function update_event($eventID, $eventDetails) {
     $query = "
         update dbEvents set name='$name', completed='$completed', open_date='$open_date', due_date='$due_date', 
         description='$description', type='$type', partners='$partners', amount='$amount' where id='$eventID'";
+    $result = mysqli_query($connection, $query);
+    //update_services_for_event($eventID, $services);
+    mysqli_commit($connection);
+    mysqli_close($connection);
+    return $result;
+}
+
+function update_report($eventID, $eventDetails) {
+    $connection = connect();
+    var_dump($eventDetails);
+    $name = $eventDetails["name"];
+    $due_date = $eventDetails["due_date"];
+    
+    $query = "
+        update dbEvents set name='$name', due_date='$due_date' where id='$eventID'";
     $result = mysqli_query($connection, $query);
     //update_services_for_event($eventID, $services);
     mysqli_commit($connection);
@@ -278,8 +364,45 @@ function delete_event($id) {
     return $result;
 }
 
+function delete_report($id) {
+    $query = "delete from dbreportdates where report_id='$id'";
+    $connection = connect();
+    $result = mysqli_query($connection, $query);
+    $result = boolval($result);
+    mysqli_close($connection);
+    return $result;
+}
+
+function delete_all_reports($id) {
+    $reportData = fetch_reports_by_id($id);
+    foreach($reportData as $r){
+        $reportId = $r['report_id'];
+        delete_report($reportId);
+        delete_event($reportId);
+    }
+    
+}
+
+function archive_all_reports($id) {
+    $reportData = fetch_reports_by_id($id);
+    foreach($reportData as $r){
+        $reportId = $r['report_id'];
+        archive_grant($reportId);
+    }  
+}
+
+function unarchive_all_reports($id) {
+    $reportData = fetch_reports_by_id($id);
+    foreach($reportData as $r){
+        $reportId = $r['report_id'];
+        unarchive_grant($reportId);
+    }  
+}
+
+
+
 function archive_grant($id) {
-    $query = "UPDATE dbEvents set archived='yes' where id='$id'";
+    $query = "update dbEvents set archived='yes' where id='$id'";
     $connection = connect();
     $result = mysqli_query($connection, $query);
     $result = boolval($result);
@@ -288,7 +411,7 @@ function archive_grant($id) {
 }
 
 function unarchive_grant($id) {
-    $query = "UPDATE dbEvents set archived='no' where id='$id'";
+    $query = "update dbEvents set archived='no' where id='$id'";
     $connection = connect();
     $result = mysqli_query($connection, $query);
     $result = boolval($result);

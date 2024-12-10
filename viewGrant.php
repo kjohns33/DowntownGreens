@@ -70,7 +70,7 @@
                                     
 
                                     //possible spot to check if archived 
-                                    if ($grant['archived'] == 'yes') : continue; endif;
+                                    if ($grant['archived'] == 'yes' || $grant['is_report_date'] == 1) : continue; endif;
                                     $class = 'message';
                                     /*
                                     if (!$message['wasRead']) {

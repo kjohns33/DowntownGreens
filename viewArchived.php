@@ -65,11 +65,12 @@
                                     $year2 = $pieces2[0];
                                     $month2 = $pieces2[1];
                                     $day2 = $pieces2[2];
+                                    $isReportDate = $grant['is_report_date'];
 
                                     
 
                                     //possible spot to check if archived 
-                                    if ($grant['archived'] != 'yes') : continue; endif;
+                                    if ($grant['archived'] != 'yes' || $isReportDate == 1) : continue; endif;
                                     $class = 'message';
                                     /*
                                     if (!$message['wasRead']) {

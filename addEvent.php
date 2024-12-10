@@ -34,6 +34,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $fchildren = $_POST['fchildren'];
     unset($_POST['fchildren']);
+
+    $reports = $_POST['rpchildren'];
+    unset($_POST['rpchildren']);
     $args = sanitize($_POST, null);
 
     $required = array(
@@ -60,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $projectIDs = array_map('intval', $projectIDs); // Sanitize input
 
         $grant = make_grant($args);
-        $success = add_grant($grant);
+        $success = add_grant($grant, 0);
         $grant_id = get_grant_id($grant);
 
         if ($success) {
@@ -75,6 +78,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             foreach ($fchildren as $fchild) {
                 $field = make_field($fchild);
                 add_field($field, $grant_id);
+            }
+
+            $reportID = $grant_id + 1;
+            foreach ($reports as $rpchild) {
+                $report = make_report($rpchild, $grant_id);
+                add_grant($report, 1);
+                add_report($grant_id, $reportID, $report);
+                $reportID += 1;
             }
         }
         header("Location: event.php?id=$grant_id&createSuccess");
@@ -165,7 +176,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <fieldset>
                     <div id="children-container"></div>
-                    <add-link type="button" onclick="addChildForm()">Add Link</add-link>
+                    <add-link style="margin-bottom:.5rem; "type="button" onclick="addChildForm()">Add Link</add-link>
+                </fieldset>
+
+                <fieldset>
+                    <div id="rpchildren-container"></div>
+                    <add-link style="margin-bottom:.5rem;" type="button" onclick="addrpChildForm()">Add Report</add-link>
                 </fieldset>
 
                 <script>
@@ -278,6 +294,64 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     children.forEach((child, index) => {
                         const childHeader = child.querySelector('h4');
                         childHeader.textContent = `Child ${index + 1}`;
+                    });
+                }
+
+                //
+
+                let rpchildCount = 0;
+                    const rpchildren = [];
+
+                    function addrpChildForm() {
+                        rpchildCount++;
+                        const rpcontainer = document.getElementById('rpchildren-container');
+                        
+                        const rpchildDiv = document.createElement('div');
+                        rpchildDiv.className = 'rpchild-form';
+                        rpchildDiv.id = `rpchild-form-${rpchildCount}`;
+                        
+                        rpchildDiv.innerHTML = `
+                            <label>Report ${rpchildren.length + 1}</label>
+
+                            <label for="report_name_${rpchildCount}">Due Date Title</label>
+                            <input type="text" id="report_name_${rpchildCount}" name="rpchildren[${rpchildCount}][report-name]" required placeholder="Enter due date name">
+
+                            <label for="report_data_${rpchildCount}">Due Date</label>
+                            <input type="date" id="report_data_${rpchildCount}" name="rpchildren[${rpchildCount}][report-data]" required placeholder="Enter due date">
+
+                            <link-tag type="button" onclick="removerpChildForm(${rpchildCount})">Remove Report</link-tag>
+
+                            <hr>
+                        `;
+                        
+                        rpcontainer.appendChild(rpchildDiv);
+                        rpchildren.push(rpchildDiv);
+                        renumberrpChildren();
+                }
+
+
+                function removerpChildForm(rpchildId) {
+                    // Find the child div to remove
+                    const rpchildDiv = document.getElementById(`rpchild-form-${rpchildId}`);
+                    if (rpchildDiv) {
+                        rpchildDiv.remove(); // Remove the specific child form
+
+                        // Remove the corresponding child element from the array
+                        const rpindex = rpchildren.findIndex(rpchild => rpchild.id === `rpchild-form-${rpchildId}`);
+                        if (rpindex > -1) {
+                            rpchildren.splice(rpindex, 1);
+                        }
+
+                        // Renumber the children after removal
+                        renumberrpChildren();
+                    }
+                }
+
+                function renumberrpChildren() {
+                    // Iterate over each child form and update the displayed child number
+                    rpchildren.forEach((rpchild, rpindex) => {
+                        const rpchildHeader = rpchild.querySelector('h4');
+                        rpchildHeader.textContent = `rpChild ${rpindex + 1}`;
                     });
                 }
             </script>
