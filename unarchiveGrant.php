@@ -15,6 +15,10 @@
         header('Location: index.php');
         die();
     }
+
+    if (getReportCount($id) > 0) {
+        unarchive_all_reports($id);
+    }
     if (unarchive_grant($id)) {
         header('Location: viewArchived.php?unarchiveSuccess');
         die();

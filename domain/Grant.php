@@ -12,8 +12,9 @@ class Grant {
     private $partners;
     private $amount;
     private $archived;
+    private $isReportDate;
 
-    public function __construct($id, $name, $funder, $open_date, $due_date, $description, $completed, $type, $partners, $amount, $archived){
+    public function __construct($id, $name, $funder, $open_date, $due_date, $description, $completed, $type, $partners, $amount, $archived, $isReportDate){
         $this->id = $id;
         $this->name = $name;
         $this->funder = $funder;
@@ -25,6 +26,7 @@ class Grant {
         $this->partners = $partners;
         $this->amount = $amount;
         $this->archived = $archived;
+        $this->isReportDate = $isReportDate;
     }
 
     public function getID() {
@@ -69,6 +71,10 @@ class Grant {
 
     public function getArchived() {
         return $this->archived;
+    }
+
+    public function getIsReportDate(){
+        return $this->isReportDate;
     }
 
 }

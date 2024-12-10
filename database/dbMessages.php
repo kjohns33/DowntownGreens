@@ -446,6 +446,7 @@ function dateChecker(){
 
             //The Logic for It Being Late
             //Grant has opened
+            if($open_date != "0000-00-00"){
             if($open_date <= $currentDate){
                 //First, check if there are automatic messages already there, if so delete them
                 $query = "select * from dbmessages where grant_id = " . $id . " and message_type = 'open' and 
@@ -472,6 +473,8 @@ function dateChecker(){
                 } else {
                     update_message_title_and_body($id, 'open', 'late', $title, $body);
                 }
+                
+            }
             }
             //Grant is due
             if($due_date <= $currentDate){

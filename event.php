@@ -187,12 +187,19 @@
     <?php if ($access_level >= 2) : ?>
         <div id="delete-confirmation-wrapper" class="hidden">
             <div id="delete-confirmation">
+                <?php if($event_info['is_report_date'] == 0): ?>
                 <p>Are you sure you want to delete this grant?</p>
+                <?php endif ?>
+                <?php if($event_info['is_report_date'] == 1): ?>
+                <p>Are you sure you want to delete this due date?</p>
+                <?php endif ?>
                 <p>This action cannot be undone.</p>
 
                 <form method="post" action="deleteEvent.php">
                     <input type="submit" value="Delete Grant">
                     <input type="hidden" name="id" value="<?= $id ?>">
+                    <input type="hidden" name="is_due_date" value="<?= $event_info['is_report_date'] ?>">
+
                 </form>
                 <button id="delete-cancel">Cancel</button>
             </div>
@@ -220,6 +227,7 @@
                 <form method="post" action="archiveGrant.php">
                     <input type="submit" value="Archive Grant">
                     <input type="hidden" name="id" value="<?= $id ?>">
+                    <input type="hidden" name="is_due_date" value="<?= $event_info['is_report_date'] ?>">
                 </form>
                 <button id="archive-cancel">Cancel</button>
             </div>
@@ -232,13 +240,19 @@
                 <form method="post" action="unarchiveGrant.php">
                     <input type="submit" value="Unarchive Grant">
                     <input type="hidden" name="id" value="<?= $id ?>">
+                    <input type="hidden" name="is_due_date" value="<?= $event_info['is_report_date'] ?>">
                 </form>
                 <button id="unarchive-cancel">Cancel</button>
             </div>
         </div>
     <?php endif ?>
     <?php require_once('header.php') ?>
+    <?php if($event_info['is_report_date'] == 0): ?>
     <h1>View Grant</h1>
+    <?php endif ?>
+    <?php if($event_info['is_report_date'] == 1): ?>
+    <h1>View Due Date</h1>
+    <?php endif ?>
     <main class="event-info">
         <?php if (isset($_GET['createSuccess'])): ?>
             <div class="happy-toast">Grant created successfully!</div>
@@ -260,6 +274,7 @@
             $event_due_date= date('l, F j, Y', strtotime($event_info['due_date']));
             $event_description = $event_info['description'];
             $event_completed = $event_info['completed'];
+            $event_is_report_date = $event_info['is_report_date'];
             if($event_info['type'] == null){
                 $event_type = "N/A";
             }else{
@@ -299,10 +314,16 @@
             <table class="general">
                 <tbody>
         <!-- band-aid fix for white font need to do inline css to override-->
-                    <tr style="color:white;">	
+                    <tr style="color:white;">
+                        <?php if($event_is_report_date == 0): ?>	
                         <td class="label"> Grant </td>
+                        <?php endif ?>
+                        <?php if($event_is_report_date == 1): ?>	
+                        <td class="label"> Name </td>
+                        <?php endif ?>
                         <td><?php echo $event_name ?></td>     		
                     </tr>
+                    <?php if($event_is_report_date != 1): ?>
                     <tr style="color:white;">
                         <td class="funder"> Funder </td>
                         <td><?php echo $event_funder ?></td>
@@ -334,10 +355,24 @@
                         <td class="label"> Open Date </td>
                         <td><?php echo $event_open_date ?></td>     		
                     </tr>
+                    <?php endif ?>
                     <tr style="color:white;">	
                         <td class="label"> Due Date </td>
                         <td><?php echo $event_due_date ?></td>     		
                     </tr>
+                    <?php
+                        if($event_is_report_date == 1){
+                            $assocEvent = fetch_assoc_grantRP($id);
+                            $ae = $assocEvent['name'];
+                            $gID = $assocEvent['grant_id'];
+                            echo"<tr style='color:white;'>	
+                        <td class='label'> Grant Name </td>
+                        <td><a href='event.php?id=$gID'>$ae</a></td>     		
+                    </tr>";
+                        }
+                    ?>
+
+                    <?php if($event_is_report_date != 1): ?>
                     <tr style="color:white;">	
                         <td class="label"> Description </td>
                         <td><?php echo $event_description ?></td>     		
@@ -374,6 +409,24 @@
                             }
                             ?></td>
                     </tr>
+                    <?php endif ?>
+
+                    <?php
+                    if($event_is_report_date == 0){    
+                        $reportData = fetch_reports_by_id($id);
+                        foreach($reportData as $r){
+                            $rName = $r['name'];
+                            $rDueDate = $r['due_date'];
+                            $rID = $r['report_id'];
+                            $r_due_date= date('l, F j, Y', strtotime($r['due_date']));
+                            echo"<tr style='color:white;'>	
+                        <td class='label'><a href='event.php?id=$rID'>$rName</a></td>
+                        <td>$r_due_date</td>     		
+                        </tr>";
+                        }
+                    }
+                    ?>
+
                     <?php
                     $additionalFields = fetch_fields_by_id($id);
                     foreach($additionalFields as $aField){
@@ -417,6 +470,7 @@
                     echo"</tbody>";
                     echo"</table>";
                     ?>
+                    
                         
 
 <!--         TODO: will figure out another way to center-->
@@ -431,6 +485,7 @@
                                 </td>
                         </tr>
                         ';
+
 
                         if ($event_archived != 'yes') {
                             echo '
@@ -487,6 +542,7 @@
             </table>
             <?php
             if ($access_level >= 2) {
+                if($event_is_report_date == 0){
                 echo '
                         <tr>
                         	<td colspan="2">
@@ -494,7 +550,16 @@
                                 </td>
                         </tr>
                         ';
-
+                }else{
+                    echo '
+                        <tr>
+                        	<td colspan="2">
+                                	<a href="editEvent.php?id=' . $id . '" class="button">Edit Due Date</a>
+                                </td>
+                        </tr>
+                        ';
+                }
+                if($event_is_report_date == 0){
                 if ($event_archived != 'yes') {
                     echo '
                             <tr>
@@ -512,14 +577,25 @@
                             </tr>
                             ';
                 }
-
+                }
+                
+                if($event_is_report_date == 1){
                 echo '
                         <tr>
                         	<td colspan="2">
-                                	<button class = "del-button" onclick="showDeleteConfirmation()">Delete Grant</button>
+                                	<button class = "del-button" onclick="showDeleteConfirmation()">Delete Due Date</button>
                                 </td>
                         </tr>
                         ';
+                }else{
+                    echo '
+                    <tr>
+                        <td colspan="2">
+                                <button class = "del-button" onclick="showDeleteConfirmation()">Delete Grant</button>
+                            </td>
+                    </tr>
+                    ';
+                }
 
                 echo '
                         <tr>
