@@ -414,6 +414,31 @@ function markAllAsRead($id) {
     return $result;
 }
 
+function deleteSelected($messages) {
+    $connection = connect();
+    $allSuccessful = true;
+    foreach ($messages as &$message) {
+        $query = "
+            DELETE from dbMessages where id=$message
+        ";
+        $result = mysqli_query($connection, $query);
+        if (!boolval($result)) { $allSuccessful = false; }
+    }
+    mysqli_close($connection);
+    return $allSuccessful;
+}
+
+function deleteAll($id) {
+    $connection = connect();
+    $query = "
+        DELETE from dbMessages where recipientID='$id'
+    ";
+    $result = mysqli_query($connection, $query);
+    $result = boolval($result);
+    mysqli_close($connection);
+    return $result;
+}
+
 function dateChecker(){
     //first, check custom notifications:
     $query = "select * from dbMessages where interval_type='custom' and message_type='custom'";

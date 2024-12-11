@@ -14,6 +14,21 @@ function showDeleteConfirmation() {
     $('#delete-confirmation-wrapper').removeClass('hidden');
 }
 
+function hideSelectedConfirmation(e) {
+    if (e.target === this) {
+        $('#delete-selected-wrapper').addClass('hidden');
+    }
+}
+
+$(function() {
+    $('#selected-cancel').click(hideSelectedConfirmation);
+    $('#delete-selected-wrapper').click(hideSelectedConfirmation);
+});
+
+function showSelectedConfirmation() {
+    $('#delete-selected-wrapper').removeClass('hidden');
+}
+
 function hideCompleteConfirmation(e) {
     if (e.target === this) {
         $('#complete-confirmation-wrapper').addClass('hidden');

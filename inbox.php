@@ -99,6 +99,21 @@
             </div>
         <?php endif ?>
         <?php if ($accessLevel >= 2) : ?>
+            <div id="delete-selected-wrapper" class="hidden">
+                <div id="delete-selected">
+                    <p>Are you sure you want to delete notification(s)?</p>
+                    <p>This action cannot be undone.</p>
+
+                    <form method="post" id="delete-selected-form" action="deleteMessages.php">
+                        <input type="submit" value="Delete Selected" style="background-color: red">
+                        <input type="hidden" name="id" value="<?= $userID ?>">
+                        <input type="hidden" name="delete_array" id="delete_array" value="">
+                    </form>
+                    <button id="selected-cancel">Cancel</button>
+                </div>
+            </div>
+        <?php endif ?>
+        <?php if ($accessLevel >= 2) : ?>
             <script>
                 document.addEventListener('DOMContentLoaded', () => {
                     // Handle form submission for "Mark All As Read"
@@ -130,6 +145,9 @@
             <?php endif; ?>
             <?php if (isset($_GET['markAllAsReadSuccess'])) : ?>
                 <div class="happy-toast">All notifications marked as read.</div>
+            <?php endif; ?>
+            <?php if (isset($_GET['deleteMessagesSuccess'])) : ?>
+                <div class="happy-toast">Notification(s) deleted.</div>
             <?php endif; ?>
             <h2>Your Notifications</h2>
             <div id="button-inline">
@@ -176,7 +194,7 @@
                             <tr>
                                 <th style="width:1px; font-size:1rem">From</th>
                                 <th style="font-size:1rem">Title</th>
-                                <th style="font-size:1rem">Delete</th>
+                                <th style="width:10%; font-size:1rem">Delete</th>
                                 <th style="width:1px; font-size:1rem">Received</th>
                             </tr>
                         </thead>
@@ -237,35 +255,99 @@
                                         </tr>";
                                 }
                             ?>
-                            <script>
-                                // Add event listeners to checkboxes to stop event propagation
-                                document.addEventListener("DOMContentLoaded", function () {
-                                const rows = document.querySelectorAll('table tr');
-
-                                rows.forEach(row => {
-                                        row.addEventListener('click', function () {
-                                            const title = this.getAttribute('data-title') || 'No Title';
-                                            console.log('Row clicked: ' + title);
-                                        });
-                                    });
-
-                                const checkboxes = document.querySelectorAll('table input[type="checkbox"]');
-                                checkboxes.forEach(checkbox => {
-                                    checkbox.addEventListener('click', function (event) {
-                                        event.stopPropagation(); // Prevent row click when checkbox is clicked
-                                        if (this.checked) {
-                                            console.log('Checkbox is checked');
-                                            const title = this.getAttribute('data-title'); // Access the title from the data attribute
-                                            console.log('Row clicked: ' + title);
-                                        } else {
-                                            console.log('Checkbox is unchecked');
-                                        }
-                                    });
-                                });
-                            });
-                            </script>
                         </tbody>
                     </table>
+                    <script>
+
+                        document.addEventListener("DOMContentLoaded", function () {
+                            const selectedRows = []; // Array to track selected rows
+                            const deleteColumnHeader = document.querySelector('th:nth-child(3)'); // Select the "Delete" column header
+                            const deletePopup = document.getElementById('delete-selected'); // Select the delete confirmation pop-up
+                            const deletePopupMessage = deletePopup.querySelector('p'); // Message inside the delete confirmation pop-up
+                            const deleteSelectedForm = document.getElementById('delete-selected-form');
+                            const deleteButton = deleteSelectedForm.querySelector('input[type="submit"]');
+                            const deleteArrayInput = document.getElementById('delete_array'); // Hidden input field for selected messages
+
+                            // Add a class to indicate the "Delete" column is clickable
+                            deleteColumnHeader.classList.add('delete-column');
+
+                            // Add event listeners to checkboxes
+                            const checkboxes = document.querySelectorAll('table input[type="checkbox"]');
+                            checkboxes.forEach(checkbox => {
+                                checkbox.addEventListener('click', function (event) {
+                                    event.stopPropagation(); // Prevent row click when checkbox is clicked
+                                    const row = this.closest('tr'); // Get the parent row
+                                    const messageId = row.getAttribute('data-message-id'); // Get the message ID
+
+                                    if (this.checked) {
+                                        if (!selectedRows.includes(messageId)) {
+                                            selectedRows.push(messageId); // Add to array
+                                            updateDeleteButtonLabel();
+                                        }
+                                    } else {
+                                        const index = selectedRows.indexOf(messageId);
+                                        if (index !== -1) {
+                                            selectedRows.splice(index, 1); // Remove from array
+                                            updateDeleteButtonLabel();
+                                        }
+                                    }
+
+                                    updateDeleteColumnHeader(); // Update column header text
+                                    updateDeleteArrayInput(); // Update hidden input with selected messages
+                                });
+                            });
+
+                            function updateDeleteArrayInput() {
+                                deleteArrayInput.value = selectedRows.join(','); // Join selected rows as comma-separated values
+                            }
+
+                            // Function to update the "Delete" column header
+                            function updateDeleteColumnHeader() {
+                                const count = selectedRows.length;
+                                if (count === 0) {
+                                    deleteColumnHeader.textContent = "Delete All"; // Default text when no rows are selected
+                                } else {
+                                    deleteColumnHeader.textContent = `Delete ${count}`; // Update with count
+                                }
+                            }
+
+                            // Initialize with "Delete All"
+                            updateDeleteColumnHeader();
+
+                            // Update the button label based on the selected rows
+                            function updateDeleteButtonLabel() {
+                                if (selectedRows.length === 0) {
+                                    deleteButton.value = "Delete All"; // No rows selected
+                                } else {
+                                    deleteButton.value = "Delete Selected"; // 1 or more rows selected
+                                }
+                            }
+
+                            // Initialize the button label on page load
+                            updateDeleteButtonLabel();
+
+                            // Add click event listener to the "Delete" column header
+                            deleteColumnHeader.addEventListener('click', function () {
+                                const count = selectedRows.length;
+                                let message;
+                                if (count === 0) {
+                                    message = "Are you sure you want to delete ALL notifications?";
+                                } else if (count === 1) {
+                                    message = "Are you sure you want to delete the selected notification?";
+                                } else {
+                                    message = `Are you sure you want to delete the ${count} selected notifications?`;
+                                }
+
+                                deletePopupMessage.textContent = message; // Update the pop-up message dynamically
+                                showSelectedConfirmation(); // Show the confirmation dialog
+                            });
+
+                            // Function to update the hidden input field with the selected message IDs
+                            function updatedeleteArrayInput() {
+                                deleteArrayInput.value = selectedRows.join(','); // Join selected rows as comma-separated values
+                            }
+                        });
+                    </script>
                 </div>
             <?php else: ?>
                 <p class="no-messages standout" style="color:white;">You currently have no messages.</p>
