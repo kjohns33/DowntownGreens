@@ -176,6 +176,7 @@
                             <tr>
                                 <th style="width:1px; font-size:1rem">From</th>
                                 <th style="font-size:1rem">Title</th>
+                                <th style="font-size:1rem">Delete</th>
                                 <th style="width:1px; font-size:1rem">Received</th>
                             </tr>
                         </thead>
@@ -224,17 +225,45 @@
                                         $class .= ' prio3';
                                     }
                                     echo "
-                                        <tr class='$class' style='color:white;' data-message-id='$messageID' 'wasRead=$wasRead'>
+                                        <tr class='$class' style='color:white;' data-message-id='$messageID' data-title='$title' wasRead='$wasRead'>
                                             <td>$sender</td>";
                                             if (!$wasRead) {
                                                 echo "<td>(!) $title";
                                             } else {
                                                 echo "<td>$title</td>";
                                             }
+                                            echo "<td><input type='checkbox' style='transform: scale(1.5)'></td>";
                                             echo "<td>$time</td>
                                         </tr>";
                                 }
                             ?>
+                            <script>
+                                // Add event listeners to checkboxes to stop event propagation
+                                document.addEventListener("DOMContentLoaded", function () {
+                                const rows = document.querySelectorAll('table tr');
+
+                                rows.forEach(row => {
+                                        row.addEventListener('click', function () {
+                                            const title = this.getAttribute('data-title') || 'No Title';
+                                            console.log('Row clicked: ' + title);
+                                        });
+                                    });
+
+                                const checkboxes = document.querySelectorAll('table input[type="checkbox"]');
+                                checkboxes.forEach(checkbox => {
+                                    checkbox.addEventListener('click', function (event) {
+                                        event.stopPropagation(); // Prevent row click when checkbox is clicked
+                                        if (this.checked) {
+                                            console.log('Checkbox is checked');
+                                            const title = this.getAttribute('data-title'); // Access the title from the data attribute
+                                            console.log('Row clicked: ' + title);
+                                        } else {
+                                            console.log('Checkbox is unchecked');
+                                        }
+                                    });
+                                });
+                            });
+                            </script>
                         </tbody>
                     </table>
                 </div>
