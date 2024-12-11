@@ -194,3 +194,12 @@ button.btn.dropdown-toggle.btn-light.bs-placeholder::after {
 .btn:focus {
     border-radius: .25rem !important;
 }
+
+th.delete-column {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+th.delete-column:hover {
+    color: red;
+}

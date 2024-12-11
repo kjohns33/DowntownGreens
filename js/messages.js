@@ -141,6 +141,7 @@ function updateTable(messages) {
         row.innerHTML = `
             <td>${sender}</td>
             <td>${displayTitle}</td>
+            <td><input type='checkbox' style='transform: scale(1.5)'></td>
             <td>${time}</td>
         `;
 

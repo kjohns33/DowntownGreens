@@ -119,6 +119,17 @@ td.label {
     background-color: rgba(0, 0, 0, .3);
 }
 
+#delete-selected-wrapper {
+    z-index: 99;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, .3);
+}
+
 #create-notif-confirmation-wrapper {
     z-index: 99;
     position: fixed;
@@ -164,6 +175,19 @@ td.label {
 }
 
 #delete-confirmation {
+    z-index: 99;
+    background-color: var(--page-background-color);
+    /* border: 1px solid var(--secondary-accent-color); */
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-radius: .5rem;
+    box-shadow: 0px 1rem 1rem rgba(0, 0, 0, 0.5);
+    margin: 0.5rem;
+}
+
+#delete-selected {
     z-index: 99;
     background-color: var(--page-background-color);
     /* border: 1px solid var(--secondary-accent-color); */
@@ -222,6 +246,10 @@ td.label {
     padding: 0.25rem;
 }
 
+#delete-selected p {
+    padding: 0.25rem;
+}
+
 #create-notif-confirmation p {
     padding: 0.25rem;
 }
@@ -256,6 +284,14 @@ td.label {
 }
 
 #delete-cancel:hover {
+    background-color: var(--accent-color);
+}
+
+#selected-cancel {
+    background-color: var(--cancel-button-background-color);
+}
+
+#selected-cancel:hover {
     background-color: var(--accent-color);
 }
 
