@@ -27,6 +27,11 @@ and receive messages and notifications, and manage account information.
 
 Admins have all of the abilities that Managers have, but they cannot modify other users information.
 
+There are currently three user accounts that are set up for use. They all have the default password '1234'. These should be changed in the account panel after logging into the system for the first time. The usernames currently set up are:
+* cfiliault@dtg
+* jschepmoes@dtg
+* volunteer@dtg
+
 There is also a root admin account with username 'vmsroot'. The default password for this account is 'vmsroot'. This account
 has hardcoded Manager privileges but does not have a user profile. It is crucial that this account information remain the same
 because it will be used to upkeep the system on the backend. This account should be used for system administration purposes
@@ -193,8 +198,21 @@ the hiding/showing of certain page elements.
 
 ## Potential Improvements
 Below is a list of improvements that could be made to the system in subsequent semesters.
-* Links and Fields cannot at the present moment be edited once the grant is created. This is something that could be reworked
-in later semesters
+* Links and Fields cannot at the present moment be edited once the grant is created.
+* Data visualizations (specifically for project funding)
+* Emailed alerts
+* Button consolidation at bottoms of pages
+* Information sectioning when viewing grants (currently is just one big textbox)
+* Due date architecture transition for custom dates (currently operates under the grant class)
+* Duplicate a grant for the next year
+* Report history
+* Generate report additions (data visualizations)
+* Bug reporting page
+* Change request page
+* Important dates via Calendar (color-coding)
+* Provide alerts for important dates
+* Streamline the reporting process
+
 
 ## License
 The project remains under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl.txt).

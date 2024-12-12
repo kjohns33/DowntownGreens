@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fa9dfb9e-b8ed-4236-b539-807476d1c316" name="Changes" comment="updating readme.md file">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/readme.txt" beforeDir="false" />
-    </list>
+    <list default="true" id="fa9dfb9e-b8ed-4236-b539-807476d1c316" name="Changes" comment="updating readme.md file" />
     <list id="0a88fc61-c1c2-42bb-a407-b653f0c8a811" name="revert deletions to attempt fixing login errors" comment="" />
     <list id="42ed3fa2-a78a-4dd3-a8b4-2052cd3c3958" name="revert person.php deletions" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -114,6 +110,7 @@
       <workItem from="1733196340618" duration="915000" />
       <workItem from="1733197404542" duration="95000" />
       <workItem from="1733878221682" duration="732000" />
+      <workItem from="1733925606163" duration="33000" />
     </task>
     <task id="LOCAL-00001" summary="view grant deadlines/openings by day">
       <option name="closed" value="true" />
